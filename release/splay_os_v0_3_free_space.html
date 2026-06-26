@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Splay OS v0.3</title>
+<style>
+:root{
+  --bg-deep:#08120f;
+  --bg-mid:#0d1f1c;
+  --bg-panel:rgba(20,40,38,0.55);
+  --bg-panel-2:rgba(16,30,32,0.45);
+  --ivory:#f3efe2;
+  --ivory-dim:#cfd0c4;
+  --mint:#7fe3b4;
+  --cyan:#7fd8e8;
+  --lavender:#b8a8e8;
+  --danger:#e89a9a;
+  --warn:#e8c98a;
+  --border-soft:rgba(255,255,255,0.08);
+  --shadow-glow:0 0 40px rgba(127,227,180,0.06);
+}
+*{box-sizing:border-box;}
+html,body{
+  margin:0;padding:0;height:100%;
+  font-family:"Hiragino Sans","Yu Gothic UI","Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(127,216,232,0.07), transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(184,168,232,0.06), transparent 45%),
+    linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 55%, #0a1614 100%);
+  color:var(--ivory);
+  overflow:hidden;
+}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:rgba(127,227,180,0.25);border-radius:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+
+button{
+  font-family:inherit;cursor:pointer;border:none;outline:none;
+  background:rgba(255,255,255,0.06);color:var(--ivory);
+  border-radius:999px;padding:8px 16px;font-size:13px;
+  transition:all .25s ease;
+  border:1px solid var(--border-soft);
+}
+button:hover{background:rgba(127,227,180,0.18);transform:translateY(-1px);}
+button:active{transform:translateY(0);}
+button.primary{background:linear-gradient(135deg, rgba(127,227,180,0.35), rgba(127,216,232,0.25));border-color:rgba(127,227,180,0.4);}
+button.danger-btn{background:rgba(232,154,154,0.12);border-color:rgba(232,154,154,0.3);}
+button.danger-btn:hover{background:rgba(232,154,154,0.25);}
+input,textarea,select{
+  font-family:inherit;
+  min-width:0;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border-soft);
+  border-radius:18px;
+  color:var(--ivory);
+  padding:9px 14px;
+  font-size:13px;
+  width:100%;
+  outline:none;
+  transition:border-color .2s ease, background .2s ease;
+}
+textarea{border-radius:20px;resize:vertical;min-height:60px;line-height:1.5;}
+input:focus,textarea:focus,select:focus{border-color:rgba(127,227,180,0.45);background:rgba(255,255,255,0.08);}
+select{appearance:none;}
+.detail-scroll,
+.node-card,
+.node-card .sub,
+.vault-item,
+.vault-item a,
+.footer-bar,
+.log-entry{
+  min-width:0;
+}
+.node-card .sub,
+.vault-item a,
+.detail-scroll a,
+.long-text,
+.open-link-chip{
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.open-link-chip{
+  display:inline-flex;
+  max-width:100%;
+  align-items:center;
+  gap:6px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(127,216,232,0.1);
+  border:1px solid rgba(127,216,232,0.25);
+  color:var(--cyan);
+  font-size:12px;
+  text-decoration:none;
+  line-height:1.4;
+}
+.open-link-chip:hover{background:rgba(127,216,232,0.16);text-decoration:none;}
+label{font-size:11px;color:var(--ivory-dim);letter-spacing:.04em;display:block;margin:14px 0 6px;}
+label:first-child{margin-top:0;}
+
+.app{display:flex;height:100vh;width:100vw;}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  width:230px;flex-shrink:0;
+  background:rgba(8,18,15,0.6);
+  backdrop-filter:blur(14px);
+  border-right:1px solid var(--border-soft);
+  display:flex;flex-direction:column;
+  padding:22px 16px;
+  gap:18px;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  padding:0 4px 10px 4px;
+}
+.logo-mark{
+  width:30px;height:30px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--mint), var(--cyan) 60%, var(--lavender));
+  box-shadow:0 0 18px rgba(127,227,180,0.4);
+  flex-shrink:0;
+}
+.logo-text{font-size:16px;font-weight:600;letter-spacing:.03em;}
+.logo-sub{font-size:10px;color:var(--ivory-dim);letter-spacing:.08em;}
+
+.side-section{display:flex;flex-direction:column;gap:6px;}
+.side-label{font-size:10px;color:var(--ivory-dim);letter-spacing:.1em;padding:0 8px;margin-bottom:2px;text-transform:uppercase;}
+
+.ws-list{display:flex;flex-direction:column;gap:5px;max-height:260px;overflow-y:auto;}
+.ws-item{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  padding:9px 12px;border-radius:16px;
+  cursor:pointer;font-size:13px;
+  border:1px solid transparent;
+  transition:all .2s ease;
+}
+.ws-item:hover{background:rgba(255,255,255,0.05);}
+.ws-item.active{
+  background:rgba(127,227,180,0.14);
+  border-color:rgba(127,227,180,0.3);
+  box-shadow:var(--shadow-glow);
+}
+.ws-item .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
+.ws-item .del{opacity:0;font-size:11px;color:var(--danger);padding:2px 6px;}
+.ws-item:hover .del{opacity:0.7;}
+.ws-item .del:hover{opacity:1;}
+
+.sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;gap:8px;}
+.sidebar-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:16px;
+  font-size:13px;color:var(--ivory-dim);
+  cursor:pointer;transition:all .2s ease;
+  border:1px solid transparent;
+}
+.sidebar-btn:hover{background:rgba(255,255,255,0.05);color:var(--ivory);}
+.sidebar-btn.active{background:rgba(184,168,232,0.14);border-color:rgba(184,168,232,0.3);color:var(--ivory);}
+
+/* ---------- Main layout ---------- */
+.main-area{flex:1;display:flex;min-width:0;}
+.center-panel{flex:1.4;display:flex;flex-direction:column;min-width:0;border-right:1px solid var(--border-soft);}
+.right-panel{flex:1;display:flex;flex-direction:column;min-width:320px;max-width:420px;}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 26px 10px 26px;
+  flex-shrink:0;
+}
+.topbar h2{margin:0;font-size:18px;font-weight:600;letter-spacing:.02em;}
+.topbar .meta{font-size:11px;color:var(--ivory-dim);margin-top:3px;}
+
+.scroll-area{flex:1;overflow-y:auto;padding:6px 26px 26px 26px;}
+
+/* Home / Command Center */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:10px 0 22px;}
+.kpi-card{
+  background:var(--bg-panel);border:1px solid var(--border-soft);
+  border-radius:22px;padding:16px 14px;backdrop-filter:blur(10px);
+  position:relative;overflow:hidden;
+}
+.kpi-card:nth-child(odd){border-radius:26px 18px 26px 20px;}
+.kpi-card:nth-child(even){border-radius:18px 26px 20px 26px;}
+.kpi-num{font-size:26px;font-weight:700;}
+.kpi-label{font-size:11px;color:var(--ivory-dim);margin-top:4px;}
+.kpi-card.mint .kpi-num{color:var(--mint);}
+.kpi-card.cyan .kpi-num{color:var(--cyan);}
+.kpi-card.lav .kpi-num{color:var(--lavender);}
+.kpi-card.warn .kpi-num{color:var(--warn);}
+.kpi-card.danger .kpi-num{color:var(--danger);}
+
+.focus-card{
+  background:linear-gradient(135deg, rgba(127,227,180,0.1), rgba(184,168,232,0.06));
+  border:1px solid rgba(127,227,180,0.25);
+  border-radius:28px 20px 28px 22px;
+  padding:20px 24px;margin-bottom:22px;
+}
+.focus-card h3{margin:0 0 8px;font-size:13px;color:var(--mint);letter-spacing:.05em;}
+.focus-card p{margin:0;font-size:14px;line-height:1.7;color:var(--ivory);}
+.resume-btn{margin-top:14px;}
+
+/* Node grid */
+.node-toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.node-add-menu{position:relative;display:inline-block;}
+.dropdown{
+  position:absolute;top:42px;left:0;background:rgba(14,28,26,0.95);
+  border:1px solid var(--border-soft);border-radius:18px;padding:8px;
+  display:none;flex-direction:column;gap:4px;z-index:50;backdrop-filter:blur(12px);
+  box-shadow:0 12px 30px rgba(0,0,0,0.4);min-width:160px;
+}
+.dropdown.show{display:flex;}
+.dropdown button{text-align:left;background:transparent;border:none;}
+.dropdown button:hover{background:rgba(127,227,180,0.15);}
+
+.node-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+.node-card{
+  background:var(--bg-panel-2);border:1px solid var(--border-soft);
+  border-radius:24px 18px 24px 20px;padding:16px 16px 14px;
+  cursor:pointer;transition:all .25s ease;
+  display:flex;flex-direction:column;gap:8px;min-height:120px;
+  position:relative;
+}
+.node-card:hover{border-color:rgba(127,227,180,0.35);transform:translateY(-2px);box-shadow:var(--shadow-glow);}
+.node-card.selected{border-color:rgba(127,216,232,0.6);background:rgba(127,216,232,0.08);}
+.node-type-tag{
+  font-size:10px;letter-spacing:.06em;padding:3px 10px;border-radius:999px;
+  display:inline-block;width:fit-content;
+}
+.tag-note{background:rgba(184,168,232,0.18);color:var(--lavender);}
+.tag-decision{background:rgba(127,227,180,0.18);color:var(--mint);}
+.tag-task{background:rgba(127,216,232,0.18);color:var(--cyan);}
+.tag-meeting{background:rgba(232,201,138,0.18);color:var(--warn);}
+.tag-file{background:rgba(232,154,154,0.15);color:#e8b8b8;}
+.node-card .title{font-size:14px;font-weight:600;line-height:1.4;}
+.node-card .sub{font-size:11px;color:var(--ivory-dim);}
+.status-pill{font-size:10px;padding:2px 9px;border-radius:999px;border:1px solid var(--border-soft);width:fit-content;}
+
+/* Skeleton */
+.skeleton{
+  background:linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.09) 37%, rgba(255,255,255,0.04) 63%);
+  background-size:400% 100%;
+  animation:shimmer 2.4s ease infinite;
+  border-radius:14px;
+}
+@keyframes shimmer{0%{background-position:100% 0;}100%{background-position:0 0;}}
+.skel-line{height:12px;margin:8px 0;}
+.skel-block{height:70px;border-radius:20px;}
+
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;color:var(--ivory-dim);text-align:center;gap:14px;padding:40px;
+}
+.empty-state .ring{
+  width:64px;height:64px;border-radius:50%;
+  border:2px dashed rgba(255,255,255,0.15);
+}
+
+/* Right panel - detail */
+.detail-header{padding:18px 24px 12px;border-bottom:1px solid var(--border-soft);flex-shrink:0;}
+.detail-header .row{display:flex;justify-content:space-between;align-items:center;}
+.detail-scroll{flex:1;overflow-y:auto;padding:18px 24px 30px;}
+.field-grid{display:flex;flex-direction:column;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* Vault */
+.vault-lock{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;gap:18px;text-align:center;
+}
+.vault-icon{
+  width:70px;height:70px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(184,168,232,0.4), rgba(127,216,232,0.15));
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  box-shadow:0 0 30px rgba(184,168,232,0.2);
+}
+.vault-input{max-width:220px;text-align:center;letter-spacing:.3em;}
+.vault-hint{font-size:11px;color:var(--ivory-dim);}
+.vault-list{display:flex;flex-direction:column;gap:10px;}
+.vault-item{
+  background:var(--bg-panel-2);border:1px solid var(--border-soft);
+  border-radius:20px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+}
+.vault-item a{color:var(--cyan);text-decoration:none;font-size:12px;word-break:break-word;overflow-wrap:anywhere;}
+.vault-item a:hover{text-decoration:underline;}
+.vault-item .vname{font-weight:600;font-size:13px;}
+
+/* Log + footer */
+.footer-bar{
+  border-top:1px solid var(--border-soft);
+  padding:10px 26px;display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;font-size:11px;color:var(--ivory-dim);
+  background:rgba(8,18,15,0.4);
+}
+.footer-actions{display:flex;gap:8px;}
+.footer-actions button{padding:6px 14px;font-size:11px;}
+.save-indicator{display:flex;align-items:center;gap:6px;}
+.save-dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px var(--mint);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+.log-toggle{
+  border-top:1px solid var(--border-soft);
+  padding:8px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+  font-size:11px;
+  color:var(--ivory-dim);
+  background:rgba(8,18,15,0.38);
+  cursor:pointer;
+  user-select:none;
+}
+.log-toggle:hover{color:var(--ivory);background:rgba(127,227,180,0.06);}
+.log-panel{
+  border-top:1px solid rgba(255,255,255,0.04);
+  max-height:160px;overflow-y:auto;padding:10px 24px;
+  font-size:11px;color:var(--ivory-dim);flex-shrink:0;
+  background:rgba(8,18,15,0.3);
+}
+.log-panel.collapsed{
+  max-height:0;
+  overflow:hidden;
+  padding-top:0;
+  padding-bottom:0;
+  border-top:0;
+}
+.log-entry{padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;gap:8px;line-height:1.45;}
+.log-time{color:var(--ivory-dim);opacity:.6;flex-shrink:0;}
+
+/* Settings modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;z-index:100;
+}
+.modal-overlay.show{display:flex;}
+.modal-box{
+  background:rgba(16,32,30,0.95);border:1px solid var(--border-soft);
+  border-radius:28px;padding:26px;width:420px;max-height:80vh;overflow-y:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,0.5);
+}
+.modal-box h3{margin-top:0;}
+.modal-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+.close-x{float:right;cursor:pointer;color:var(--ivory-dim);font-size:14px;}
+
+textarea.ta-sm{min-height:44px;}
+.list-textbtns{display:flex;flex-direction:column;gap:8px;}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 2px;}
+.status-select-wrap select{cursor:pointer;}
+
+.fade-in{animation:fadeIn .35s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+@media (max-width:900px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .right-panel{display:none;}
+}
+
+
+/* ================= SPLAY OS v0.2 FLOATING UI ================= */
+body{
+  background:
+    radial-gradient(circle at 12% 18%, rgba(127,216,232,0.12), transparent 34%),
+    radial-gradient(circle at 72% 12%, rgba(184,168,232,0.10), transparent 33%),
+    radial-gradient(circle at 82% 82%, rgba(127,227,180,0.10), transparent 36%),
+    linear-gradient(145deg, #06110f 0%, #0a1c18 45%, #0b1422 100%);
+}
+body::before{
+  content:"";
+  position:fixed; inset:-20%; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(127,227,180,.10), transparent 22%),
+    radial-gradient(circle at 76% 28%, rgba(127,216,232,.08), transparent 24%),
+    radial-gradient(circle at 55% 80%, rgba(184,168,232,.08), transparent 24%);
+  filter:blur(28px);
+  animation:splayDrift 18s ease-in-out infinite alternate;
+}
+@keyframes splayDrift{from{transform:translate3d(-18px,-10px,0) scale(1);}to{transform:translate3d(22px,18px,0) scale(1.04);}}
+.app{position:relative;z-index:1;display:block;height:100vh;width:100vw;}
+.sidebar{display:none;}
+.main-area{display:block;width:100%;height:100%;padding:0;}
+.center-panel{border-right:none;width:100%;height:100%;max-width:none;display:flex;}
+.topbar{
+  position:fixed; top:22px; left:50%; transform:translateX(-50%);
+  z-index:34; width:min(760px, calc(100vw - 240px));
+  border-radius:999px; padding:14px 20px 14px 24px;
+  background:rgba(9,24,22,.54); backdrop-filter:blur(20px) saturate(130%);
+  border:1px solid rgba(255,255,255,.10); box-shadow:0 18px 44px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.topbar h2{font-size:17px;letter-spacing:.035em;}
+.topbar .meta{font-size:10px;opacity:.82;}
+.scroll-area{padding:118px clamp(28px,5vw,74px) 104px;}
+.node-grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;align-items:start;}
+.node-card{
+  border-radius:34px 24px 38px 26px;
+  min-height:136px;
+  padding:18px 18px 16px;
+  background:linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.032));
+  box-shadow:0 14px 38px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.04);
+  transform:translateY(0) rotate(var(--tilt,0deg));
+}
+.node-card:nth-child(3n+1){--tilt:-.45deg;border-radius:36px 24px 30px 42px;}
+.node-card:nth-child(3n+2){--tilt:.35deg;border-radius:24px 40px 34px 26px;margin-top:18px;}
+.node-card:nth-child(3n){--tilt:-.15deg;border-radius:40px 28px 26px 34px;margin-top:7px;}
+.node-card:hover{transform:translateY(-5px) scale(1.012) rotate(var(--tilt,0deg));box-shadow:0 22px 52px rgba(0,0,0,.30),0 0 38px rgba(127,227,180,.08);}
+.node-card.selected{border-color:rgba(127,216,232,.72);box-shadow:0 0 0 1px rgba(127,216,232,.22),0 20px 58px rgba(0,0,0,.34);}
+.node-card .sub,.vault-item a,.open-link-chip,.detail-scroll a{overflow-wrap:anywhere;word-break:break-word;}
+input,textarea,select{min-width:0;border-radius:999px;}
+textarea{border-radius:26px;}
+.detail-scroll,.node-card,.vault-item{min-width:0;overflow-wrap:anywhere;word-break:break-word;}
+.right-panel{
+  position:fixed; z-index:50; right:34px; top:92px; bottom:92px;
+  width:min(460px, calc(100vw - 68px)); max-width:none; min-width:0;
+  border:1px solid rgba(255,255,255,.10); border-radius:38px 28px 44px 30px;
+  background:rgba(9,22,20,.70); backdrop-filter:blur(22px) saturate(130%);
+  box-shadow:0 28px 90px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.05);
+  transform:translateX(calc(100% + 54px)) scale(.98); opacity:0; pointer-events:none;
+  transition:transform .34s cubic-bezier(.2,.8,.2,1), opacity .28s ease;
+  overflow:hidden;
+}
+.right-panel.panel-open{transform:translateX(0) scale(1);opacity:1;pointer-events:auto;}
+.detail-header{border-bottom:1px solid rgba(255,255,255,.08);padding:18px 22px 12px;}
+.detail-actions-wrap{display:flex;gap:8px;align-items:center;}
+.floating-close-btn{padding:4px 12px;font-size:11px;background:rgba(255,255,255,.055);}
+.log-toggle{border-top:1px solid rgba(255,255,255,.07);}
+.footer-bar{
+  position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:36;
+  width:min(760px, calc(100vw - 240px));
+  border:1px solid rgba(255,255,255,.10); border-radius:999px;
+  background:rgba(9,24,22,.58); backdrop-filter:blur(18px) saturate(130%);
+  box-shadow:0 14px 44px rgba(0,0,0,.26);
+}
+/* Floating orb and command surfaces */
+.splay-orb,.workspace-orb{
+  position:fixed; z-index:80;
+  width:72px;height:72px;border-radius:50%;padding:0;
+  border:1px solid rgba(255,255,255,.42);
+  box-shadow:0 0 42px rgba(127,227,180,.18),0 18px 44px rgba(0,0,0,.34);
+  color:#06110f;font-weight:900;letter-spacing:.02em;
+}
+.splay-orb{left:28px; bottom:28px;background:radial-gradient(circle at 30% 25%, #d8fff1 0%, var(--mint) 24%, var(--cyan) 58%, var(--lavender) 100%);}
+.workspace-orb{left:116px; bottom:30px;background:radial-gradient(circle at 28% 26%, #fff8d7 0%, #e8c98a 28%, var(--lavender) 64%, var(--cyan) 100%);}
+.splay-orb:hover,.workspace-orb:hover{transform:translateY(-3px) scale(1.035);}
+.splay-orb span,.workspace-orb span{display:block;font-size:11px;line-height:1.1;}
+.orb-menu{position:fixed;left:40px;bottom:118px;z-index:79;pointer-events:none;}
+.workspace-orbit-menu{position:fixed;left:128px;bottom:118px;z-index:78;pointer-events:none;}
+.orb-action,.workspace-action{
+  position:absolute; height:40px; border-radius:999px; opacity:0;
+  transform:translate(0,0) scale(.78); pointer-events:none;
+  background:rgba(12,30,28,.84); backdrop-filter:blur(18px); border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 16px 42px rgba(0,0,0,.28); transition:all .24s cubic-bezier(.2,.8,.2,1);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.orb-action{width:112px;}
+.workspace-action{width:138px; text-align:left; padding:8px 13px;}
+.orb-menu.open,.workspace-orbit-menu.open{pointer-events:auto;}
+.orb-menu.open .orb-action,.workspace-orbit-menu.open .workspace-action{opacity:1;pointer-events:auto;}
+.orb-menu.open .orb-action:nth-child(1){transform:translate(0px,-54px) scale(1);}
+.orb-menu.open .orb-action:nth-child(2){transform:translate(74px,-102px) scale(1);}
+.orb-menu.open .orb-action:nth-child(3){transform:translate(158px,-82px) scale(1);}
+.orb-menu.open .orb-action:nth-child(4){transform:translate(176px,-26px) scale(1);}
+.orb-menu.open .orb-action:nth-child(5){transform:translate(94px,8px) scale(1);}
+.workspace-orbit-menu.open .workspace-action:nth-child(1){transform:translate(0px,-62px) scale(1);}
+.workspace-orbit-menu.open .workspace-action:nth-child(2){transform:translate(52px,-116px) scale(1);}
+.workspace-orbit-menu.open .workspace-action:nth-child(3){transform:translate(134px,-128px) scale(1);}
+.workspace-orbit-menu.open .workspace-action:nth-child(4){transform:translate(210px,-92px) scale(1);}
+.workspace-orbit-menu.open .workspace-action:nth-child(5){transform:translate(228px,-30px) scale(1);}
+.workspace-orbit-menu.open .workspace-action:nth-child(6){transform:translate(164px,16px) scale(1);}
+.workspace-orbit-menu.open .workspace-action:nth-child(7){transform:translate(70px,22px) scale(1);}
+.workspace-orbit-menu.open .workspace-action:nth-child(8){transform:translate(-12px,8px) scale(1);}
+.workspace-action.active{background:rgba(127,227,180,.18);border-color:rgba(127,227,180,.35);color:var(--ivory);}
+.workspace-action.close-space{background:rgba(232,154,154,.12);border-color:rgba(232,154,154,.25);}
+.floating-workspaces{display:none;}
+
+.task-complete-btn{
+  position:absolute; right:14px; top:14px;
+  width:26px;height:26px;border-radius:50%;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);
+  color:var(--ivory-dim);font-size:12px;z-index:2;
+}
+.task-complete-btn:hover{background:rgba(127,227,180,.16);color:var(--mint);transform:scale(1.05);}
+.task-complete-btn.done{background:rgba(127,227,180,.28);color:#07140f;border-color:rgba(127,227,180,.52);}
+.node-card.task-done{opacity:.66;filter:saturate(.82);}
+.node-card.task-done .title{text-decoration:line-through;text-decoration-color:rgba(127,227,180,.65);}
+.space-close-chip{
+  margin-left:10px;padding:5px 10px;border-radius:999px;font-size:10px;
+  background:rgba(232,154,154,.10);border:1px solid rgba(232,154,154,.22);color:var(--ivory-dim);
+}
+.space-close-chip:hover{color:var(--ivory);background:rgba(232,154,154,.18);}
+.free-space-hint{
+  position:fixed;right:32px;bottom:102px;z-index:32;
+  color:rgba(243,239,226,.36);font-size:11px;letter-spacing:.08em;
+  pointer-events:none;
+}
+
+.command-overlay{
+  position:fixed; inset:0; z-index:100; display:none; align-items:flex-start; justify-content:center;
+  padding-top:11vh; background:rgba(0,0,0,.34); backdrop-filter:blur(10px);
+}
+.command-overlay.open{display:flex;}
+.command-box{
+  width:min(680px, calc(100vw - 42px)); border-radius:34px 24px 40px 28px;
+  background:rgba(9,24,22,.88); border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 30px 100px rgba(0,0,0,.52); overflow:hidden;
+}
+.command-head{padding:18px 20px 12px;border-bottom:1px solid rgba(255,255,255,.07);}
+.command-head input{font-size:18px;padding:15px 18px;border-radius:999px;background:rgba(255,255,255,.07);}
+.command-list{max-height:420px;overflow:auto;padding:10px;}
+.command-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:22px;cursor:pointer;border:1px solid transparent;}
+.command-item:hover,.command-item.active{background:rgba(127,227,180,.13);border-color:rgba(127,227,180,.18);}
+.command-item b{font-size:14px;}.command-item span{font-size:11px;color:var(--ivory-dim);}
+@media(max-width:1100px){.topbar,.footer-bar{width:calc(100vw - 150px);}}
+@media(max-width:760px){.topbar{left:18px;right:18px;transform:none;width:auto;border-radius:28px;}.footer-bar{left:18px;right:18px;transform:none;width:auto;border-radius:28px;align-items:flex-start;gap:8px;}.footer-actions{flex-wrap:wrap}.scroll-area{padding-left:18px;padding-right:18px}.splay-orb,.workspace-orb{width:62px;height:62px}.workspace-orb{left:98px}.right-panel{right:16px;left:16px;width:auto;}}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">Splay OS</div>
+        <div class="logo-sub">decision os · v0.3</div>
+      </div>
+    </div>
+
+    <div class="side-section">
+      <div class="side-label">Mode</div>
+      <div class="sidebar-btn active" id="navHome" onclick="setMode('home')">🏠 &nbsp;Home</div>
+      <div class="sidebar-btn" id="navWorkspace" onclick="setMode('workspace')">🗂 &nbsp;Workspace</div>
+      <div class="sidebar-btn" id="navVault" onclick="setMode('vault')">🔒 &nbsp;Vault</div>
+      <div class="sidebar-btn" id="navSettings" onclick="openSettings()">⚙️ &nbsp;Settings</div>
+    </div>
+
+    <div class="side-section">
+      <div class="side-label">Workspace</div>
+      <div class="ws-list" id="wsList"></div>
+      <button onclick="addWorkspace()" style="margin-top:4px;font-size:12px;">＋ 新規Workspace</button>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="save-indicator"><span class="save-dot"></span><span id="saveStatus">自動保存中</span></div>
+    </div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- CENTER PANEL -->
+    <div class="center-panel">
+      <div class="topbar">
+        <div>
+          <h2 id="centerTitle">Command Center</h2>
+          <div class="meta" id="centerMeta">高松市カフェ開業プロジェクト</div>
+        </div>
+        <div class="node-add-menu" id="addMenuWrap" style="display:none;">
+          <button class="primary" onclick="toggleAddMenu()">＋ Node追加</button>
+          <div class="dropdown" id="addDropdown">
+            <button onclick="createNode('note')">📝 Note</button>
+            <button onclick="createNode('decision')">⚖️ Decision</button>
+            <button onclick="createNode('task')">✅ Task</button>
+            <button onclick="createNode('meeting')">🗒 Meeting</button>
+            <button onclick="createNode('file')">🔗 File / Link</button>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-area" id="centerScroll"></div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="detail-header">
+        <div class="row">
+          <strong id="detailTitle">詳細パネル</strong>
+          <span class="detail-actions-wrap"><button class="floating-close-btn" onclick="closeFloatingDetail()">閉じる</button><span id="detailDelBtnWrap"></span></span>
+        </div>
+      </div>
+      <div class="detail-scroll" id="detailScroll"></div>
+      <div class="log-toggle" id="logToggle" onclick="toggleLogPanel()">
+        <span>Activity Log</span>
+        <span id="logToggleLabel">折り畳む</span>
+      </div>
+      <div class="log-panel" id="logPanel"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <div id="footerInfo">Splay OS v0.3 — Free Space</div>
+  <div class="footer-actions">
+    <button onclick="manualSave()">💾 Save</button>
+    <button onclick="exportJSON()">⇩ Export JSON</button>
+    <button onclick="document.getElementById('importFile').click()">⇧ Import JSON</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+    <button class="danger-btn" onclick="resetAll()">⟲ Reset</button>
+  </div>
+</div>
+
+
+
+<!-- SPLAY OS v0.3 FREE SPACE CHROME -->
+<button class="splay-orb" id="splayOrb" onclick="toggleOrbMenu()"><span>Splay</span><span>OS</span></button>
+<div class="orb-menu" id="orbMenu">
+  <button class="orb-action" onclick="setMode('home'); closeOrbMenu();">🏠 Home</button>
+  <button class="orb-action" onclick="setMode('workspace'); closeOrbMenu();">🗂 Workspace</button>
+  <button class="orb-action" onclick="setMode('vault'); closeOrbMenu();">🔒 Vault</button>
+  <button class="orb-action" onclick="openCommandPalette(); closeOrbMenu();">⌘ Command</button>
+  <button class="orb-action" onclick="openSettings(); closeOrbMenu();">⚙ Settings</button>
+</div>
+<button class="workspace-orb" id="workspaceOrb" onclick="toggleWorkspaceOrbit()"><span>Orbit</span><span>WS</span></button>
+<div class="workspace-orbit-menu" id="workspaceOrbitMenu"></div>
+<div class="free-space-hint" id="freeSpaceHint">Ctrl+K Command · OrbitでWorkspace</div>
+<div class="command-overlay" id="commandOverlay" onclick="if(event.target.id==='commandOverlay') closeCommandPalette()">
+  <div class="command-box">
+    <div class="command-head">
+      <input id="commandInput" placeholder="Command / Workspace / Node...  Ctrl+K" autocomplete="off" oninput="renderCommandList()" onkeydown="handleCommandKey(event)">
+    </div>
+    <div class="command-list" id="commandList"></div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal-box">
+    <span class="close-x" onclick="closeSettings()">✕</span>
+    <h3>Settings</h3>
+    <label>表示テーマ</label>
+    <div class="meta" style="color:var(--ivory-dim);font-size:12px;">現在: Free Space Deep Forest（v0.3）</div>
+    <label>データ操作</label>
+    <div class="modal-actions">
+      <button onclick="exportJSON()">JSON Export</button>
+      <button class="danger-btn" onclick="resetAll()">全データ Reset</button>
+    </div>
+    <label>About</label>
+    <div style="font-size:12px;color:var(--ivory-dim);line-height:1.7;">
+      Splay OS v0.3<br>個人用 Decision OS — 会議・仮説・意思決定・タスク・資料リンクを統合管理。<br>
+      すべてのデータはこのブラウザの localStorage にのみ保存されます。
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ STATE ============ */
+const STORAGE_KEY = 'splay_os_state_v1';
+
+function uid(prefix){ return prefix + '_' + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4); }
+function nowStr(){ const d=new Date(); return d.toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}); }
+
+function defaultState(){
+  const wsIds = {};
+  ['Command','Strategy','Meeting','Finance','Research','Vault'].forEach(n=>wsIds[n]=uid('ws'));
+
+  const decisionTitles = ['出店エリア','家賃上限','店舗面積','想定客単価','ソンス風再現度','駐車場要否','金融機関説明方針','候補物件絞り込み条件'];
+  const taskTitles = ['次回会議で家賃上限を決める','候補物件を10件に絞る','ソンス風カフェの参考写真を集める','金融機関向け説明資料の骨子を作る'];
+  const fileItems = [
+    {name:'物件統合マップ', path:'all_properties_map.html'},
+    {name:'事業計画・融資向け分析レポート', path:'cafe_business_analysis_report.html'},
+    {name:'営業シミュレーション一覧', path:'simulation_index.html'},
+    {name:'カフェ事業ダッシュボード', path:'cafe_business_dashboard.html'}
+  ];
+
+  const nodes = [];
+  decisionTitles.forEach(t=>{
+    nodes.push({
+      id: uid('node'), type:'decision', workspaceId: wsIds['Strategy'],
+      title: t, createdAt: Date.now(), updatedAt: Date.now(),
+      data: { theme:t, status:'未検討', importance:'中', hypothesis:'', evidence:'', pros:'', cons:'', risk:'', decision:'', nextCheck:'' }
+    });
+  });
+  taskTitles.forEach(t=>{
+    nodes.push({
+      id: uid('node'), type:'task', workspaceId: wsIds['Strategy'],
+      title: t, createdAt: Date.now(), updatedAt: Date.now(),
+      data: { name:t, status:'TODO', owner:'', due:'', memo:'' }
+    });
+  });
+  fileItems.forEach(f=>{
+    nodes.push({
+      id: uid('node'), type:'file', workspaceId: wsIds['Vault'],
+      title: f.name, createdAt: Date.now(), updatedAt: Date.now(),
+      data: { name:f.name, url:f.path, memo:'' }
+    });
+  });
+
+  return {
+    workspaces: Object.entries(wsIds).map(([name,id])=>({id,name})),
+    activeWorkspaceId: wsIds['Command'],
+    nodes: nodes,
+    activeNodeId: null,
+    vaultUnlocked: false,
+    vaultPassword: '1234',
+    logCollapsed: false,
+    todayFocus: '家賃上限を決めるための比較材料を整理する',
+    logs: [
+      {id:uid('log'), time:nowStr(), text:'Splay OS 初期セットアップ完了（高松市カフェ開業プロジェクト）'}
+    ],
+    mode: 'home'
+  };
+}
+
+let state = loadState();
+
+function normalizeState(parsed){
+  const base = defaultState();
+  parsed.workspaces = Array.isArray(parsed.workspaces) ? parsed.workspaces : base.workspaces;
+  parsed.nodes = Array.isArray(parsed.nodes) ? parsed.nodes : [];
+  parsed.logs = Array.isArray(parsed.logs) ? parsed.logs : [];
+  parsed.mode = parsed.mode || 'home';
+  parsed.activeWorkspaceId = parsed.activeWorkspaceId || (parsed.workspaces[0] && parsed.workspaces[0].id) || null;
+  parsed.activeNodeId = parsed.activeNodeId || null;
+  parsed.vaultUnlocked = Boolean(parsed.vaultUnlocked);
+  parsed.vaultPassword = parsed.vaultPassword || '1234';
+  parsed.logCollapsed = Boolean(parsed.logCollapsed);
+  parsed.todayFocus = parsed.todayFocus || base.todayFocus;
+
+  parsed.nodes.forEach(n=>{
+    n.data = n.data || {};
+    if(n.type === 'file' && typeof n.data.memo === 'undefined') n.data.memo = '';
+    if(n.type === 'decision' && typeof n.data.nextCheck === 'undefined') n.data.nextCheck = '';
+    if(!n.title) n.title = 'Untitled Node';
+    if(!n.updatedAt) n.updatedAt = Date.now();
+    if(!n.createdAt) n.createdAt = n.updatedAt;
+  });
+  return parsed;
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    if(!parsed.workspaces || !parsed.nodes) return defaultState();
+    return normalizeState(parsed);
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function saveState(showFlash){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  if(showFlash){
+    const el = document.getElementById('saveStatus');
+    el.textContent = '保存しました';
+    setTimeout(()=>{ el.textContent = '自動保存中'; }, 1400);
+  }
+}
+
+function addLog(text){
+  state.logs.unshift({id:uid('log'), time:nowStr(), text});
+  if(state.logs.length>200) state.logs.pop();
+}
+
+/* ============ NAVIGATION ============ */
+function setMode(mode){
+  state.mode = mode;
+  saveState();
+  render();
+}
+
+document.getElementById('navHome').onclick = ()=>setMode('home');
+document.getElementById('navWorkspace').onclick = ()=>setMode('workspace');
+document.getElementById('navVault').onclick = ()=>setMode('vault');
+
+function openSettings(){ document.getElementById('settingsModal').classList.add('show'); }
+function closeSettings(){ document.getElementById('settingsModal').classList.remove('show'); }
+
+/* ============ WORKSPACE ============ */
+function addWorkspace(){
+  const name = prompt('新しいWorkspace名を入力してください');
+  if(!name || !name.trim()) return;
+  const ws = {id: uid('ws'), name: name.trim()};
+  state.workspaces.push(ws);
+  state.activeWorkspaceId = ws.id;
+  state.mode = 'workspace';
+  addLog(`Workspace「${ws.name}」を追加`);
+  saveState(); render();
+}
+
+function deleteWorkspace(id, e){
+  e.stopPropagation();
+  const ws = state.workspaces.find(w=>w.id===id);
+  if(!ws) return;
+  if(!confirm(`Workspace「${ws.name}」を削除しますか？内部のNodeも削除されます。`)) return;
+  state.nodes = state.nodes.filter(n=>n.workspaceId !== id);
+  state.workspaces = state.workspaces.filter(w=>w.id!==id);
+  if(state.activeWorkspaceId === id){
+    state.activeWorkspaceId = state.workspaces[0] ? state.workspaces[0].id : null;
+  }
+  addLog(`Workspace「${ws.name}」を削除`);
+  saveState(); render();
+}
+
+function selectWorkspace(id){
+  state.activeWorkspaceId = id;
+  state.activeNodeId = null;
+  state.mode = 'workspace';
+  addLog(`Workspaceを切替: 「${(state.workspaces.find(w=>w.id===id)||{}).name||''}」`);
+  saveState(); render();
+}
+
+/* ============ NODES ============ */
+function toggleAddMenu(){
+  document.getElementById('addDropdown').classList.toggle('show');
+}
+document.addEventListener('click', (e)=>{
+  const wrap = document.getElementById('addMenuWrap');
+  if(wrap && !wrap.contains(e.target)){
+    document.getElementById('addDropdown').classList.remove('show');
+  }
+});
+
+const typeDefaults = {
+  note: ()=>({ body:'' }),
+  decision: ()=>({ theme:'', status:'未検討', importance:'中', hypothesis:'', evidence:'', pros:'', cons:'', risk:'', decision:'', nextCheck:'' }),
+  task: ()=>({ name:'', status:'TODO', owner:'', due:'', memo:'' }),
+  meeting: ()=>({ meetingName:'', date:'', agenda:'', notes:'', decisions:'', pending:'', nextActions:'' }),
+  file: ()=>({ name:'', url:'', memo:'' })
+};
+
+const typeLabels = {note:'Note', decision:'Decision', task:'Task', meeting:'Meeting', file:'File / Link'};
+const typeTagClass = {note:'tag-note', decision:'tag-decision', task:'tag-task', meeting:'tag-meeting', file:'tag-file'};
+
+function createNode(type){
+  const node = {
+    id: uid('node'),
+    type,
+    workspaceId: state.activeWorkspaceId,
+    title: '新しい' + typeLabels[type],
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    data: typeDefaults[type]()
+  };
+  state.nodes.push(node);
+  state.activeNodeId = node.id;
+  addLog(`Node追加: [${typeLabels[type]}] ${node.title}`);
+  document.getElementById('addDropdown').classList.remove('show');
+  saveState(); render();
+}
+
+function deleteNode(id){
+  const node = state.nodes.find(n=>n.id===id);
+  if(!node) return;
+  if(!confirm(`「${node.title}」を削除しますか？`)) return;
+  state.nodes = state.nodes.filter(n=>n.id!==id);
+  if(state.activeNodeId === id) state.activeNodeId = null;
+  addLog(`Node削除: [${typeLabels[node.type]}] ${node.title}`);
+  saveState(); render();
+}
+
+function completeTask(id, event){
+  if(event) event.stopPropagation();
+  const node = state.nodes.find(n=>n.id===id);
+  if(!node || node.type !== 'task') return;
+  const wasDone = node.data.status === 'Done';
+  node.data.status = wasDone ? 'TODO' : 'Done';
+  node.updatedAt = Date.now();
+  addLog(wasDone ? `タスクを未完了に戻しました: ${node.title}` : `タスク完了: ${node.title}`);
+  saveState();
+  render();
+}
+
+function selectNode(id){
+  state.activeNodeId = id;
+  saveState(); render();
+}
+
+function updateNodeField(nodeId, field, value, isTitle){
+  const node = state.nodes.find(n=>n.id===nodeId);
+  if(!node) return;
+  if(isTitle){ node.title = value; }
+  else{ node.data[field] = value; }
+  node.updatedAt = Date.now();
+  saveState();
+}
+
+function logFieldChange(node, label){
+  if(!node && state.activeNodeId){
+    node = state.nodes.find(n=>n.id===state.activeNodeId);
+  }
+  if(!node) return;
+  addLog(`Node編集: [${typeLabels[node.type] || node.type}] ${node.title || 'Untitled Node'} — ${label}を更新`);
+  saveState();
+}
+
+function logStatusChange(node, newStatus){
+  if(!node && state.activeNodeId){
+    node = state.nodes.find(n=>n.id===state.activeNodeId);
+  }
+  if(!node) return;
+  addLog(`ステータス変更: [${typeLabels[node.type] || node.type}] ${node.title || 'Untitled Node'} → ${newStatus}`);
+  saveState();
+}
+
+/* ============ DECISION STATUS COUNTS ============ */
+const decisionStatuses = ['未検討','検討中','仮決定','決定','保留','却下'];
+const taskStatuses = ['TODO','Doing','Waiting','Blocked','Done'];
+
+function computeCounts(){
+  let decided=0, considering=0, pending=0, openTasks=0;
+  state.nodes.forEach(n=>{
+    if(n.type==='decision'){
+      if(n.data.status==='決定' || n.data.status==='仮決定') decided++;
+      else if(n.data.status==='検討中') considering++;
+      else if(n.data.status==='保留') pending++;
+    }
+    if(n.type==='task'){
+      if(n.data.status!=='Done') openTasks++;
+    }
+  });
+  return {decided, considering, pending, openTasks};
+}
+
+/* ============ VAULT ============ */
+function tryUnlockVault(){
+  const input = document.getElementById('vaultPassInput');
+  if(input.value === state.vaultPassword){
+    state.vaultUnlocked = true;
+    addLog('Vault: ロック解除');
+    saveState(); render();
+  }else{
+    input.style.borderColor = 'var(--danger)';
+    input.placeholder = '不正解… (ヒント: 1234)';
+    input.value='';
+    setTimeout(()=>{input.style.borderColor='';}, 1200);
+  }
+}
+
+function lockVault(){
+  state.vaultUnlocked = false;
+  saveState(); render();
+}
+
+function addVaultLink(){
+  const name = prompt('資料名を入力');
+  if(!name) return;
+  const url = prompt('URL または相対パスを入力');
+  if(url===null) return;
+  const node = {
+    id: uid('node'), type:'file',
+    workspaceId: (state.workspaces.find(w=>w.name==='Vault')||{}).id || state.activeWorkspaceId,
+    title:name, createdAt:Date.now(), updatedAt:Date.now(),
+    data:{name, url, memo:''}
+  };
+  state.nodes.push(node);
+  addLog(`Vaultに資料追加: ${name}`);
+  saveState(); render();
+}
+
+/* ============ SAVE / EXPORT / IMPORT / RESET ============ */
+function manualSave(){ saveState(true); addLog('手動保存を実行'); saveState(); }
+
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'splay_os_export_' + Date.now() + '.json';
+  a.click();
+  addLog('JSONをエクスポート');
+  saveState();
+}
+
+function importJSON(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    try{
+      const parsed = JSON.parse(e.target.result);
+      if(!parsed.workspaces || !parsed.nodes) throw new Error('invalid');
+      state = parsed;
+      addLog('JSONをインポート');
+      saveState(); render();
+    }catch(err){
+      alert('インポートに失敗しました。正しいSplay OS用JSONファイルか確認してください。');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function resetAll(){
+  if(!confirm('すべてのデータを初期状態にリセットします。よろしいですか？')) return;
+  state = defaultState();
+  saveState(); render();
+}
+
+/* ============ RENDER ============ */
+function render(){
+  renderSidebar();
+  renderCenter();
+  renderDetail();
+  renderLog();
+  document.getElementById('navHome').classList.toggle('active', state.mode==='home');
+  document.getElementById('navWorkspace').classList.toggle('active', state.mode==='workspace');
+  document.getElementById('navVault').classList.toggle('active', state.mode==='vault');
+  document.getElementById('addMenuWrap').style.display = state.mode==='workspace' ? 'block' : 'none';
+}
+
+function renderSidebar(){
+  const list = document.getElementById('wsList');
+  list.innerHTML = '';
+  state.workspaces.forEach(ws=>{
+    const div = document.createElement('div');
+    div.className = 'ws-item' + (ws.id===state.activeWorkspaceId && state.mode==='workspace' ? ' active' : '');
+    div.onclick = ()=>selectWorkspace(ws.id);
+    div.innerHTML = `<span style="display:flex;align-items:center;gap:8px;overflow:hidden;"><span class="dot"></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(ws.name)}</span></span><span class="del" onclick="deleteWorkspace('${ws.id}', event)">✕</span>`;
+    list.appendChild(div);
+  });
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str ?? '';
+  return d.innerHTML;
+}
+
+function renderCenter(){
+  const titleEl = document.getElementById('centerTitle');
+  const metaEl = document.getElementById('centerMeta');
+  const scroll = document.getElementById('centerScroll');
+  scroll.innerHTML = '';
+
+  if(state.mode === 'home'){
+    titleEl.textContent = 'Command Center';
+    metaEl.textContent = '高松市カフェ開業プロジェクト';
+    const c = computeCounts();
+    const lastLog = state.logs[0];
+
+    const focusHtml = `
+      <div class="focus-card fade-in">
+        <h3>TODAY'S FOCUS</h3>
+        <p>${escapeHtml(state.todayFocus)}</p>
+        ${lastLog ? `<button class="resume-btn" onclick="resumeLast()">↻ 前回作業から続行（${escapeHtml(lastLog.text)}）</button>` : ''}
+      </div>`;
+
+    const kpiHtml = `
+      <div class="kpi-grid fade-in">
+        <div class="kpi-card mint"><div class="kpi-num">${c.decided}</div><div class="kpi-label">決定済み</div></div>
+        <div class="kpi-card cyan"><div class="kpi-num">${c.considering}</div><div class="kpi-label">検討中</div></div>
+        <div class="kpi-card lav"><div class="kpi-num">${c.pending}</div><div class="kpi-label">保留</div></div>
+        <div class="kpi-card warn"><div class="kpi-num">${c.openTasks}</div><div class="kpi-label">未完了タスク</div></div>
+        <div class="kpi-card danger"><div class="kpi-num">${state.workspaces.length}</div><div class="kpi-label">Workspace数</div></div>
+      </div>`;
+
+    scroll.innerHTML = focusHtml + kpiHtml + renderHomeWorkspaceOverview();
+    return;
+  }
+
+  if(state.mode === 'workspace'){
+    const ws = state.workspaces.find(w=>w.id===state.activeWorkspaceId) || state.workspaces[0];
+    if(!ws){
+      titleEl.textContent = 'Workspace';
+      metaEl.textContent = '';
+      scroll.innerHTML = `<div class="empty-state"><div class="ring"></div><div>Workspaceがありません。左側から新規作成してください。</div></div>`;
+      return;
+    }
+    titleEl.textContent = ws.name;
+    metaEl.innerHTML = '高松市カフェ開業プロジェクト <button class="space-close-chip" onclick="closeWorkspaceSpace()">Spaceを閉じる</button>';
+    const nodes = state.nodes.filter(n=>n.workspaceId===ws.id);
+
+    if(nodes.length===0){
+      scroll.innerHTML = `
+        <div class="node-grid">
+          ${[0,1,2].map(()=>`<div class="node-card skeleton skel-block"></div>`).join('')}
+        </div>
+        <div style="text-align:center;margin-top:24px;color:var(--ivory-dim);font-size:13px;">
+          まだNodeがありません。「＋ Node追加」から作成してください。
+        </div>`;
+      return;
+    }
+
+    let grid = `<div class="node-grid">`;
+    nodes.slice().sort((a,b)=>b.updatedAt-a.updatedAt).forEach(n=>{
+      grid += renderNodeCard(n);
+    });
+    grid += `</div>`;
+    scroll.innerHTML = grid;
+    return;
+  }
+
+  if(state.mode === 'vault'){
+    titleEl.textContent = 'Vault';
+    metaEl.textContent = '資料置き場 — 保護領域';
+    if(!state.vaultUnlocked){
+      scroll.innerHTML = `
+        <div class="vault-lock fade-in">
+          <div class="vault-icon">🔒</div>
+          <div style="font-size:14px;color:var(--ivory-dim);">Vaultはロックされています</div>
+          <input id="vaultPassInput" class="vault-input" type="password" placeholder="パスコード" onkeydown="if(event.key==='Enter') tryUnlockVault()">
+          <button class="primary" onclick="tryUnlockVault()">Unlock</button>
+          <div class="vault-hint">遊び要素のロックです（実セキュリティではありません）</div>
+        </div>`;
+      return;
+    }
+    const fileNodes = state.nodes.filter(n=>n.type==='file');
+    let html = `<div style="margin-bottom:16px;display:flex;gap:10px;">
+        <button onclick="addVaultLink()">＋ 資料リンク追加</button>
+        <button class="danger-btn" onclick="lockVault()">🔒 Lock</button>
+      </div>`;
+    if(fileNodes.length===0){
+      html += `<div class="empty-state"><div class="ring"></div><div>登録された資料がありません。</div></div>`;
+    }else{
+      html += `<div class="vault-list">`;
+      fileNodes.forEach(n=>{
+        html += `<div class="vault-item fade-in">
+          <div>
+            <div class="vname">${escapeHtml(n.data.name||n.title)}</div>
+            <a href="${escapeHtml(n.data.url||'#')}" target="_blank">${escapeHtml(n.data.url||'(パス未設定)')}</a>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button onclick="selectVaultNode('${n.id}')">編集</button>
+            <button class="danger-btn" onclick="deleteNode('${n.id}')">削除</button>
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    scroll.innerHTML = html;
+    return;
+  }
+}
+
+function selectVaultNode(id){
+  state.activeNodeId = id;
+  state.mode = 'workspace';
+  const node = state.nodes.find(n=>n.id===id);
+  if(node) state.activeWorkspaceId = node.workspaceId;
+  saveState(); render();
+}
+
+function resumeLast(){
+  if(!state.activeWorkspaceId && state.workspaces[0]){
+    state.activeWorkspaceId = state.workspaces[0].id;
+  }
+  state.mode = 'workspace';
+  addLog('前回作業から続行');
+  saveState();
+  render();
+}
+
+function renderHomeWorkspaceOverview(){
+  let html = `<div class="side-label" style="margin:10px 0 14px;font-size:12px;">Workspace一覧</div><div class="node-grid">`;
+  state.workspaces.forEach(ws=>{
+    const count = state.nodes.filter(n=>n.workspaceId===ws.id).length;
+    html += `<div class="node-card fade-in" onclick="selectWorkspace('${ws.id}')">
+      <span class="node-type-tag tag-note">Workspace</span>
+      <div class="title">${escapeHtml(ws.name)}</div>
+      <div class="sub">${count} 件のNode</div>
+    </div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+function renderNodeCard(n){
+  const selected = n.id === state.activeNodeId ? ' selected' : '';
+  const doneClass = n.type === 'task' && n.data.status === 'Done' ? ' task-done' : '';
+  let sub = '';
+  let statusHtml = '';
+  let quickAction = '';
+  if(n.type==='decision'){
+    sub = `重要度: ${escapeHtml(n.data.importance||'-')}`;
+    statusHtml = `<span class="status-pill">${escapeHtml(n.data.status)}</span>`;
+  }else if(n.type==='task'){
+    sub = n.data.owner ? `担当: ${escapeHtml(n.data.owner)}` : '担当未設定';
+    statusHtml = `<span class="status-pill">${escapeHtml(n.data.status)}</span>`;
+    const isDone = n.data.status === 'Done';
+    quickAction = `<button class="task-complete-btn ${isDone ? 'done' : ''}" title="${isDone ? '未完了に戻す' : '完了にする'}" onclick="completeTask('${n.id}', event)">${isDone ? '✓' : '○'}</button>`;
+  }else if(n.type==='meeting'){
+    sub = n.data.date ? escapeHtml(n.data.date) : '日付未設定';
+  }else if(n.type==='file'){
+    sub = n.data.url ? escapeHtml(n.data.url) : 'パス未設定';
+  }else{
+    sub = (n.data.body||'').slice(0,40) || '本文未入力';
+  }
+  return `<div class="node-card${selected}${doneClass} fade-in" onclick="selectNode('${n.id}')">
+    ${quickAction}
+    <span class="node-type-tag ${typeTagClass[n.type]}">${typeLabels[n.type]}</span>
+    <div class="title">${escapeHtml(n.title)}</div>
+    <div class="sub">${sub}</div>
+    ${statusHtml}
+  </div>`;
+}
+
+function renderDetail(){
+  const titleEl = document.getElementById('detailTitle');
+  const scroll = document.getElementById('detailScroll');
+  const delWrap = document.getElementById('detailDelBtnWrap');
+  const node = state.nodes.find(n=>n.id===state.activeNodeId);
+
+  if(!node){
+    titleEl.textContent = '詳細パネル';
+    delWrap.innerHTML = '';
+    scroll.innerHTML = `
+      <div class="skeleton skel-line" style="width:70%;"></div>
+      <div class="skeleton skel-line" style="width:40%;"></div>
+      <div class="skeleton skel-block" style="margin-top:18px;"></div>
+      <div class="skeleton skel-line" style="width:60%;margin-top:18px;"></div>
+      <div class="skeleton skel-line" style="width:30%;"></div>
+      <div style="margin-top:24px;color:var(--ivory-dim);font-size:12px;text-align:center;">Nodeを選択すると詳細が表示されます</div>`;
+    return;
+  }
+
+  titleEl.textContent = typeLabels[node.type] + ' 詳細';
+  delWrap.innerHTML = `<button class="danger-btn" onclick="deleteNode('${node.id}')" style="padding:4px 12px;font-size:11px;">削除</button>`;
+
+  let html = `<label>タイトル</label>
+    <input value="${escapeHtml(node.title)}" oninput="updateNodeField('${node.id}', null, this.value, true)" onblur="logFieldChange(${JSON.stringify(node).replace(/"/g,'&quot;')}, 'タイトル')">`;
+
+  if(node.type==='note'){
+    html += field(node,'body','本文','textarea');
+  }
+  else if(node.type==='decision'){
+    html += field(node,'theme','テーマ','input');
+    html += statusField(node, decisionStatuses);
+    html += selectField(node,'importance','重要度',['低','中','高','最重要']);
+    html += field(node,'hypothesis','仮説','textarea');
+    html += field(node,'evidence','根拠','textarea');
+    html += `<div class="two-col">${field(node,'pros','メリット','textarea',true)}${field(node,'cons','デメリット','textarea',true)}</div>`;
+    html += field(node,'risk','リスク','textarea');
+    html += field(node,'decision','決定内容','textarea');
+    html += field(node,'nextCheck','次回確認事項','textarea');
+  }
+  else if(node.type==='task'){
+    html += field(node,'name','タスク名','input');
+    html += statusField(node, taskStatuses);
+    html += `<div class="two-col">${field(node,'owner','担当','input',true)}${field(node,'due','期限','input',true,'date')}</div>`;
+    html += field(node,'memo','メモ','textarea');
+  }
+  else if(node.type==='meeting'){
+    html += field(node,'meetingName','会議名','input');
+    html += field(node,'date','日付','input',false,'date');
+    html += field(node,'agenda','アジェンダ','textarea');
+    html += field(node,'notes','議論メモ','textarea');
+    html += field(node,'decisions','決定事項','textarea');
+    html += field(node,'pending','保留事項','textarea');
+    html += field(node,'nextActions','次回アクション','textarea');
+  }
+  else if(node.type==='file'){
+    html += field(node,'name','資料名','input');
+    html += field(node,'url','URL / 相対パス','input');
+    html += field(node,'memo','メモ','textarea');
+    if(node.data.url){
+      html += `<div style="margin-top:14px;"><a class="open-link-chip" href="${escapeHtml(node.data.url)}" target="_blank">↗ 開く: ${escapeHtml(node.data.url)}</a></div>`;
+    }
+  }
+
+  scroll.innerHTML = html;
+}
+
+function field(node, key, label, kind, compact, inputType){
+  const val = node.data[key] ?? '';
+  const id = `f_${node.id}_${key}`;
+  const handler = `oninput="updateNodeField('${node.id}','${key}', this.value)" onblur="logFieldChange(window.__nodeCache['${node.id}'], '${label}')"`;
+  let inner;
+  if(kind==='textarea'){
+    inner = `<textarea id="${id}" class="${compact?'ta-sm':''}" ${handler}>${escapeHtml(val)}</textarea>`;
+  }else{
+    inner = `<input id="${id}" type="${inputType||'text'}" value="${escapeHtml(val)}" ${handler}>`;
+  }
+  return `<div><label>${label}</label>${inner}</div>`;
+}
+
+function selectField(node, key, label, options){
+  const val = node.data[key] ?? options[0];
+  const id = `f_${node.id}_${key}`;
+  const opts = options.map(o=>`<option value="${o}" ${o===val?'selected':''}>${o}</option>`).join('');
+  return `<div><label>${label}</label><select id="${id}" onchange="updateNodeField('${node.id}','${key}', this.value); logFieldChange(window.__nodeCache['${node.id}'], '${label}')">${opts}</select></div>`;
+}
+
+function statusField(node, options){
+  const val = node.data.status ?? options[0];
+  const opts = options.map(o=>`<option value="${o}" ${o===val?'selected':''}>${o}</option>`).join('');
+  return `<div class="status-select-wrap"><label>ステータス</label><select onchange="
+      const oldNode = window.__nodeCache['${node.id}'];
+      updateNodeField('${node.id}','status', this.value);
+      logStatusChange(oldNode, this.value);
+      render();
+    ">${opts}</select></div>`;
+}
+
+// keep a shallow cache of node snapshots for log messages (captures pre-change title/type)
+function refreshNodeCache(){
+  window.__nodeCache = {};
+  state.nodes.forEach(n=>{ window.__nodeCache[n.id] = JSON.parse(JSON.stringify(n)); });
+}
+
+function toggleLogPanel(){
+  state.logCollapsed = !state.logCollapsed;
+  saveState();
+  renderLog();
+}
+
+function renderLog(){
+  const panel = document.getElementById('logPanel');
+  const label = document.getElementById('logToggleLabel');
+  if(!panel) return;
+  panel.classList.toggle('collapsed', Boolean(state.logCollapsed));
+  if(label) label.textContent = state.logCollapsed ? '展開' : '折り畳む';
+  panel.innerHTML = state.logs.slice(0,40).map(l=>
+    `<div class="log-entry"><span class="log-time">${escapeHtml(l.time)}</span><span>${escapeHtml(l.text)}</span></div>`
+  ).join('');
+}
+
+/* ============ INIT ============ */
+
+
+/* ============ SPLAY OS v0.2 FLOATING UI ============ */
+let commandCursor = 0;
+
+const __baseRender = render;
+render = function(){
+  __baseRender();
+  applyFloatingChrome();
+  renderWorkspaceOrbit();
+};
+
+function applyFloatingChrome(){
+  const panel = document.querySelector('.right-panel');
+  if(panel){
+    panel.classList.toggle('panel-open', Boolean(state.activeNodeId));
+  }
+  const addWrap = document.getElementById('addMenuWrap');
+  if(addWrap){
+    addWrap.style.display = state.mode === 'workspace' ? 'block' : 'none';
+  }
+}
+
+function closeFloatingDetail(){
+  state.activeNodeId = null;
+  saveState();
+  render();
+}
+
+function toggleOrbMenu(){
+  document.getElementById('orbMenu').classList.toggle('open');
+}
+function closeOrbMenu(){
+  const menu = document.getElementById('orbMenu');
+  if(menu) menu.classList.remove('open');
+}
+
+function toggleWorkspaceOrbit(){
+  const menu = document.getElementById('workspaceOrbitMenu');
+  if(menu) menu.classList.toggle('open');
+}
+function closeWorkspaceOrbit(){
+  const menu = document.getElementById('workspaceOrbitMenu');
+  if(menu) menu.classList.remove('open');
+}
+function closeWorkspaceSpace(){
+  state.mode = 'home';
+  state.activeNodeId = null;
+  addLog('Workspace Spaceを閉じてCommand Centerへ戻りました');
+  closeWorkspaceOrbit();
+  saveState();
+  render();
+}
+function renderWorkspaceOrbit(){
+  const dock = document.getElementById('workspaceOrbitMenu');
+  if(!dock) return;
+  dock.innerHTML = '';
+  state.workspaces.slice(0,6).forEach(ws=>{
+    const btn = document.createElement('button');
+    btn.className = 'workspace-action' + (state.mode==='workspace' && ws.id===state.activeWorkspaceId ? ' active' : '');
+    const count = state.nodes.filter(n=>n.workspaceId===ws.id).length;
+    btn.textContent = '◌ ' + ws.name + ' · ' + count;
+    btn.onclick = () => { selectWorkspace(ws.id); closeWorkspaceOrbit(); };
+    dock.appendChild(btn);
+  });
+  const add = document.createElement('button');
+  add.className = 'workspace-action';
+  add.textContent = '＋ New Space';
+  add.onclick = () => { addWorkspace(); closeWorkspaceOrbit(); };
+  dock.appendChild(add);
+  const close = document.createElement('button');
+  close.className = 'workspace-action close-space';
+  close.textContent = '✕ Close Space';
+  close.onclick = closeWorkspaceSpace;
+  dock.appendChild(close);
+}
+
+function openCommandPalette(){
+  const overlay = document.getElementById('commandOverlay');
+  const input = document.getElementById('commandInput');
+  if(!overlay || !input) return;
+  commandCursor = 0;
+  overlay.classList.add('open');
+  input.value = '';
+  renderCommandList();
+  setTimeout(()=>input.focus(), 30);
+}
+function closeCommandPalette(){
+  const overlay = document.getElementById('commandOverlay');
+  if(overlay) overlay.classList.remove('open');
+}
+
+function getCommands(){
+  const commands = [
+    {title:'Homeを開く', hint:'Command Center', run:()=>setMode('home')},
+    {title:'Workspaceを開く', hint:'現在のWorkspace', run:()=>setMode('workspace')},
+    {title:'Workspaceを閉じる', hint:'空間を閉じてHomeへ戻る', run:()=>closeWorkspaceSpace()},
+    {title:'Vaultを開く', hint:'資料置き場', run:()=>setMode('vault')},
+    {title:'新しいDecision Node', hint:'判断カードを追加', run:()=>{ensureWorkspaceMode(); createNode('decision');}},
+    {title:'新しいTask Node', hint:'タスクを追加', run:()=>{ensureWorkspaceMode(); createNode('task');}},
+    {title:'新しいNote Node', hint:'メモを追加', run:()=>{ensureWorkspaceMode(); createNode('note');}},
+    {title:'新しいMeeting Node', hint:'会議メモを追加', run:()=>{ensureWorkspaceMode(); createNode('meeting');}},
+    {title:'新しいFile / Link Node', hint:'資料リンクを追加', run:()=>{ensureWorkspaceMode(); createNode('file');}},
+    {title:'Activity Logを開閉', hint:'ログ表示切替', run:()=>toggleLogPanel()},
+    {title:'保存', hint:'localStorageへ保存', run:()=>manualSave()},
+    {title:'JSON Export', hint:'バックアップを書き出し', run:()=>exportJSON()},
+    {title:'Settings', hint:'設定', run:()=>openSettings()},
+  ];
+  state.workspaces.forEach(ws=>{
+    commands.push({title:'Workspace: ' + ws.name, hint:'Workspaceへ移動', run:()=>selectWorkspace(ws.id)});
+  });
+  state.nodes.slice().sort((a,b)=>b.updatedAt-a.updatedAt).slice(0,60).forEach(n=>{
+    commands.push({title:'Node: ' + n.title, hint:typeLabels[n.type] + ' を開く', run:()=>{state.activeWorkspaceId=n.workspaceId; state.mode='workspace'; state.activeNodeId=n.id; saveState(); render();}});
+  });
+  return commands;
+}
+
+function ensureWorkspaceMode(){
+  if(!state.activeWorkspaceId && state.workspaces[0]) state.activeWorkspaceId = state.workspaces[0].id;
+  state.mode = 'workspace';
+}
+
+function renderCommandList(){
+  const list = document.getElementById('commandList');
+  const input = document.getElementById('commandInput');
+  if(!list || !input) return;
+  const q = input.value.trim().toLowerCase();
+  const commands = getCommands().filter(c => (c.title + ' ' + c.hint).toLowerCase().includes(q));
+  if(commandCursor >= commands.length) commandCursor = 0;
+  list.innerHTML = commands.length ? commands.map((c,i)=>`
+    <div class="command-item ${i===commandCursor?'active':''}" onclick="runCommand(${i})">
+      <b>${escapeHtml(c.title)}</b><span>${escapeHtml(c.hint)}</span>
+    </div>`).join('') : `<div class="command-item"><b>No command</b><span>該当なし</span></div>`;
+  window.__visibleCommands = commands;
+}
+
+function runCommand(index){
+  const commands = window.__visibleCommands || [];
+  const cmd = commands[index];
+  if(!cmd) return;
+  closeCommandPalette();
+  cmd.run();
+}
+
+function handleCommandKey(event){
+  const commands = window.__visibleCommands || [];
+  if(event.key === 'ArrowDown'){
+    event.preventDefault(); commandCursor = Math.min(commands.length - 1, commandCursor + 1); renderCommandList();
+  }else if(event.key === 'ArrowUp'){
+    event.preventDefault(); commandCursor = Math.max(0, commandCursor - 1); renderCommandList();
+  }else if(event.key === 'Enter'){
+    event.preventDefault(); runCommand(commandCursor);
+  }else if(event.key === 'Escape'){
+    event.preventDefault(); closeCommandPalette();
+  }
+}
+
+function isTypingTarget(el){
+  if(!el) return false;
+  const tag = el.tagName;
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+}
+
+document.addEventListener('keydown', function(event){
+  if((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k'){
+    event.preventDefault(); openCommandPalette(); return;
+  }
+  if(event.key === 'Escape'){
+    closeOrbMenu();
+    closeWorkspaceOrbit();
+    closeCommandPalette();
+    if(state.activeNodeId){ closeFloatingDetail(); }
+    return;
+  }
+  if(isTypingTarget(event.target)) return;
+  const key = event.key.toLowerCase();
+  if(key === 'h') setMode('home');
+  if(key === 'w') setMode('workspace');
+  if(key === 'x') closeWorkspaceSpace();
+  if(key === 'v') setMode('vault');
+  if(key === 'n' && state.mode === 'workspace') createNode('note');
+  if(key === 'l') toggleLogPanel();
+});
+
+document.addEventListener('click', function(event){
+  const orb = document.getElementById('splayOrb');
+  const menu = document.getElementById('orbMenu');
+  if(menu && orb && !menu.contains(event.target) && !orb.contains(event.target)){
+    menu.classList.remove('open');
+  }
+  const wsOrb = document.getElementById('workspaceOrb');
+  const wsMenu = document.getElementById('workspaceOrbitMenu');
+  if(wsMenu && wsOrb && !wsMenu.contains(event.target) && !wsOrb.contains(event.target)){
+    wsMenu.classList.remove('open');
+  }
+});
+
+function init(){
+  refreshNodeCache();
+  render();
+  document.getElementById('settingsModal').addEventListener('click', (e)=>{
+    if(e.target.id==='settingsModal') closeSettings();
+  });
+  // periodic cache refresh + light auto re-render hook
+  setInterval(refreshNodeCache, 1500);
+}
+init();
+</script>
+</body>
+</html>
