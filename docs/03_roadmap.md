@@ -1,4 +1,4 @@
-﻿# Splay OS Roadmap
+# Splay OS Roadmap
 
 ## v0.6.4 Selection / Group Engine
 
@@ -21,16 +21,15 @@ Planned features:
 Important rule:
 Do not break existing node drag, resize, shape editor, connection editor, or workspace behavior.
 
-## v0.6.5 Workspace Export
+## v0.6.5 Workspace Summary Export (HTML)
 
 Goal:
-Make workspace contents readable outside Splay OS.
+Make workspace contents readable outside Splay OS in a mobile-responsive format.
 
 Planned export:
-
-- Markdown export first
+- HTML export (Summary Report)
 - one workspace at a time
-- mobile-readable
+- mobile-readable and print-friendly
 - Decision list
 - Task list
 - Memo list
@@ -38,26 +37,34 @@ Planned export:
 - Connection summary
 
 Recommended file format:
-
-.md
+.html
 
 Reason:
-
-- readable on smartphone
-- readable on GitHub
-- easy to copy into Notion / Obsidian / Google Docs
-- lighter than HTML
+- readable on smartphone and any browser without extra tools
+- print-friendly (easy to print or save as PDF)
+- lighter and faster than full app HTML
 - more human-friendly than JSON
 
 Import should not be changed in this phase.
 
-## v0.6.6 Visual Atmosphere
+## v0.6.6 Summary HTML Export / Summary Report
+
+Goal:
+Export workspace contents as a standalone, lightweight, mobile-responsive HTML report, and manage exported reports within Splay OS.
+
+Planned features:
+- Standalone HTML summary export for active workspace.
+- Structured presentation of Decisions, Tasks, Memos, Files, and Connections.
+- Responsive, mobile-friendly design with print-friendly CSS.
+- Summary Report Index/List managed inside Splay OS (viewing, deleting, regenerating).
+- Metadata of generated summaries persisted in localStorage.
+
+## v0.6.7 Visual Atmosphere
 
 Goal:
 Improve visual atmosphere without reducing readability.
 
 Planned changes:
-
 - dark background tone-up
 - black to charcoal gray
 - subtle star particles
@@ -73,7 +80,6 @@ Goal:
 Move toward a spatial thinking environment.
 
 Planned direction:
-
 - stronger canvas feel
 - grouped spaces
 - layers

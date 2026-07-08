@@ -179,6 +179,21 @@ a{color:var(--cyan);overflow-wrap:anywhere;word-break:break-word}
     <button onclick="clearSelection()">✕ 解除</button>
   </div>
   <div id="moveToMenu"></div>
+  <!-- v0.6.6 Summary Reports Index Panel -->
+  <div class="float-panel vault-panel" id="summariesPanel" data-float="panel" style="width: min(580px, calc(100vw - 44px)); max-height: 74vh;">
+    <div class="panel-head">
+      <b>Summary Reports Index</b>
+      <button onclick="toggleSummariesPanel()">✕</button>
+    </div>
+    <div class="panel-body">
+      <div style="font-size:11px;color:var(--dim);margin-bottom:14px;line-height:1.5;background:rgba(255,255,255,0.03);padding:10px 12px;border-radius:12px;border:1px solid var(--border);">
+        <strong>【ご案内】</strong><br>
+        ・Report Index は過去にエクスポートしたレポートの生成履歴メタデータです。<br>
+        ・「履歴から削除」を行っても、PC上（ダウンロードフォルダ等）に保存済みのHTMLファイル自体は削除されません。
+      </div>
+      <div class="vault-list" id="summariesBody"></div>
+    </div>
+  </div>
 </div>
 <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
 <script>
@@ -218,11 +233,11 @@ function defaultState(){
   dts.forEach((t,i)=>nodes.push({id:uid('node'),type:'decision',workspaceId:ws.Strategy,title:t,x:620+(i%4)*330,y:520+Math.floor(i/4)*230,w:260,h:130,shape:SHAPE_PALETTE.decision,radius:DEFAULT_RADIUS,z:10+i,links:[],connections:[],createdAt:Date.now(),updatedAt:Date.now(),data:{theme:t,status:'未検討',importance:'中',hypothesis:'',evidence:'',pros:'',cons:'',risk:'',decision:'',nextCheck:'',memo:''}}));
   ['次回会議で家賃上限を決める','候補物件を10件に絞る','ソンス風カフェの参考写真を集める','金融機関向け説明資料の骨子を作る'].forEach((t,i)=>nodes.push({id:uid('node'),type:'task',workspaceId:ws.Strategy,title:t,x:720+(i%2)*360,y:1080+Math.floor(i/2)*210,w:260,h:126,shape:SHAPE_PALETTE.task,radius:DEFAULT_RADIUS,z:30+i,links:[],connections:[],createdAt:Date.now(),updatedAt:Date.now(),data:{name:t,status:'TODO',owner:'',due:'',importance:'中',memo:''}}));
   [{name:'物件統合マップ',url:'all_properties_map.html'},{name:'事業計画・融資向け分析レポート',url:'cafe_business_analysis_report.html'},{name:'営業シミュレーション一覧',url:'simulation_index.html'},{name:'カフェ事業ダッシュボード',url:'cafe_business_dashboard.html'}].forEach((f,i)=>nodes.push({id:uid('node'),type:'file',workspaceId:ws.Vault,title:f.name,x:650+(i%2)*360,y:560+Math.floor(i/2)*220,w:260,h:126,shape:SHAPE_PALETTE.file,radius:DEFAULT_RADIUS,z:50+i,links:[],connections:[],createdAt:Date.now(),updatedAt:Date.now(),data:{name:f.name,url:f.url,memo:''}}));
-  return {version:'0.6.4',mode:'home',workspaces:Object.entries(ws).map(([name,id])=>({id,name,description:'',icon:WS_ICON_DEFAULTS[name]||'🪐',accentColor:WS_ACCENT_DEFAULTS[name]||'cyan'})),activeWorkspaceId:ws.Strategy,activeNodeId:null,nodes,groups:[],view:{x:-360,y:-290,scale:1},todayFocus:'会議で決める論点を絞り、根拠と未決事項を見える状態にする',logs:[{id:uid('log'),time:nowStr(),text:'Splay OS v0.6.4 Selection / Group Engine 初期化'}],ui:{splayOrb:{x:28,y:null,bottom:28},workspaceOrb:{x:null,y:null,right:28,bottom:28}},vaultUnlocked:false,vaultPassword:'1234'};
+  return {version:'0.6.6',mode:'home',workspaces:Object.entries(ws).map(([name,id])=>({id,name,description:'',icon:WS_ICON_DEFAULTS[name]||'🪐',accentColor:WS_ACCENT_DEFAULTS[name]||'cyan'})),activeWorkspaceId:ws.Strategy,activeNodeId:null,nodes,groups:[],summaries:[],view:{x:-360,y:-290,scale:1},todayFocus:'会議で決める論点を絞り、根拠と未決事項を見える状態にする',logs:[{id:uid('log'),time:nowStr(),text:'Splay OS v0.6.6 Summary HTML Export / Summary Report 初期化'}],ui:{splayOrb:{x:28,y:null,bottom:28},workspaceOrb:{x:null,y:null,right:28,bottom:28}},vaultUnlocked:false,vaultPassword:'1234'};
 }
 function migrate(st){
   if(!st||!st.workspaces||!st.nodes)return defaultState();
-  st.version='0.6.4'; st.view=st.view||{x:-360,y:-290,scale:1}; st.mode=st.mode||'home'; st.ui=st.ui||{};
+  st.version='0.6.6'; st.view=st.view||{x:-360,y:-290,scale:1}; st.mode=st.mode||'home'; st.ui=st.ui||{};
   st.ui.splayOrb=st.ui.splayOrb||{x:28,bottom:28}; st.ui.workspaceOrb=st.ui.workspaceOrb||{right:28,bottom:28};
   ['topActions','zoomPill','minimap'].forEach(k=>{st.ui[k]=st.ui[k]||{}});
   st.workspaces.forEach(ws=>{
@@ -254,6 +269,15 @@ function migrate(st){
     if(!Array.isArray(g.nodeIds))g.nodeIds=[];
     if(typeof g.name!=='string')g.name='Group';
     if(typeof g.workspaceId!=='string')g.workspaceId='';
+  });
+  /* v0.6.6 additive migration: summaries[] */
+  if(!Array.isArray(st.summaries))st.summaries=[];
+  st.summaries.forEach(s=>{
+    if(!s.id)s.id=uid('sum');
+    if(typeof s.workspaceId!=='string')s.workspaceId='';
+    if(typeof s.workspaceName!=='string')s.workspaceName='Workspace';
+    if(typeof s.fileName!=='string')s.fileName='';
+    if(typeof s.createdAt!=='number')s.createdAt=Date.now();
   });
   return st;
 }
@@ -730,7 +754,7 @@ function renderLinks(){const svg=document.getElementById('linkSvg');svg.innerHTM
   if(connDrag&&connDrag.previewPath)svg.appendChild(connDrag.previewPath);
 }
 function renderMenus(){renderSplayMenu();renderWorkspaceMenu();}
-function renderSplayMenu(){const items=[['🏠 Home',()=>closeWorkspace()],['＋ Decision',()=>createNode('decision')],['＋ Task',()=>createNode('task')],['＋ Note',()=>createNode('note')],['＋ Memo',()=>createNode('memo')],['🔒 Vault',()=>toggleVault()],['📜 Log',()=>toggleLog()],['⇩ Export',()=>exportJSON()],['⇧ Import',()=>document.getElementById('importFile').click()],['⚙ Reset',()=>resetAll()]];makeOrbMenu('splayMenu','splayOrb',items)}
+function renderSplayMenu(){const items=[['🏠 Home',()=>closeWorkspace()],['＋ Decision',()=>createNode('decision')],['＋ Task',()=>createNode('task')],['＋ Note',()=>createNode('note')],['＋ Memo',()=>createNode('memo')],['🔒 Vault',()=>toggleVault()],['📜 Log',()=>toggleLog()],['📄 HTML Report',()=>exportWorkspaceSummaryHTML()],['📊 Report Index',()=>toggleSummariesPanel()],['⇩ Export',()=>exportJSON()],['⇧ Import',()=>document.getElementById('importFile').click()],['⚙ Reset',()=>resetAll()]];makeOrbMenu('splayMenu','splayOrb',items)}
 function renderWorkspaceMenu(){
   const items=state.workspaces.map(ws=>[(ws.icon||'🪐')+' '+ws.name,()=>openWorkspace(ws.id)]);
   items.push(['＋ New Workspace',()=>addWorkspace()]);
@@ -967,11 +991,432 @@ function renderMinimap(){const m=document.getElementById('minimap');if(state.mod
   if(miniSvg){const ns='http://www.w3.org/2000/svg';activeNodes().forEach(a=>{(a.connections||[]).forEach(c=>{const b=state.nodes.find(x=>x.id===c.targetId&&x.workspaceId===a.workspaceId);if(!b)return;const p1=toMini(a),p2=toMini(b);const ct=CONNECTION_TYPES[c.type]||CONNECTION_TYPES.related;const line=document.createElementNS(ns,'line');line.setAttribute('x1',p1.x);line.setAttribute('y1',p1.y);line.setAttribute('x2',p2.x);line.setAttribute('y2',p2.y);line.setAttribute('stroke',`rgba(${ct.color},.5)`);line.setAttribute('stroke-width','1');miniSvg.appendChild(line)})})}
   activeNodes().forEach(n=>{const d=document.createElement('div');d.className='mini-node';const w=Math.max(5,nodeW(n)*scale),h=Math.max(5,nodeH(n)*scale);d.style.width=w+'px';d.style.height=h+'px';d.style.borderRadius=shapeRadius(n,w,h);const p=toMini(n);d.style.left=p.x+'px';d.style.top=p.y+'px';m.appendChild(d)});const v=document.getElementById('miniView');v.style.left=(mw/2-(innerWidth/state.view.scale*scale)/2)+'px';v.style.top=(mh/2-(innerHeight/state.view.scale*scale)/2)+'px';v.style.width=(innerWidth/state.view.scale*scale)+'px';v.style.height=(innerHeight/state.view.scale*scale)+'px';['mini-cross-x','mini-cross-y','mini-center'].forEach(cls=>{const e=document.createElement('div');e.className=cls;m.appendChild(e)})}
 function togglePalette(){const p=document.getElementById('palette');p.classList.toggle('show');touchFloat(p);renderCommands();setTimeout(()=>document.getElementById('paletteInput').focus(),30)}
-function renderCommands(){const q=(document.getElementById('paletteInput').value||'').toLowerCase();const cmds=[['Home',()=>closeWorkspace()],['Open Vault',()=>toggleVault()],['Activity Log',()=>toggleLog()],['New Workspace',()=>addWorkspace()],['Workspace Settings',()=>openWorkspaceSettings(state.activeWorkspaceId||state.workspaces[0]?.id)],['Add Decision',()=>createNode('decision')],['Add Task',()=>createNode('task')],['Add Note',()=>createNode('note')],['Add Memo',()=>createNode('memo')],['Export JSON',()=>exportJSON()],['Import JSON',()=>document.getElementById('importFile').click()],...state.workspaces.map(w=>['Workspace: '+w.name,()=>openWorkspace(w.id)]),...state.nodes.map(n=>['Node: '+nodeTitle(n),()=>{openWorkspace(n.workspaceId);openDetail(n.id)}])].filter(c=>c[0].toLowerCase().includes(q));document.getElementById('commandList').innerHTML=cmds.slice(0,40).map((c,i)=>`<div class="command-item" data-i="${i}">${esc(c[0])}</div>`).join('');document.querySelectorAll('.command-item').forEach((el,i)=>el.onclick=()=>{document.getElementById('palette').classList.remove('show');cmds[i][1]()})}
+function renderCommands(){const q=(document.getElementById('paletteInput').value||'').toLowerCase();const cmds=[['Home',()=>closeWorkspace()],['Open Vault',()=>toggleVault()],['Activity Log',()=>toggleLog()],['New Workspace',()=>addWorkspace()],['Workspace Settings',()=>openWorkspaceSettings(state.activeWorkspaceId||state.workspaces[0]?.id)],['Add Decision',()=>createNode('decision')],['Add Task',()=>createNode('task')],['Add Note',()=>createNode('note')],['Add Memo',()=>createNode('memo')],['Export Workspace Summary (HTML)',()=>exportWorkspaceSummaryHTML()],['Open Summary Report Index',()=>toggleSummariesPanel()],['Export JSON',()=>exportJSON()],['Import JSON',()=>document.getElementById('importFile').click()],...state.workspaces.map(w=>['Workspace: '+w.name,()=>openWorkspace(w.id)]),...state.nodes.map(n=>['Node: '+nodeTitle(n),()=>{openWorkspace(n.workspaceId);openDetail(n.id)}])].filter(c=>c[0].toLowerCase().includes(q));document.getElementById('commandList').innerHTML=cmds.slice(0,40).map((c,i)=>`<div class="command-item" data-i="${i}">${esc(c[0])}</div>`).join('');document.querySelectorAll('.command-item').forEach((el,i)=>el.onclick=()=>{document.getElementById('palette').classList.remove('show');cmds[i][1]()})}
 document.getElementById('paletteInput').addEventListener('input',renderCommands);document.getElementById('paletteInput').addEventListener('keydown',e=>{if(e.key==='Enter'){const first=document.querySelector('.command-item');if(first)first.click()}})
 function toggleLog(){const p=document.getElementById('logDrawer');p.classList.toggle('show');touchFloat(p)}
 function toggleVault(){const p=document.getElementById('vaultPanel');p.classList.toggle('show');renderVault();touchFloat(p)}
 function exportJSON(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));a.download='splay_os_v064_selection_group_'+Date.now()+'.json';a.click();log('JSON Export')}
+function exportWorkspaceSummaryHTML(){
+  const ws=activeWs(); if(!ws)return;
+  const nodes=activeNodes();
+  if(!nodes.length){
+    alert('現在のWorkspaceにはノードがありません。');
+    return;
+  }
+  
+  let html = `<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workspace Summary: ${esc(ws.name)}</title>
+<style>
+  :root {
+    --bg: #07120f;
+    --card-bg: rgba(18, 38, 36, 0.45);
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #f4efdf;
+    --text-dim: #c8c9bd;
+    --mint: #82e8b8;
+    --cyan: #7ed9ee;
+    --lav: #b8a8ee;
+    --warn: #e9c988;
+    --danger: #ec9a9a;
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: "Yu Gothic UI", "Hiragino Sans", "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 24px;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 28px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .description {
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+  .meta-info {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 32px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: 40px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    color: var(--mint);
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+  }
+  .card-fields {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .card-field {
+    margin-bottom: 8px;
+  }
+  .card-field-label {
+    font-weight: 600;
+    color: var(--text);
+    display: inline-block;
+    width: 120px;
+  }
+  .card-field-value {
+    display: inline;
+  }
+  .task-list {
+    list-style: none;
+    padding: 0;
+  }
+  .task-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .task-checkbox {
+    font-size: 16px;
+    line-height: 1;
+    user-select: none;
+  }
+  .task-content {
+    flex: 1;
+    font-size: 14px;
+  }
+  .task-title {
+    font-weight: 600;
+  }
+  .task-meta {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .file-list {
+    padding: 0;
+    list-style: none;
+  }
+  .file-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+  }
+  .file-item a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .file-item a:hover {
+    text-decoration: underline;
+  }
+  .file-memo {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .connection-list {
+    padding: 0;
+    list-style: none;
+  }
+  .connection-item {
+    font-size: 13px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .connection-arrow {
+    color: var(--lav);
+  }
+  .badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+    display: inline-block;
+    margin-left: 6px;
+  }
+  .badge-status {
+    background: rgba(130, 232, 184, 0.15);
+    color: var(--mint);
+  }
+  .badge-importance {
+    background: rgba(126, 217, 238, 0.15);
+    color: var(--cyan);
+  }
+  @media (max-width: 600px) {
+    body {
+      padding: 16px;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    h2 {
+      font-size: 18px;
+    }
+    .card {
+      padding: 16px;
+    }
+    .card-field-label {
+      display: block;
+      width: auto;
+      margin-bottom: 2px;
+    }
+  }
+  @media print {
+    body {
+      background-color: #fff;
+      color: #000;
+      padding: 0;
+    }
+    .card, .task-item, .file-item {
+      background: #fff;
+      border: 1px solid #ccc;
+      color: #000;
+      page-break-inside: avoid;
+    }
+    .card-field-label {
+      color: #000;
+    }
+    h1, h2 {
+      color: #000;
+      border-bottom-color: #ccc;
+    }
+    .badge {
+      border: 1px solid #ccc;
+      color: #000 !important;
+      background: none !important;
+    }
+    a {
+      color: #000;
+      text-decoration: underline;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Workspace Summary: ${esc(ws.name)}</h1>
+  ${ws.description ? `<div class="description">${esc(ws.description)}</div>` : ''}
+  <div class="meta-info">出力日時: ${new Date().toLocaleString('ja-JP')}</div>
+`;
+
+  const decisions = nodes.filter(n => n.type === 'decision');
+  if(decisions.length){
+    html += `<h2>📈 Decisions (意思決定・論点)</h2>`;
+    decisions.forEach(n => {
+      html += `
+      <div class="card">
+        <div class="card-title">${esc(nodeTitle(n))} <span class="badge badge-status">${esc(n.data.status || '未検討')}</span><span class="badge badge-importance">${esc(n.data.importance || '中')}</span></div>
+        <div class="card-fields">
+          ${n.data.hypothesis ? `<div class="card-field"><span class="card-field-label">仮説:</span><div class="card-field-value">${esc(n.data.hypothesis)}</div></div>` : ''}
+          ${n.data.evidence ? `<div class="card-field"><span class="card-field-label">根拠:</span><div class="card-field-value">${esc(n.data.evidence)}</div></div>` : ''}
+          ${n.data.pros ? `<div class="card-field"><span class="card-field-label">メリット:</span><div class="card-field-value">${esc(n.data.pros)}</div></div>` : ''}
+          ${n.data.cons ? `<div class="card-field"><span class="card-field-label">デメリット:</span><div class="card-field-value">${esc(n.data.cons)}</div></div>` : ''}
+          ${n.data.risk ? `<div class="card-field"><span class="card-field-label">リスク:</span><div class="card-field-value">${esc(n.data.risk)}</div></div>` : ''}
+          ${n.data.decision ? `<div class="card-field"><span class="card-field-label">決定内容:</span><div class="card-field-value">${esc(n.data.decision)}</div></div>` : ''}
+          ${n.data.nextCheck ? `<div class="card-field"><span class="card-field-label">次回確認事項:</span><div class="card-field-value">${esc(n.data.nextCheck)}</div></div>` : ''}
+          ${n.data.memo ? `<div class="card-field"><span class="card-field-label">メモ:</span><div class="card-field-value">${esc(n.data.memo)}</div></div>` : ''}
+        </div>
+      </div>`;
+    });
+  }
+
+  const tasks = nodes.filter(n => n.type === 'task');
+  if(tasks.length){
+    html += `<h2>📅 Tasks (タスク)</h2><ul class="task-list">`;
+    tasks.forEach(n => {
+      const isDone = n.data.status === 'Done';
+      html += `
+      <li class="task-item">
+        <div class="task-checkbox">${isDone ? '☑' : '☐'}</div>
+        <div class="task-content">
+          <div class="task-title" ${isDone ? 'style="text-decoration:line-through;opacity:0.6;"' : ''}>${esc(nodeTitle(n))}</div>
+          <div class="task-meta">
+            ステータス: ${esc(n.data.status || 'TODO')} | 重要度: ${esc(n.data.importance || '中')}
+            ${n.data.owner ? ` | 担当: ${esc(n.data.owner)}` : ''}
+            ${n.data.due ? ` | 期限: ${esc(n.data.due)}` : ''}
+            ${n.data.memo ? `<br>メモ: ${esc(n.data.memo)}` : ''}
+          </div>
+        </div>
+      </li>`;
+    });
+    html += `</ul>`;
+  }
+
+  const memosAndNotes = nodes.filter(n => n.type === 'memo' || n.type === 'note' || n.type === 'meeting');
+  if(memosAndNotes.length){
+    html += `<h2>📝 Memos & Notes</h2>`;
+    memosAndNotes.forEach(n => {
+      if(n.type === 'note'){
+        html += `
+        <div class="card">
+          <div class="card-title">📄 Note: ${esc(nodeTitle(n))}</div>
+          <div style="white-space:pre-wrap;font-size:14px;">${esc(n.data.body || '本文未入力')}</div>
+          ${n.data.memo ? `<div style="font-size:12px;color:var(--text-dim);margin-top:12px;border-top:1px dashed var(--border);padding-top:8px;">メモ: ${esc(n.data.memo)}</div>` : ''}
+        </div>`;
+      } else if(n.type === 'memo'){
+        html += `
+        <div class="card">
+          <div class="card-title">📌 Memo: ${esc(nodeTitle(n))}</div>
+          <div style="white-space:pre-wrap;font-size:14px;">${esc(n.data.body || '本文未入力')}</div>
+        </div>`;
+      } else if(n.type === 'meeting'){
+        html += `
+        <div class="card">
+          <div class="card-title">🤝 Meeting: ${esc(nodeTitle(n))}</div>
+          <div class="card-fields">
+            ${n.data.date ? `<div class="card-field"><span class="card-field-label">開催日:</span><div class="card-field-value">${esc(n.data.date)}</div></div>` : ''}
+            ${n.data.agenda ? `<div class="card-field"><span class="card-field-label">アジェンダ:</span><div style="white-space:pre-wrap;margin-top:4px;padding-left:12px;border-left:2px solid var(--border);">${esc(n.data.agenda)}</div></div>` : ''}
+            ${n.data.notes ? `<div class="card-field"><span class="card-field-label">議論メモ:</span><div style="white-space:pre-wrap;margin-top:4px;padding-left:12px;border-left:2px solid var(--border);">${esc(n.data.notes)}</div></div>` : ''}
+            ${n.data.decisions ? `<div class="card-field"><span class="card-field-label">決定事項:</span><div style="white-space:pre-wrap;margin-top:4px;padding-left:12px;border-left:2px solid var(--border);color:var(--mint);">${esc(n.data.decisions)}</div></div>` : ''}
+            ${n.data.pending ? `<div class="card-field"><span class="card-field-label">保留事項:</span><div style="white-space:pre-wrap;margin-top:4px;padding-left:12px;border-left:2px solid var(--border);">${esc(n.data.pending)}</div></div>` : ''}
+            ${n.data.nextActions ? `<div class="card-field"><span class="card-field-label">次回アクション:</span><div style="white-space:pre-wrap;margin-top:4px;padding-left:12px;border-left:2px solid var(--border);">${esc(n.data.nextActions)}</div></div>` : ''}
+            ${n.data.memo ? `<div class="card-field"><span class="card-field-label">メモ:</span><div class="card-field-value">${esc(n.data.memo)}</div></div>` : ''}
+          </div>
+        </div>`;
+      }
+    });
+  }
+
+  const files = nodes.filter(n => n.type === 'file');
+  if(files.length){
+    html += `<h2>📎 Files & Links</h2><ul class="file-list">`;
+    files.forEach(n => {
+      html += `
+      <li class="file-item">
+        <a href="${esc(n.data.url || '#')}" target="_blank">↗ ${esc(nodeTitle(n))}</a>
+        ${n.data.memo ? `<div class="file-memo">${esc(n.data.memo)}</div>` : ''}
+      </li>`;
+    });
+    html += `</ul>`;
+  }
+
+  let connHtml = '';
+  nodes.forEach(a => {
+    if(Array.isArray(a.connections)){
+      a.connections.forEach(c => {
+        const b = state.nodes.find(x => x.id === c.targetId && x.workspaceId === a.workspaceId);
+        if(b){
+          const typeLabel = c.type ? `${CONNECTION_TYPES[c.type]?.label || c.type}${c.label ? ': ' + c.label : ''}` : '';
+          connHtml += `
+          <li class="connection-item">
+            <strong>${esc(nodeTitle(a))}</strong>
+            <span class="connection-arrow">── (${esc(typeLabel)}) ──&gt;</span>
+            <strong>${esc(nodeTitle(b))}</strong>
+          </li>`;
+        }
+      });
+    }
+  });
+  if(connHtml){
+    html += `<h2>🔗 Connections (関連マップ)</h2><ul class="connection-list">${connHtml}</ul>`;
+  }
+
+  html += `
+</div>
+</body>
+</html>`;
+
+  const safeWsName = ws.name.replace(/[^a-zA-Z0-9ぁ-んァ-ヶー一-龠_]/g, '_');
+  const filename = `splay_workspace_summary_${safeWsName}_${Date.now()}.html`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], {type: 'text/html'}));
+  a.download = filename;
+  a.click();
+  log(`Workspace Summary Export (HTML): ${ws.name}`);
+  
+  if(!Array.isArray(state.summaries)) state.summaries = [];
+  state.summaries.push({
+    id: uid('sum'),
+    workspaceId: ws.id,
+    workspaceName: ws.name,
+    fileName: filename,
+    createdAt: Date.now()
+  });
+  save();
+  if(document.getElementById('summariesPanel').classList.contains('show')){
+    renderSummaries();
+  }
+}
+function toggleSummariesPanel(){
+  const p=document.getElementById('summariesPanel');
+  p.classList.toggle('show');
+  if(p.classList.contains('show')){
+    renderSummaries();
+    touchFloat(p);
+  }
+}
+function renderSummaries(){
+  const body=document.getElementById('summariesBody');
+  if(!Array.isArray(state.summaries)) state.summaries = [];
+  if(!state.summaries.length){
+    body.innerHTML='<div class="empty"><div class="hint">出力済みのレポート履歴がありません。<br>Splay Orbの「📄 HTML Report」ボタンからレポートを作成してください。</div></div>';
+    return;
+  }
+  
+  body.innerHTML=state.summaries.map(s=>{
+    const d=new Date(s.createdAt).toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+    return `<div class="vault-item" style="margin-bottom:8px;">
+      <div>
+        <b>${esc(s.workspaceName)} Summary Report</b><br>
+        <span class="hint" style="font-size:10px;">${esc(s.fileName)}</span><br>
+        <span class="hint" style="font-size:10px;opacity:0.75;">作成日時: ${esc(d)}</span>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
+        <button onclick="regenerateSummary('${esc(s.workspaceId)}')" title="現在の最新データでレポートを再構築">再生成</button>
+        <button class="danger" onclick="deleteSummary('${esc(s.id)}')" title="履歴から削除（※PCの実ファイルは削除されません）">履歴から削除</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function deleteSummary(id){
+  state.summaries=(state.summaries||[]).filter(s=>s.id!==id);
+  log('Summary履歴削除');
+  save();
+  renderSummaries();
+}
+function regenerateSummary(workspaceId){
+  const ws=state.workspaces.find(w=>w.id===workspaceId);
+  if(!ws){
+    alert('このレポートの元となるWorkspaceが存在しません。');
+    return;
+  }
+  // 一時的にactiveWorkspaceIdを切り替えてエクスポートを実行
+  const prevId=state.activeWorkspaceId;
+  state.activeWorkspaceId=workspaceId;
+  exportWorkspaceSummaryHTML();
+  state.activeWorkspaceId=prevId;
+}
 function importJSON(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{state=migrate(JSON.parse(ev.target.result));log('JSON Import');save();render()}catch(err){alert('Import失敗')}};r.readAsText(f);e.target.value=''}
 function resetAll(){if(confirm('初期状態に戻しますか？')){state=defaultState();save();render()}}
 window.addEventListener('keydown',e=>{
