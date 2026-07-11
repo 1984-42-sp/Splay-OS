@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Splay OS Spatial Preview</title>
+<title>Splay OS Cloud Preview</title>
 <style>
 :root{
   --deep:#07120f; --mid:#0d211e; --panel:rgba(18,38,36,.62); --panel2:rgba(13,27,29,.54);
@@ -363,12 +363,63 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
 @media(max-width:760px){.focus-optical-field{width:102vw;height:78vh}.focus-field-pane{border-radius:18px;backdrop-filter:blur(4px)}.focus-pane-value{font-size:14px}.focus-core-title{font-size:20px}}
 /* === Tactical Spatial Radar Minimap === */
 .minimap{border-radius:14px 18px 12px 16px;border:1px solid rgba(112,164,184,.24);background:linear-gradient(145deg,rgba(2,9,18,.88),rgba(3,17,30,.78));box-shadow:0 24px 74px rgba(0,0,0,.50),0 0 0 1px rgba(var(--cyan-light),.045),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(10px) saturate(1.04);overflow:hidden;isolation:isolate;transition:opacity .2s ease,visibility .2s ease,filter .2s ease}.minimap::before{content:"";position:absolute;inset:1px;border-radius:13px 17px 11px 15px;z-index:0;pointer-events:none;background:linear-gradient(rgba(86,145,162,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(86,145,162,.045) 1px,transparent 1px),repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 6px),radial-gradient(ellipse at 50% 52%,rgba(var(--cyan-light),.08),transparent 58%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 22%,transparent 78%,rgba(0,0,0,.28));background-size:22px 22px,22px 22px,100% 6px,100% 100%,100% 100%;animation:miniScanDrift 32s linear infinite}.minimap::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;border-radius:inherit;background:linear-gradient(rgba(var(--cyan-core),.42),rgba(var(--cyan-core),.42)) left top/36px 1px no-repeat,linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) left top/1px 28px no-repeat,linear-gradient(rgba(var(--cyan-core),.30),rgba(var(--cyan-core),.30)) right bottom/38px 1px no-repeat,linear-gradient(rgba(var(--cyan-core),.24),rgba(var(--cyan-core),.24)) right bottom/1px 30px no-repeat,linear-gradient(90deg,rgba(var(--cyan-light),.32),transparent) 14px 7px/54px 1px no-repeat,repeating-linear-gradient(90deg,rgba(var(--cyan-light),.26) 0 1px,transparent 1px 8px) center bottom 6px/92px 5px no-repeat;box-shadow:inset 0 0 0 1px rgba(150,190,205,.09),inset 12px 0 24px rgba(var(--cyan-light),.025),inset -14px 0 28px rgba(var(--purple-light),.035)}@keyframes miniScanDrift{from{background-position:0 0,0 0,0 0,0 0,0 0}to{background-position:0 0,0 0,0 48px,0 0,0 0}}.minimap .float-resize-handle{right:4px;bottom:4px;z-index:30;opacity:.88;background:rgba(5,20,34,.92);border-color:rgba(var(--cyan-core),.38);box-shadow:0 0 0 1px rgba(0,0,0,.34),0 0 14px rgba(var(--cyan-light),.18)}.mini-conn-svg{z-index:1;mix-blend-mode:screen}.mini-conn-line{stroke:rgba(92,145,160,.24);stroke-width:.65;stroke-linecap:round;filter:none}.mini-conn-line.mini-conn-selected{stroke:rgba(132,210,226,.38);stroke-width:.85}.mini-conn-line.mini-conn-active{stroke:rgba(224,255,255,.68);stroke-width:1.05;filter:drop-shadow(0 0 3px rgba(var(--cyan-light),.22))}.mini-node{box-sizing:border-box;position:absolute;z-index:3;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle at 48% 42%,rgba(160,226,238,.18),rgba(3,15,27,.78) 52%,rgba(1,7,14,.90));border:1px solid rgba(116,178,194,.48);box-shadow:inset 0 0 8px rgba(var(--cyan-light),.08),0 0 6px rgba(var(--cyan-light),.045);transition:border-color .16s ease,box-shadow .16s ease,opacity .16s ease}.mini-node.mini-done{opacity:.48;filter:saturate(.55)}.mini-node.mini-selected{z-index:4;border-color:rgba(var(--cyan-core),.82);box-shadow:0 0 0 1px rgba(var(--cyan-light),.18),0 0 10px rgba(var(--cyan-light),.14),inset 0 0 9px rgba(var(--cyan-light),.09)}.mini-node.mini-selected::before{content:"";position:absolute;inset:-3px;border:1px solid rgba(var(--cyan-core),.36);border-radius:inherit;pointer-events:none}.mini-node.mini-active{z-index:5;border-color:rgba(235,255,255,.95);background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.96) 0 1.5px,rgba(var(--cyan-core),.42) 2px 4px,rgba(4,24,38,.84) 5px 100%);box-shadow:0 0 0 1px rgba(var(--cyan-core),.32),0 0 14px rgba(var(--cyan-light),.30),inset 0 0 10px rgba(255,255,255,.09);animation:miniActivePulse 5.6s ease-in-out infinite}.mini-node.mini-active.mini-selected{box-shadow:0 0 0 1px rgba(240,255,255,.42),0 0 16px rgba(var(--cyan-light),.34),inset 0 0 10px rgba(255,255,255,.12)}.mini-view{z-index:6;border:0;background:linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left top/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left top/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right top/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right top/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left bottom/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left bottom/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right bottom/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right bottom/1px 16px no-repeat,rgba(var(--cyan-light),.018);box-shadow:0 0 10px rgba(var(--cyan-core),.11),inset 0 0 18px rgba(var(--cyan-light),.025);pointer-events:none;transition:left .12s ease,top .12s ease,width .12s ease,height .12s ease}.mini-center{z-index:7;width:14px;height:14px;border-radius:50%;background:transparent;border:1px solid rgba(226,255,255,.56);box-shadow:0 0 9px rgba(var(--cyan-light),.18);pointer-events:none}.mini-center::before{content:"";position:absolute;left:50%;top:50%;width:2px;height:2px;border-radius:50%;transform:translate(-50%,-50%);background:rgba(245,255,255,.92);box-shadow:0 0 6px rgba(var(--cyan-core),.46)}.mini-center::after{content:"";position:absolute;inset:-5px;background:linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) center top/1px 4px no-repeat,linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) center bottom/1px 4px no-repeat,linear-gradient(90deg,rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) left center/4px 1px no-repeat,linear-gradient(90deg,rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) right center/4px 1px no-repeat}.mini-cross-x,.mini-cross-y{display:none!important}@keyframes miniActivePulse{0%,100%{filter:brightness(.96)}50%{filter:brightness(1.18)}}@media(max-width:760px){.minimap::before{background-size:28px 28px,28px 28px,100% 8px,100% 100%,100% 100%;opacity:.82}.minimap::after{background-size:24px 1px,1px 20px,26px 1px,1px 22px,40px 1px,70px 5px}.mini-view{transition:none}.mini-center{width:12px;height:12px}}
+/* === Cloud Edition Phase 1 Auth Portal === */
+.app[hidden],.cloud-shell[hidden]{display:none!important}.cloud-shell{position:fixed;inset:0;z-index:500;display:grid;place-items:center;overflow:auto;padding:28px;background:radial-gradient(circle at 50% 35%,rgba(var(--cyan-mid),.14),transparent 24%),radial-gradient(circle at 18% 18%,rgba(var(--blue-light),.11),transparent 26%),linear-gradient(180deg,#01040a,#020915 52%,#01040a);color:var(--ivory)}.cloud-shell::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(100,235,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,235,255,.025) 1px,transparent 1px),radial-gradient(circle at 50% 42%,rgba(210,255,255,.10),transparent 30%);background-size:76px 76px,76px 76px,100% 100%;mask-image:radial-gradient(circle at center,black,transparent 82%)}.cloud-panel{position:relative;width:min(920px,100%);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:24px;border:1px solid rgba(var(--cyan-light),.18);border-radius:30px;background:linear-gradient(145deg,rgba(5,20,36,.80),rgba(1,8,18,.78));box-shadow:0 34px 120px rgba(0,0,0,.54),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(18px);padding:28px;overflow:hidden}.cloud-panel::after{content:"";position:absolute;left:24px;right:24px;top:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--cyan-core),.52),transparent);pointer-events:none}.cloud-brand{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:38px;min-height:390px}.cloud-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--cyan-core),.76)}.cloud-brand h1{margin:10px 0 0;font-size:clamp(36px,7vw,72px);line-height:.95;color:#75f7ff;text-shadow:0 0 28px rgba(var(--cyan-light),.34);letter-spacing:0}.cloud-brand p{max-width:430px;margin:18px 0 0;color:rgba(200,220,232,.74);line-height:1.75}.cloud-phase{display:flex;flex-wrap:wrap;gap:8px}.cloud-chip{border:1px solid rgba(var(--cyan-light),.18);border-radius:999px;background:rgba(4,18,31,.68);color:rgba(220,240,248,.74);padding:7px 11px;font-size:11px}.cloud-auth-card{position:relative;z-index:1;border:1px solid rgba(var(--cyan-light),.16);border-radius:24px;background:rgba(1,8,18,.52);padding:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.055)}.cloud-auth-card h2{margin:0 0 6px;font-size:22px}.cloud-auth-card p{margin:0;color:rgba(200,220,232,.68);font-size:13px;line-height:1.65}.auth-form{margin-top:18px}.auth-form label{margin-top:12px}.auth-actions,.portal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.portal-actions{grid-template-columns:1fr;margin-top:18px}.portal-actions button{width:100%;text-align:left;padding:12px 15px}.cloud-account{margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:13px;color:rgba(230,246,252,.86);font-size:12px;line-height:1.7;overflow-wrap:anywhere}.cloud-account[hidden],#authPortal[hidden],#authForm[hidden]{display:none!important}.auth-status{min-height:20px;margin-top:14px;color:rgba(200,220,232,.72);font-size:12px;line-height:1.6}.auth-status.error{color:#ffb3b3}.auth-status.ok{color:rgba(130,232,184,.92)}.account-mini{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;padding:12px;background:rgba(255,255,255,.035);color:rgba(220,240,248,.82);font-size:12px}.account-mini b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cloud-lock{font-size:11px;color:rgba(200,220,232,.54);margin-top:12px}.cloud-session-bar{position:fixed;left:20px;top:18px;z-index:490;display:flex;gap:8px;padding:7px;border:1px solid rgba(var(--cyan-light),.16);border-radius:999px;background:rgba(1,8,18,.68);backdrop-filter:blur(14px);box-shadow:0 14px 50px rgba(0,0,0,.35)}.cloud-session-bar[hidden]{display:none!important}.cloud-session-bar button{padding:7px 11px;font-size:11px}@media(max-width:760px){.cloud-shell{padding:16px}.cloud-panel{grid-template-columns:1fr;padding:20px;border-radius:24px}.cloud-brand{min-height:auto;gap:22px}.cloud-auth-card{padding:18px}.auth-actions{grid-template-columns:1fr}.cloud-brand h1{font-size:44px}}
 @media(prefers-reduced-motion:reduce){.detail-panel.node-surface.show,.detail-panel.node-surface.surface-focus,.projector-ring,.projection-flow,.focus-projection-base,.surface-body,.focus-node-core,.focus-core-orbits span,.focus-satellite,.focus-field-pane,.focus-optical-field{animation:none!important}.surface-backdrop,.node-projection,.focus-field-pane,.focus-satellite,body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-focus-active .minimap,body.surface-focus-active .save-state,body.surface-focus-active .hud,.mini-node,.mini-view{transition:none!important}.projection-flow{stroke-dashoffset:0}.projector-ring{opacity:.86}.focus-satellite,.focus-field-pane,.focus-node-core{opacity:1!important;transform:none!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.spatial-nebula,.bright-star,.horizon-core,.orb,.minimap::before,.mini-node.mini-active{animation:none!important}.spatial-stars,.spatial-ground,.spatial-particles,.bright-stars,.spatial-nebula,.spatial-horizon{transform:none!important}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<div class="app">
+<section class="cloud-shell" id="cloudShell" data-auth-view="login" aria-live="polite">
+  <div class="cloud-panel">
+    <div class="cloud-brand">
+      <div>
+        <div class="cloud-kicker">Cloud Edition Phase 1</div>
+        <h1>Splay OS</h1>
+        <p>Spatial workspace portal</p>
+      </div>
+      <div class="cloud-phase" aria-label="Cloud phase">
+        <span class="cloud-chip">Portal</span>
+        <span class="cloud-chip">Auth</span>
+        <span class="cloud-chip">Session</span>
+        <span class="cloud-chip">Auth Gate</span>
+      </div>
+    </div>
+    <div class="cloud-auth-card">
+      <h2 id="cloudPanelTitle">Login</h2>
+      <p id="cloudPanelSub">Email + Password</p>
+      <form class="auth-form" id="authForm" autocomplete="on">
+        <label for="authEmail">Email</label>
+        <input id="authEmail" type="email" autocomplete="email" required>
+        <label for="authPassword">Password</label>
+        <input id="authPassword" type="password" autocomplete="current-password" required>
+        <div class="auth-actions">
+          <button type="submit" class="primary">Login</button>
+          <button type="button" id="authSignupButton">Create account</button>
+        </div>
+      </form>
+      <div id="authPortal" hidden>
+        <div class="account-mini"><span>Signed in</span><b id="accountEmail">Account</b></div>
+        <div class="portal-actions">
+          <button type="button" class="primary" id="portalOpenApp">Open Splay OS</button>
+          <button type="button" id="portalSnapshotExport">Snapshot Export</button>
+          <button type="button" id="portalAccount">Account</button>
+          <button type="button" class="danger" id="portalLogout">Logout</button>
+        </div>
+        <div class="cloud-account" id="accountPanel" hidden>
+          <div><b>Email</b></div>
+          <div id="accountEmailDetail"></div>
+          <div style="margin-top:10px"><b>User ID</b></div>
+          <div id="accountIdDetail"></div>
+        </div>
+      </div>
+      <div class="auth-status" id="authStatus">Restoring session...</div>
+    </div>
+  </div>
+</section>
+<div class="cloud-session-bar" id="cloudSessionBar" hidden><button type="button" id="cloudBackPortal">Portal</button><button type="button" class="danger" id="cloudInlineLogout">Logout</button></div>
+<div class="app" id="splayDesktopApp" hidden inert aria-hidden="true">
   <div class="spatial-environment" id="spatialEnvironment" aria-hidden="true">
     <canvas class="spatial-stars" id="spatialStars"></canvas>
     <div class="spatial-nebula"></div>
@@ -408,6 +459,172 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
 </div>
 <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
 <script>
+const SPLAY_SUPABASE_CONFIG={
+  url:'https://iwyukgxdtneqoatpaghe.supabase.co',
+  publishableKey:'sb_publishable_72N3IuPsn_YAQbYoAYoOBw_BIgrxN75'
+};
+let splayAuthClient=null;
+let splayAuthSession=null;
+let splayDesktopBooted=false;
+function cloudEl(id){return document.getElementById(id)}
+function isSplayAuthenticated(){return Boolean(splayAuthSession&&splayAuthSession.user)}
+function hasSupabaseConfig(){
+  const url=String(SPLAY_SUPABASE_CONFIG.url||'').trim();
+  const key=String(SPLAY_SUPABASE_CONFIG.publishableKey||'').trim();
+  return Boolean(url&&key&&!url.includes('YOUR_')&&!key.includes('YOUR_')&&!/service_role|secret/i.test(key));
+}
+function setAuthStatus(message,tone=''){
+  const el=cloudEl('authStatus');
+  if(!el)return;
+  el.textContent=message||'';
+  el.classList.toggle('error',tone==='error');
+  el.classList.toggle('ok',tone==='ok');
+}
+function setCloudAuthDisabled(disabled){
+  ['authEmail','authPassword','authSignupButton'].forEach(id=>{const el=cloudEl(id);if(el)el.disabled=disabled});
+  const submit=cloudEl('authForm')?.querySelector('button[type="submit"]');
+  if(submit)submit.disabled=disabled;
+}
+function clearAuthPassword(){const el=cloudEl('authPassword');if(el)el.value=''}
+function closeDesktopTransients(){
+  ['palette','splayMenu','workspaceMenu','createMenu','moveToMenu','shapeInspector','detailPanel','logDrawer','vaultPanel','wsSettingsPanel','confirmModal'].forEach(id=>{const el=cloudEl(id);if(el)el.classList.remove('show')});
+  if(typeof hideMenus==='function')hideMenus();
+  if(typeof setNodeSurfaceFocus==='function')setNodeSurfaceFocus(false,true);
+}
+function lockDesktopApp(){
+  const app=cloudEl('splayDesktopApp');
+  const bar=cloudEl('cloudSessionBar');
+  if(app){app.hidden=true;app.inert=true;app.setAttribute('aria-hidden','true')}
+  if(bar)bar.hidden=true;
+  closeDesktopTransients();
+}
+function showCloudPortal(){
+  const shell=cloudEl('cloudShell');
+  if(shell)shell.hidden=false;
+  lockDesktopApp();
+}
+function openSplayDesktop(){
+  if(!isSplayAuthenticated()){showCloudPortal();setAuthStatus('Login required.','error');return}
+  const shell=cloudEl('cloudShell');
+  const app=cloudEl('splayDesktopApp');
+  const bar=cloudEl('cloudSessionBar');
+  if(shell)shell.hidden=true;
+  if(app){app.hidden=false;app.inert=false;app.setAttribute('aria-hidden','false')}
+  if(bar)bar.hidden=false;
+  if(typeof bootSplayDesktop==='function')bootSplayDesktop();
+}
+function renderCloudAuth(){
+  const signedIn=isSplayAuthenticated();
+  const form=cloudEl('authForm');
+  const portal=cloudEl('authPortal');
+  const title=cloudEl('cloudPanelTitle');
+  const sub=cloudEl('cloudPanelSub');
+  if(form)form.hidden=signedIn;
+  if(portal)portal.hidden=!signedIn;
+  if(title)title.textContent=signedIn?'Portal':'Login';
+  if(sub)sub.textContent=signedIn?'Splay OS Cloud Edition':'Email + Password';
+  const email=splayAuthSession?.user?.email||'';
+  const uid=splayAuthSession?.user?.id||'';
+  const accountEmail=cloudEl('accountEmail');
+  const accountEmailDetail=cloudEl('accountEmailDetail');
+  const accountIdDetail=cloudEl('accountIdDetail');
+  if(accountEmail)accountEmail.textContent=email||'Account';
+  if(accountEmailDetail)accountEmailDetail.textContent=email||'';
+  if(accountIdDetail)accountIdDetail.textContent=uid||'';
+  if(!signedIn)lockDesktopApp();
+}
+function safeAuthMessage(error){return error&&error.message?String(error.message):'Authentication failed.'}
+function getSupabaseAuthClient(){
+  if(!hasSupabaseConfig())throw new Error('Supabase URL and publishable key are not configured.');
+  if(!window.supabase||typeof window.supabase.createClient!=='function')throw new Error('Supabase Auth SDK could not be loaded.');
+  if(!splayAuthClient){
+    splayAuthClient=window.supabase.createClient(SPLAY_SUPABASE_CONFIG.url,SPLAY_SUPABASE_CONFIG.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  }
+  return splayAuthClient;
+}
+function readAuthCredentials(){
+  const email=String(cloudEl('authEmail')?.value||'').trim();
+  const password=String(cloudEl('authPassword')?.value||'');
+  if(!email||!password)throw new Error('Email and password are required.');
+  return {email,password};
+}
+async function signInWithPassword(e){
+  e?.preventDefault();
+  try{
+    const client=getSupabaseAuthClient();
+    const {email,password}=readAuthCredentials();
+    setCloudAuthDisabled(true);setAuthStatus('Signing in...');
+    const {error}=await client.auth.signInWithPassword({email,password});
+    clearAuthPassword();
+    if(error)throw error;
+    setAuthStatus('Session ready.','ok');
+  }catch(error){clearAuthPassword();setAuthStatus(safeAuthMessage(error),'error')}
+  finally{setCloudAuthDisabled(false)}
+}
+async function createAccountWithPassword(){
+  try{
+    const client=getSupabaseAuthClient();
+    const {email,password}=readAuthCredentials();
+    setCloudAuthDisabled(true);setAuthStatus('Creating account...');
+    const {data,error}=await client.auth.signUp({email,password});
+    clearAuthPassword();
+    if(error)throw error;
+    if(data&&data.session){splayAuthSession=data.session;renderCloudAuth();setAuthStatus('Session ready.','ok')}
+    else setAuthStatus('Account created. Confirm the email if required.','ok');
+  }catch(error){clearAuthPassword();setAuthStatus(safeAuthMessage(error),'error')}
+  finally{setCloudAuthDisabled(false)}
+}
+async function logoutSplay(){
+  try{if(splayAuthClient)await splayAuthClient.auth.signOut()}catch(_error){}
+  splayAuthSession=null;
+  showCloudPortal();
+  renderCloudAuth();
+  setAuthStatus('Logged out.','ok');
+}
+function toggleAccountPanel(){const panel=cloudEl('accountPanel');if(panel)panel.hidden=!panel.hidden}
+function runPortalSnapshotExport(){
+  if(!isSplayAuthenticated()){setAuthStatus('Login required.','error');return}
+  openSplayDesktop();
+  setTimeout(()=>{
+    const workspaceId=state?.activeWorkspaceId||state?.workspaces?.[0]?.id;
+    if(typeof exportWorkspaceSnapshotHTML==='function')exportWorkspaceSnapshotHTML(workspaceId);
+    else if(typeof exportWorkspaceMobileHTML==='function')exportWorkspaceMobileHTML(workspaceId);
+  },0);
+}
+async function initCloudAuth(){
+  const form=cloudEl('authForm');
+  if(form&&!form.dataset.bound){form.dataset.bound='1';form.addEventListener('submit',signInWithPassword)}
+  cloudEl('authSignupButton')?.addEventListener('click',createAccountWithPassword);
+  cloudEl('portalOpenApp')?.addEventListener('click',openSplayDesktop);
+  cloudEl('portalSnapshotExport')?.addEventListener('click',runPortalSnapshotExport);
+  cloudEl('portalAccount')?.addEventListener('click',toggleAccountPanel);
+  cloudEl('portalLogout')?.addEventListener('click',logoutSplay);
+  cloudEl('cloudBackPortal')?.addEventListener('click',showCloudPortal);
+  cloudEl('cloudInlineLogout')?.addEventListener('click',logoutSplay);
+  renderCloudAuth();
+  if(!hasSupabaseConfig()){
+    setCloudAuthDisabled(true);
+    setAuthStatus('Supabase URL and publishable key are not configured.','error');
+    return;
+  }
+  try{
+    const client=getSupabaseAuthClient();
+    const {data,error}=await client.auth.getSession();
+    if(error)throw error;
+    splayAuthSession=data?.session||null;
+    renderCloudAuth();
+    setAuthStatus(splayAuthSession?'Session restored.':'','ok');
+    client.auth.onAuthStateChange((_event,session)=>{
+      splayAuthSession=session||null;
+      if(!splayAuthSession)showCloudPortal();
+      renderCloudAuth();
+    });
+  }catch(error){
+    splayAuthSession=null;
+    renderCloudAuth();
+    setAuthStatus(safeAuthMessage(error),'error');
+  }
+}
 const STORAGE_KEY='splay_os_state_v5_preview_spatial';
 const SOURCE_STORAGE_KEY='splay_os_state_v5';
 const LEGACY_KEYS=['splay_os_state_v4','splay_os_state_v3','splay_os_state_v2','splay_os_state_v1'];
@@ -955,7 +1172,7 @@ function renderSplayMenu(){const items=[['🏠 Home',()=>closeWorkspace()],['＋
 function renderWorkspaceMenu(){
   const items=state.workspaces.map(ws=>[(ws.icon||'🪐')+' '+ws.name,()=>openWorkspace(ws.id)]);
   items.push(['＋ New Workspace',()=>addWorkspace()]);
-  items.push(['📱 Mobile View HTML',()=>exportWorkspaceMobileHTML(state.activeWorkspaceId||state.workspaces[0]?.id)]);
+  items.push(['Snapshot Export',()=>exportWorkspaceSnapshotHTML(state.activeWorkspaceId||state.workspaces[0]?.id)]);
   items.push(['📝 Workspace Settings',()=>openWorkspaceSettings(state.activeWorkspaceId||state.workspaces[0]?.id)]);
   items.push(['🗑 Delete Workspace',()=>deleteWorkspace(state.activeWorkspaceId||state.workspaces[0]?.id),'orb-item-danger']);
   items.push(['✕ Close Workspace',()=>closeWorkspace()]);
@@ -1542,7 +1759,7 @@ function downloadTextFile(content,filename,mimeType){
 }
 function buildWorkspaceMobileDocument(viewModel){
   const dataJson=safeJsonForHtml(viewModel);
-  const title=esc((viewModel.workspace?.name||'Workspace')+' Mobile View');
+  const title=esc((viewModel.workspace?.name||'Workspace')+' Snapshot Export');
   return `<!doctype html>
 <html lang="ja">
 <head>
@@ -1554,7 +1771,7 @@ function buildWorkspaceMobileDocument(viewModel){
 </style>
 </head>
 <body>
-<div class="app"><header class="hero"><div class="hero-main"><div class="icon" id="wsIcon"></div><div><h1 id="wsName"></h1><p class="desc" id="wsDesc"></p><div class="meta" id="heroMeta"></div></div></div></header><section class="summary" id="summary"></section><section class="controls"><label><span style="position:absolute;left:-9999px">Search</span><input class="search" id="search" type="search" autocomplete="off" placeholder="Search nodes"></label><div class="filter" id="typeFilters" aria-label="Type filter"></div><div class="filter status-filter" id="statusFilters" aria-label="Status filter"></div></section><main><div class="cards" id="cards"></div><div class="empty" id="empty">No nodes match the current filters.</div></main><footer class="footer">Static mobile snapshot generated by Splay OS.</footer></div>
+<div class="app"><header class="hero"><div class="hero-main"><div class="icon" id="wsIcon"></div><div><h1 id="wsName"></h1><p class="desc" id="wsDesc"></p><div class="meta" id="heroMeta"></div></div></div></header><section class="summary" id="summary"></section><section class="controls"><label><span style="position:absolute;left:-9999px">Search</span><input class="search" id="search" type="search" autocomplete="off" placeholder="Search nodes"></label><div class="filter" id="typeFilters" aria-label="Type filter"></div><div class="filter status-filter" id="statusFilters" aria-label="Status filter"></div></section><main><div class="cards" id="cards"></div><div class="empty" id="empty">No nodes match the current filters.</div></main><footer class="footer">Snapshot Export generated by Splay OS.</footer></div>
 <script id="splayMobileData" type="application/json">${dataJson}<\/script>
 <script>
 (function(){
@@ -1596,10 +1813,10 @@ function buildWorkspaceMobileDocument(viewModel){
     renderSummary();
     renderAll();
   }catch(error){
-    console.error('Splay OS mobile view initialization failed',error);
+    console.error('Splay OS snapshot export initialization failed',error);
     const empty=document.getElementById('empty');
     if(empty){
-      empty.textContent='Mobile Viewの表示に失敗しました。Consoleを確認してください。';
+      empty.textContent='Snapshot Exportの表示に失敗しました。Consoleを確認してください。';
       empty.classList.add('show');
     }
   }
@@ -1613,13 +1830,14 @@ function exportWorkspaceMobileHTML(workspaceId){
     const viewModel=buildWorkspaceMobileViewModel(workspaceId||state.activeWorkspaceId);
     const html=buildWorkspaceMobileDocument(viewModel);
     const slug=sanitizeDownloadSlug(viewModel.workspace.name,viewModel.workspace.id);
-    downloadTextFile(html,'splay_workspace_'+slug+'_mobile.html','text/html;charset=utf-8');
-    log('Mobile HTML Export: '+viewModel.workspace.name);
+    downloadTextFile(html,'splay_workspace_'+slug+'_snapshot_export.html','text/html;charset=utf-8');
+    log('Snapshot Export: '+viewModel.workspace.name);
   }catch(error){
-    console.error('Splay OS mobile HTML export failed',error);
-    alert('Mobile HTML export failed. Current Splay OS data was not changed.');
+    console.error('Splay OS snapshot export failed',error);
+    alert('Snapshot Export failed. Current Splay OS data was not changed.');
   }
 }
+function exportWorkspaceSnapshotHTML(workspaceId){return exportWorkspaceMobileHTML(workspaceId)}
 function importJSON(e){
   const input=e.target;
   const f=input.files?.[0];
@@ -1656,6 +1874,7 @@ function importJSON(e){
 }
 function resetAll(){if(confirm('初期状態に戻しますか？')){state=defaultState();if(Array.isArray(state.nodes))state.nodes.forEach(n=>{ensureNodeShape(n);ensureNodePresentation(n)});save();render()}}
 window.addEventListener('keydown',e=>{
+  if(!isSplayAuthenticated())return;
   const tag=(document.activeElement?.tagName||'').toLowerCase();
   const typing=['input','textarea','select'].includes(tag);
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();togglePalette();return}
@@ -1859,9 +2078,18 @@ function drawSpatialGround(){const svg=document.getElementById('spatialGround');
 function drawSpatialParticles(){const canvas=document.getElementById('spatialParticles');if(!canvas)return;const w=innerWidth,h=innerHeight,ctx=fitSpatialCanvas(canvas,w,h),rnd=spatialSeeded(41733),hy=h*.435;ctx.clearRect(0,0,w,h);ctx.globalCompositeOperation='lighter';for(let i=0;i<150;i++){const t=Math.pow(rnd(),.55);const y=hy+(h-hy)*t;const spread=w*(.05+.72*t);const x=w*.5+(rnd()-.5)*spread*2;if(x<0||x>w)continue;const a=.12+rnd()*.42;const r=.45+rnd()*1.4;ctx.fillStyle=`rgba(100,235,255,${a})`;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()}for(let i=0;i<7;i++){const t=.25+rnd()*.65;const x=w*.5+(rnd()-.5)*w*.78*t,y=hy+(h-hy)*t;const g=ctx.createRadialGradient(x,y,0,x,y,22+rnd()*30);g.addColorStop(0,'rgba(210,255,255,.42)');g.addColorStop(.2,'rgba(100,235,255,.18)');g.addColorStop(1,'rgba(100,235,255,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,48,0,Math.PI*2);ctx.fill()}ctx.globalCompositeOperation='source-over'}
 function initSpatialEnvironment(){drawSpatialStars();drawSpatialGround();drawSpatialParticles();applySpatialParallax()}
 function applySpatialParallax(){if(!state||!state.view)return;const clamp=(v,m)=>Math.max(-m,Math.min(m,v));document.documentElement.style.setProperty('--spx',clamp(state.view.x,900)+'px');document.documentElement.style.setProperty('--spy',clamp(state.view.y,700)+'px');document.documentElement.style.setProperty('--sps',state.view.scale||1)}
-makeOrbDraggable(document.getElementById('splayOrb'),toggleSplayMenu);makeOrbDraggable(document.getElementById('workspaceOrb'),()=>toggleWorkspaceMenu());initFloatingControls();
-window.addEventListener('resize',()=>{initSpatialEnvironment();renderMenus();renderMinimap();positionOrbs();ensureDetailPanelInViewport();updateNodeProjection();if(shapeInspectorNodeId)positionShapeInspector(shapeInspectorNodeId)});
-initSpatialEnvironment();render();save();
+function bootSplayDesktop(){
+  if(splayDesktopBooted||!isSplayAuthenticated())return;
+  splayDesktopBooted=true;
+  makeOrbDraggable(document.getElementById('splayOrb'),toggleSplayMenu);
+  makeOrbDraggable(document.getElementById('workspaceOrb'),()=>toggleWorkspaceMenu());
+  initFloatingControls();
+  initSpatialEnvironment();
+  render();
+  save();
+}
+window.addEventListener('resize',()=>{if(!splayDesktopBooted||!isSplayAuthenticated())return;initSpatialEnvironment();renderMenus();renderMinimap();positionOrbs();ensureDetailPanelInViewport();updateNodeProjection();if(shapeInspectorNodeId)positionShapeInspector(shapeInspectorNodeId)});
+initCloudAuth();
 </script>
 </body>
 </html>
