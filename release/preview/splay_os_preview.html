@@ -515,7 +515,8 @@ function setCloudAuthDisabled(disabled){
 }
 function clearAuthPassword(){const el=cloudEl('authPassword');if(el)el.value=''}
 function cloudUserId(){return splayAuthSession?.user?.id||''}
-function currentCloudCacheKey(){const id=cloudUserId();return id?CLOUD_CACHE_KEY_PREFIX+id:null}
+function getCloudCacheKey(userId){return userId?CLOUD_CACHE_KEY_PREFIX+userId:null}
+function currentCloudCacheKey(){return getCloudCacheKey(cloudUserId())}
 function formatCloudDate(value){if(!value)return '';const d=new Date(value);return Number.isNaN(d.getTime())?'':d.toLocaleString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
 function createPersistableStateSnapshot(sourceState=state){
   const snapshot={...sourceState};
@@ -530,8 +531,21 @@ function countStateSummary(sourceState){
   return {workspaces:Array.isArray(snapshot.workspaces)?snapshot.workspaces.length:0,nodes:nodes.length,groups:groups.length,connections};
 }
 function summaryLines(summary){return ['Workspace: '+summary.workspaces,'Node: '+summary.nodes,'Group: '+summary.groups,'Connection: '+summary.connections].join('\n')}
+function cacheStateJson(parsed){
+  if(parsed&&typeof parsed==='object'&&!Array.isArray(parsed)&&parsed.state_json&&typeof parsed.state_json==='object')return parsed.state_json;
+  return parsed;
+}
+function createCloudCacheEnvelope(snapshot,options={}){
+  return {
+    state_json:snapshot,
+    revision:Object.prototype.hasOwnProperty.call(options,'revision')?options.revision:cloudRevision,
+    cached_at:new Date().toISOString(),
+    dirty:Object.prototype.hasOwnProperty.call(options,'dirty')?Boolean(options.dirty):Boolean(cloudDirty)
+  };
+}
 function prepareCloudState(rawState){
-  const cloned=JSON.parse(JSON.stringify(rawState));
+  const source=cacheStateJson(rawState);
+  const cloned=JSON.parse(JSON.stringify(source));
   return prepareImportedState(cloned);
 }
 function finalizeRuntimeState(nextState){
@@ -548,8 +562,9 @@ function readStateCandidateFromStorage(key){
   try{
     const raw=localStorage.getItem(key);
     if(!raw)return null;
-    const candidate=prepareCloudState(JSON.parse(raw));
-    return {key,state:candidate,summary:countStateSummary(candidate)};
+    const parsed=JSON.parse(raw);
+    const candidate=prepareCloudState(parsed);
+    return {key,state:candidate,summary:countStateSummary(candidate),cache:parsed};
   }catch(_error){return null}
 }
 function getLocalMigrationCandidate(){
@@ -563,10 +578,23 @@ function getLocalMigrationCandidate(){
   }
   return null;
 }
-function writeLocalStateCache(snapshot=createPersistableStateSnapshot()){
-  const key=currentCloudCacheKey()||STORAGE_KEY;
-  try{localStorage.setItem(key,JSON.stringify(snapshot));return key}
-  catch(error){console.error('Splay OS local cache write failed',error);return null}
+function writeLocalStateCache(snapshot=createPersistableStateSnapshot(),options={}){
+  const userId=options.userId||cloudUserId();
+  const key=options.key||(userId?getCloudCacheKey(userId):STORAGE_KEY);
+  const payload=userId?createCloudCacheEnvelope(snapshot,options):snapshot;
+  try{
+    localStorage.setItem(key,JSON.stringify(payload));
+    return {ok:true,key,payload};
+  }catch(error){
+    console.error('Splay OS local cache write failed',{key},error);
+    return {ok:false,key,error};
+  }
+}
+function persistCurrentStateToUserCache(options={}){
+  const userId=cloudUserId();
+  if(!userId)return false;
+  const snapshot=createPersistableStateSnapshot(state);
+  return writeLocalStateCache(snapshot,{...options,userId}).ok;
 }
 function setCloudStateStatus(status,message){
   cloudStateStatus=status;
@@ -579,9 +607,9 @@ function messageForCloudStatus(status){
   if(status==='cloud-saving')return 'Cloud: Saving...';
   if(status==='cloud-saved')return 'Cloud: Saved';
   if(status==='cloud-empty')return 'Cloud data not created';
-  if(status==='cloud-conflict')return 'Cloud conflict. Reload Cloud State.';
+  if(status==='cloud-conflict')return 'Cloud conflict detected. Reload required.';
   if(status==='local-fallback')return 'Local fallback. Cloud unavailable.';
-  if(status==='cloud-error')return 'Cloud error. Local cache preserved.';
+  if(status==='cloud-error')return 'Cloud save failed. Local cache preserved.';
   return 'Cloud: checking...';
 }
 function renderCloudStorageStatus(){
@@ -607,7 +635,7 @@ function renderCloudStorageStatus(){
   if(saveState){
     if(cloudStateStatus==='cloud-saved')saveState.textContent='cloud saved · '+nowStr();
     else if(cloudStateStatus==='cloud-saving')saveState.textContent='cloud saving... local cache preserved';
-    else if(cloudStateStatus==='cloud-conflict')saveState.textContent='Cloud conflict · reload required';
+    else if(cloudStateStatus==='cloud-conflict')saveState.textContent='Cloud conflict detected. Reload required.';
     else if(cloudStateStatus==='local-fallback')saveState.textContent='local fallback · cloud unavailable';
     else if(cloudDirty)saveState.textContent='local saved · cloud pending';
     else saveState.textContent=cloudStateMessage||'preview localStorage · autosaved';
@@ -638,7 +666,7 @@ async function loadCloudState(options={}){
     applyRuntimeState(candidate,options.renderNow===true);
     cloudApplyingRemoteState=false;
     cloudRowExists=true;cloudRevision=Number(data.revision||1);cloudUpdatedAt=data.updated_at||null;cloudDirty=false;
-    writeLocalStateCache(createPersistableStateSnapshot(state));
+    persistCurrentStateToUserCache({dirty:false});
     setCloudStateStatus('cloud-ready','Cloud: Connected');
     return true;
   }catch(error){
@@ -672,7 +700,7 @@ async function createCloudStateFromSnapshot(snapshot){
   const candidate=prepareCloudState(data.state_json||snapshot);
   applyRuntimeState(candidate,false);
   cloudInitializedForUser=userId;cloudRowExists=true;cloudRevision=Number(data.revision||1);cloudUpdatedAt=data.updated_at||null;cloudDirty=false;cloudConflict=false;
-  writeLocalStateCache(createPersistableStateSnapshot(state));
+  persistCurrentStateToUserCache({dirty:false});
   setCloudStateStatus('cloud-saved','Cloud State created');
   return true;
 }
@@ -705,7 +733,7 @@ function scheduleCloudSave(){
 async function saveCloudState(options={}){
   if(!isSplayAuthenticated())return false;
   if(!cloudRowExists){setCloudStateStatus('cloud-empty','Cloud data not created');return false}
-  if(cloudConflict&&!options.force){setCloudStateStatus('cloud-conflict','Cloud data changed elsewhere. Reload Cloud State.');return false}
+  if(cloudConflict&&!options.force){setCloudStateStatus('cloud-conflict','Cloud conflict detected. Reload required.');return false}
   if(cloudSaveInFlight){cloudSavePending=true;return false}
   cloudSaveInFlight=true;
   clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
@@ -716,27 +744,34 @@ async function saveCloudState(options={}){
       const currentRevision=Number(cloudRevision||1);
       const nextRevision=currentRevision+1;
       const updatedAt=new Date().toISOString();
+      const preflightCache=writeLocalStateCache(snapshot,{dirty:true,revision:currentRevision});
+      if(!preflightCache.ok)console.error('Splay OS local cache preservation failed',preflightCache.error);
       setCloudStateStatus('cloud-saving','Cloud: Saving...');
       const {data,error}=await getSupabaseAuthClient().from('splay_states').update({state_json:snapshot,revision:nextRevision,updated_at:updatedAt,source_version:snapshot.version||''}).eq('user_id',cloudUserId()).eq('revision',currentRevision).select('revision,updated_at').maybeSingle();
       if(error)throw error;
       if(!data){
         cloudConflict=true;cloudDirty=true;cloudSavePending=false;
-        setCloudStateStatus('cloud-conflict','Cloud data changed elsewhere. Reload Cloud State.');
+        const conflictCache=writeLocalStateCache(createPersistableStateSnapshot(state),{dirty:true,revision:currentRevision});
+        if(!conflictCache.ok)console.error('Splay OS local cache preservation failed',conflictCache.error);
+        setCloudStateStatus('cloud-conflict','Cloud conflict detected. Reload required.');
         return false;
       }
       cloudRevision=Number(data.revision||nextRevision);cloudUpdatedAt=data.updated_at||updatedAt;cloudDirty=false;cloudConflict=false;
-      writeLocalStateCache(snapshot);
+      writeLocalStateCache(snapshot,{dirty:false,revision:cloudRevision});
       setCloudStateStatus('cloud-saved','Cloud: Saved');
     }while(cloudSavePending);
     return true;
   }catch(error){
-    cloudDirty=true;
     console.error('Splay OS cloud save failed',error);
-    setCloudStateStatus('cloud-error','Cloud save failed. Local cache preserved.');
+    cloudDirty=true;
+    let cachePreserved=false;
+    try{cachePreserved=persistCurrentStateToUserCache({dirty:true,revision:cloudRevision})}
+    catch(cacheError){console.error('Splay OS local cache preservation failed',cacheError)}
+    if(cachePreserved)setCloudStateStatus('cloud-error','Cloud save failed. Local cache preserved.');
+    else setCloudStateStatus('cloud-error','Cloud save failed. Local cache update failed.');
     return false;
   }finally{cloudSaveInFlight=false}
-}
-async function manualCloudSave(){
+}async function manualCloudSave(){
   const ready=await ensureCloudStateLoaded();
   if(!ready){setCloudStateStatus('cloud-empty','Cloud data not created');return false}
   return saveCloudState({manual:true});
@@ -848,7 +883,7 @@ async function createAccountWithPassword(){
 async function logoutSplay(){
   if(cloudDirty&&cloudRowExists){
     const saved=await saveCloudState({manual:true,beforeLogout:true});
-    if(!saved&&!confirm('Cloud save failed. Local cache is preserved. Logout anyway?'))return;
+    if(!saved){const preserved=cloudStateMessage==='Cloud save failed. Local cache preserved.';if(!confirm(preserved?'Cloud save failed. Local cache is preserved. Logout anyway?':'Cloud save failed. Local cache could not be updated. Logout anyway?'))return;}
   }
   clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
   try{if(splayAuthClient)await splayAuthClient.auth.signOut()}catch(_error){}
@@ -1030,11 +1065,13 @@ state.selectedNodeIds=new Set(); /* v0.6.4: runtime-only, not persisted */
 function save(flash=false,options={}){
   if(flash&&typeof flash==='object'){options=flash;flash=false}
   const snapshot=createPersistableStateSnapshot(state);
-  writeLocalStateCache(snapshot);
+  const willDirty=options.markDirty!==false&&isSplayAuthenticated()&&cloudRowExists&&!cloudApplyingRemoteState&&!cloudConflict;
+  const cacheResult=writeLocalStateCache(snapshot,{dirty:willDirty||cloudDirty,revision:cloudRevision});
+  if(!cacheResult.ok)console.error('Splay OS local cache preservation failed',cacheResult.error);
   if(options.markDirty!==false)markCloudDirty(options);
   if(flash){
     const el=document.getElementById('saveState');
-    if(el){el.textContent='local saved · '+nowStr();setTimeout(()=>renderCloudStorageStatus(),1300)}
+    if(el){el.textContent=cacheResult.ok?'local saved · '+nowStr():'local cache update failed';setTimeout(()=>renderCloudStorageStatus(),1300)}
   }else renderCloudStorageStatus();
 }
 function log(text){state.logs.unshift({id:uid('log'),time:nowStr(),text}); if(state.logs.length>300)state.logs.pop(); save(); renderLog()}
