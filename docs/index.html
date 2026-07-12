@@ -405,6 +405,8 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
           <button type="button" class="primary" id="portalOpenApp">Open Splay OS</button>
           <button type="button" id="portalCloudSave">Save to Cloud</button>
           <button type="button" id="portalCloudReload">Reload from Cloud</button>
+          <button type="button" id="portalReloadRemote">Reload Remote</button>
+          <button type="button" id="portalKeepLocal">Keep Local</button>
           <button type="button" id="portalSnapshotExport">Snapshot Export</button>
           <button type="button" id="portalAccount">Account</button>
           <button type="button" class="danger" id="portalLogout">Logout</button>
@@ -429,7 +431,7 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
     </div>
   </div>
 </section>
-<div class="cloud-session-bar" id="cloudSessionBar" hidden><button type="button" id="cloudBackPortal">Portal</button><button type="button" id="cloudInlineSave">Save</button><button type="button" id="cloudInlineReload">Reload</button><button type="button" class="danger" id="cloudInlineLogout">Logout</button></div>
+<div class="cloud-session-bar" id="cloudSessionBar" hidden><button type="button" id="cloudBackPortal">Portal</button><button type="button" id="cloudInlineSave">Save</button><button type="button" id="cloudInlineReload">Reload</button><button type="button" id="cloudInlineRemote">Remote</button><button type="button" id="cloudInlineKeepLocal">Keep</button><button type="button" class="danger" id="cloudInlineLogout">Logout</button></div>
 <div class="app" id="splayDesktopApp" hidden inert aria-hidden="true">
   <div class="spatial-environment" id="spatialEnvironment" aria-hidden="true">
     <canvas class="spatial-stars" id="spatialStars"></canvas>
@@ -494,6 +496,16 @@ let cloudLoadPromise=null;
 let cloudInitializedForUser=null;
 let cloudApplyingRemoteState=false;
 let cloudConflict=false;
+let splayRealtimeChannel=null;
+let splayRealtimeUserId=null;
+let realtimeStatus='disconnected';
+let realtimeWasDisconnected=false;
+let pendingRemoteState=null;
+let pendingRemoteRevision=null;
+let pendingRemoteUpdatedAt=null;
+let pendingRemoteSource='';
+let localEditActive=false;
+let importInProgress=false;
 function cloudEl(id){return document.getElementById(id)}
 function isSplayAuthenticated(){return Boolean(splayAuthSession&&splayAuthSession.user)}
 function hasSupabaseConfig(){
@@ -618,8 +630,10 @@ function renderCloudStorageStatus(){
   const migrationSummary=cloudEl('cloudMigrationSummary');
   if(panel){
     const lines=[cloudStateMessage];
+    lines.push(realtimeStatusText());
     if(cloudRevision!=null)lines.push('Revision: '+cloudRevision);
     if(cloudUpdatedAt)lines.push('Last saved: '+formatCloudDate(cloudUpdatedAt));
+    if(pendingRemoteRevision)lines.push('Cloud update pending: revision '+pendingRemoteRevision);
     if(cloudDirty)lines.push('Local changes pending');
     panel.textContent=lines.join('\n');
   }
@@ -633,7 +647,8 @@ function renderCloudStorageStatus(){
   }
   const saveState=cloudEl('saveState');
   if(saveState){
-    if(cloudStateStatus==='cloud-saved')saveState.textContent='cloud saved · '+nowStr();
+    if(pendingRemoteRevision)saveState.textContent='Cloud update pending · Reload Remote';
+    else if(cloudStateStatus==='cloud-saved')saveState.textContent='cloud saved · '+nowStr();
     else if(cloudStateStatus==='cloud-saving')saveState.textContent='cloud saving... local cache preserved';
     else if(cloudStateStatus==='cloud-conflict')saveState.textContent='Cloud conflict detected. Reload required.';
     else if(cloudStateStatus==='local-fallback')saveState.textContent='local fallback · cloud unavailable';
@@ -643,7 +658,7 @@ function renderCloudStorageStatus(){
 }
 function resetCloudRuntimeState(){
   clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
-  cloudRevision=null;cloudUpdatedAt=null;cloudRowExists=false;cloudDirty=false;cloudSaveInFlight=false;cloudSavePending=false;cloudLoadPromise=null;cloudInitializedForUser=null;cloudApplyingRemoteState=false;cloudConflict=false;
+  cloudRevision=null;cloudUpdatedAt=null;cloudRowExists=false;cloudDirty=false;cloudSaveInFlight=false;cloudSavePending=false;cloudLoadPromise=null;cloudInitializedForUser=null;cloudApplyingRemoteState=false;cloudConflict=false;clearPendingRemoteState();realtimeStatus='disconnected';
   setCloudStateStatus('cloud-loading','Cloud: checking...');
 }
 async function loadCloudState(options={}){
@@ -659,6 +674,7 @@ async function loadCloudState(options={}){
     if(!data){
       cloudRowExists=false;cloudRevision=null;cloudUpdatedAt=null;cloudDirty=false;
       setCloudStateStatus('cloud-empty','Cloud data not created');
+      await stopSplayRealtimeSubscription();
       return false;
     }
     const candidate=prepareCloudState(data.state_json);
@@ -668,6 +684,7 @@ async function loadCloudState(options={}){
     cloudRowExists=true;cloudRevision=Number(data.revision||1);cloudUpdatedAt=data.updated_at||null;cloudDirty=false;
     persistCurrentStateToUserCache({dirty:false});
     setCloudStateStatus('cloud-ready','Cloud: Connected');
+    await startSplayRealtimeSubscription();
     return true;
   }catch(error){
     cloudApplyingRemoteState=false;
@@ -677,6 +694,7 @@ async function loadCloudState(options={}){
     else applyRuntimeState(defaultState(),options.renderNow===true);
     cloudRowExists=false;cloudRevision=null;cloudUpdatedAt=null;cloudDirty=false;
     setCloudStateStatus('local-fallback','Local fallback. Cloud unavailable.');
+    await stopSplayRealtimeSubscription();
     return true;
   }
 }
@@ -688,7 +706,7 @@ async function ensureCloudStateLoaded(options={}){
   cloudLoadPromise=loadCloudState(options).finally(()=>{cloudLoadPromise=null});
   return cloudLoadPromise;
 }
-async function initializeCloudForSession(options={}){await ensureCloudStateLoaded({force:options.force===true})}
+async function initializeCloudForSession(options={}){const ready=await ensureCloudStateLoaded({force:options.force===true});if(ready&&cloudRowExists)await startSplayRealtimeSubscription();else await stopSplayRealtimeSubscription();return ready}
 async function createCloudStateFromSnapshot(snapshot){
   if(!isSplayAuthenticated())return false;
   const userId=cloudUserId();
@@ -702,6 +720,7 @@ async function createCloudStateFromSnapshot(snapshot){
   cloudInitializedForUser=userId;cloudRowExists=true;cloudRevision=Number(data.revision||1);cloudUpdatedAt=data.updated_at||null;cloudDirty=false;cloudConflict=false;
   persistCurrentStateToUserCache({dirty:false});
   setCloudStateStatus('cloud-saved','Cloud State created');
+  await startSplayRealtimeSubscription();
   return true;
 }
 async function uploadLocalDataToCloud(){
@@ -721,18 +740,24 @@ async function startNewCloudState(){
 function markCloudDirty(options={}){
   if(cloudApplyingRemoteState||!isSplayAuthenticated())return;
   if(!cloudRowExists){renderCloudStorageStatus();return}
-  if(cloudConflict)return;
+  if(pendingRemoteState){
+    cloudDirty=true;cloudConflict=true;clearTimeout(cloudSaveTimer);cloudSaveTimer=null;cloudSavePending=false;
+    setCloudStateStatus('cloud-conflict','Cloud update pending. Reload Remote or Keep Local.');
+    return;
+  }
+  if(cloudConflict){cloudDirty=true;renderCloudStorageStatus();return}
   cloudDirty=true;renderCloudStorageStatus();
   if(options.scheduleCloud!==false)scheduleCloudSave();
 }
 function scheduleCloudSave(){
-  if(!isSplayAuthenticated()||!cloudRowExists||cloudConflict)return;
+  if(!isSplayAuthenticated()||!cloudRowExists||cloudConflict||pendingRemoteState)return;
   clearTimeout(cloudSaveTimer);
   cloudSaveTimer=setTimeout(()=>{saveCloudState({debounced:true})},CLOUD_SAVE_DEBOUNCE_MS);
 }
 async function saveCloudState(options={}){
   if(!isSplayAuthenticated())return false;
   if(!cloudRowExists){setCloudStateStatus('cloud-empty','Cloud data not created');return false}
+  if(pendingRemoteState&&!options.force){setCloudStateStatus('cloud-conflict','Cloud update pending. Reload Remote or Keep Local.');return false}
   if(cloudConflict&&!options.force){setCloudStateStatus('cloud-conflict','Cloud conflict detected. Reload required.');return false}
   if(cloudSaveInFlight){cloudSavePending=true;return false}
   cloudSaveInFlight=true;
@@ -771,12 +796,183 @@ async function saveCloudState(options={}){
     else setCloudStateStatus('cloud-error','Cloud save failed. Local cache update failed.');
     return false;
   }finally{cloudSaveInFlight=false}
-}async function manualCloudSave(){
+}
+function realtimeStatusText(){
+  if(realtimeStatus==='connected')return 'Realtime connected';
+  if(realtimeStatus==='connecting')return 'Realtime connecting';
+  if(realtimeStatus==='reconnecting')return 'Realtime reconnecting';
+  if(realtimeStatus==='error')return 'Realtime error';
+  return 'Realtime disconnected';
+}
+function setRealtimeStatus(status){
+  realtimeStatus=status;
+  if(['disconnected','reconnecting','error'].includes(status))realtimeWasDisconnected=true;
+  renderCloudStorageStatus();
+}
+async function stopSplayRealtimeSubscription(){
+  const channel=splayRealtimeChannel;
+  const client=splayAuthClient;
+  splayRealtimeChannel=null;
+  splayRealtimeUserId=null;
+  if(channel&&client&&typeof client.removeChannel==='function'){
+    try{await client.removeChannel(channel)}catch(error){console.error('Splay OS realtime unsubscribe failed',error)}
+  }
+  setRealtimeStatus('disconnected');
+}
+async function startSplayRealtimeSubscription(){
+  if(!isSplayAuthenticated()||!cloudRowExists)return false;
+  const userId=cloudUserId();
+  if(splayRealtimeChannel&&splayRealtimeUserId===userId)return true;
+  await stopSplayRealtimeSubscription();
+  const client=getSupabaseAuthClient();
+  const channelName='splay-state-'+userId;
+  const channel=client.channel(channelName);
+  splayRealtimeChannel=channel;
+  splayRealtimeUserId=userId;
+  setRealtimeStatus('connecting');
+  channel.on('postgres_changes',{event:'UPDATE',schema:'public',table:'splay_states',filter:'user_id=eq.'+userId},handleRealtimeStateUpdate).subscribe(handleRealtimeChannelStatus);
+  return true;
+}
+function handleRealtimeChannelStatus(status){
+  if(status==='SUBSCRIBED'){
+    const shouldCheck=realtimeWasDisconnected;
+    realtimeWasDisconnected=false;
+    setRealtimeStatus('connected');
+    if(shouldCheck)checkCloudRevisionAfterReconnect();
+    return;
+  }
+  if(status==='TIMED_OUT'){setRealtimeStatus('reconnecting');return}
+  if(status==='CLOSED'){setRealtimeStatus('disconnected');return}
+  if(status==='CHANNEL_ERROR'){setRealtimeStatus('error');return}
+}
+function handleRealtimeStateUpdate(payload){
+  const row=payload?.new;
+  if(!row||row.user_id!==cloudUserId())return;
+  const remoteRevision=Number(row.revision||0);
+  if(!remoteRevision||remoteRevision<=Number(cloudRevision||0))return;
+  handleRemoteCloudRow(row,{source:'realtime'});
+}
+function prepareRemoteStateCandidate(row){
+  if(!row||!row.state_json)throw new Error('Realtime payload missing state_json');
+  const revision=Number(row.revision||0);
+  if(!revision)throw new Error('Realtime payload missing revision');
+  return {candidate:prepareCloudState(row.state_json),revision,updatedAt:row.updated_at||null};
+}
+function desktopEditElementActive(){
+  const active=document.activeElement;
+  return Boolean(active&&active.matches&&active.closest('#splayDesktopApp')&&active.matches('input,textarea,select,[contenteditable="true"]'));
+}
+function canAutoApplyRemoteState(){
+  const selectionRect=cloudEl('selectionRect');
+  const rangeSelecting=Boolean(selectionRect&&selectionRect.style.display==='block');
+  const confirmOpen=Boolean(cloudEl('confirmModal')?.classList.contains('show'));
+  return !cloudDirty&&!cloudSaveInFlight&&!importInProgress&&!localEditActive&&!desktopEditElementActive()&&!drag&&!resizeNode&&!connDrag&&!ctrlCreate&&!pan&&!dragOrb&&!dragFloat&&!resizeFloat&&!rangeSelecting&&!confirmOpen;
+}
+function preserveRemoteWorkspace(candidate){
+  const previousWorkspace=state?.activeWorkspaceId;
+  const workspaceIds=new Set((candidate.workspaces||[]).map(ws=>ws.id));
+  if(previousWorkspace&&workspaceIds.has(previousWorkspace))candidate.activeWorkspaceId=previousWorkspace;
+  if(!workspaceIds.has(candidate.activeWorkspaceId))candidate.activeWorkspaceId=candidate.workspaces?.[0]?.id||null;
+  const nodeIds=new Set((candidate.nodes||[]).map(n=>n.id));
+  if(candidate.activeNodeId&&!nodeIds.has(candidate.activeNodeId))candidate.activeNodeId=null;
+  if(candidate.mode==='workspace'&&!candidate.activeWorkspaceId)candidate.mode='home';
+  return candidate;
+}
+function clearRealtimeInteractionState(){
+  try{if(connDrag?.previewPath)connDrag.previewPath.remove()}catch(_error){}
+  try{if(ctrlCreate?.ghost)ctrlCreate.ghost.remove()}catch(_error){}
+  pan=null;drag=null;resizeNode=null;dragOrb=null;dragFloat=null;resizeFloat=null;connDrag=null;ctrlCreate=null;
+  const rect=cloudEl('selectionRect');
+  if(rect)rect.style.display='none';
+  if(typeof updateSelectionToolbar==='function')updateSelectionToolbar();
+}
+function clearPendingRemoteState(){
+  pendingRemoteState=null;
+  pendingRemoteRevision=null;
+  pendingRemoteUpdatedAt=null;
+  pendingRemoteSource='';
+}
+function applyRemoteCloudState(candidate,revision,metadata={}){
+  if(!candidate||!revision)return false;
+  const nextState=preserveRemoteWorkspace(prepareCloudState(createPersistableStateSnapshot(candidate)));
+  clearTimeout(cloudSaveTimer);cloudSaveTimer=null;cloudSavePending=false;
+  clearRealtimeInteractionState();
+  closeDesktopTransients();
+  cloudApplyingRemoteState=true;
+  applyRuntimeState(nextState,true);
+  cloudApplyingRemoteState=false;
+  cloudRevision=Number(revision);
+  cloudUpdatedAt=metadata.updatedAt||pendingRemoteUpdatedAt||cloudUpdatedAt;
+  cloudDirty=false;
+  cloudConflict=false;
+  clearPendingRemoteState();
+  writeLocalStateCache(createPersistableStateSnapshot(state),{dirty:false,revision:cloudRevision});
+  setCloudStateStatus('cloud-ready','Cloud update applied');
+  return true;
+}
+function holdPendingRemoteState(candidate,revision,updatedAt,metadata={}){
+  if(!revision||revision<=Number(pendingRemoteRevision||0))return false;
+  pendingRemoteState=candidate;
+  pendingRemoteRevision=Number(revision);
+  pendingRemoteUpdatedAt=updatedAt||null;
+  pendingRemoteSource=metadata.source||'remote';
+  if(cloudDirty){
+    clearTimeout(cloudSaveTimer);cloudSaveTimer=null;cloudSavePending=false;cloudConflict=true;
+  }
+  setCloudStateStatus(cloudDirty?'cloud-conflict':'cloud-ready','Cloud update pending');
+  return true;
+}
+function handleRemoteCloudRow(row,metadata={}){
+  try{
+    const remote=prepareRemoteStateCandidate(row);
+    if(remote.revision<=Number(cloudRevision||0))return false;
+    if(canAutoApplyRemoteState())return applyRemoteCloudState(remote.candidate,remote.revision,{...metadata,updatedAt:remote.updatedAt});
+    return holdPendingRemoteState(remote.candidate,remote.revision,remote.updatedAt,metadata);
+  }catch(error){
+    console.error('Splay OS realtime state validation failed',error);
+    setRealtimeStatus('error');
+    return false;
+  }
+}
+function tryApplyPendingRemoteState(){
+  if(!pendingRemoteState||!pendingRemoteRevision)return false;
+  if(!canAutoApplyRemoteState())return false;
+  return applyRemoteCloudState(pendingRemoteState,pendingRemoteRevision,{updatedAt:pendingRemoteUpdatedAt,source:'pending'});
+}
+async function checkCloudRevisionAfterReconnect(){
+  if(!isSplayAuthenticated()||!cloudRowExists)return false;
+  try{
+    const {data,error}=await getSupabaseAuthClient().from('splay_states').select('state_json,revision,updated_at,source_version,user_id').eq('user_id',cloudUserId()).maybeSingle();
+    if(error)throw error;
+    if(!data)return false;
+    const remoteRevision=Number(data.revision||0);
+    if(remoteRevision>Number(cloudRevision||0))return handleRemoteCloudRow(data,{source:'reconnect'});
+    return false;
+  }catch(error){
+    console.error('Splay OS realtime reconnect revision check failed',error);
+    setRealtimeStatus('error');
+    return false;
+  }
+}
+async function reloadPendingRemoteState(){
+  if(!pendingRemoteState)return manualCloudReload();
+  if(!confirm('Apply the newer Cloud State. Unsaved local changes may be lost.'))return false;
+  return applyRemoteCloudState(pendingRemoteState,pendingRemoteRevision,{updatedAt:pendingRemoteUpdatedAt,source:'manual'});
+}
+function keepLocalPendingRemoteState(){
+  if(!pendingRemoteState){setCloudStateStatus(cloudStateStatus,'No remote update is pending.');return false}
+  clearTimeout(cloudSaveTimer);cloudSaveTimer=null;cloudSavePending=false;cloudConflict=true;
+  setCloudStateStatus('cloud-conflict','Cloud update pending. Local state kept. Export JSON before reloading remote.');
+  return true;
+}
+async function manualCloudSave(){
+  if(pendingRemoteState){setCloudStateStatus('cloud-conflict','Cloud update pending. Reload Remote or Keep Local.');return false}
   const ready=await ensureCloudStateLoaded();
   if(!ready){setCloudStateStatus('cloud-empty','Cloud data not created');return false}
   return saveCloudState({manual:true});
 }
 async function manualCloudReload(){
+  if(pendingRemoteState)return reloadPendingRemoteState();
   if(cloudDirty&&!confirm('Load the latest Cloud State. Unsaved local changes may be lost.'))return false;
   const ok=await loadCloudState({force:true,manual:true,renderNow:true});
   if(ok&&splayDesktopBooted)render();
@@ -785,9 +981,25 @@ async function manualCloudReload(){
 async function promptCloudSaveAfterImport(){
   if(!isSplayAuthenticated()||!cloudRowExists)return;
   cloudDirty=true;renderCloudStorageStatus();
+  if(pendingRemoteState){cloudConflict=true;clearTimeout(cloudSaveTimer);cloudSaveTimer=null;setCloudStateStatus('cloud-conflict','Cloud update pending. Import kept local changes.');return}
   if(confirm('JSON Import was applied locally. Save this imported state to Cloud now?'))await saveCloudState({manual:true});
 }
-window.addEventListener('beforeunload',e=>{if(cloudDirty){e.preventDefault();e.returnValue=''}});
+window.addEventListener('beforeunload',e=>{
+  if(splayRealtimeChannel&&splayAuthClient&&typeof splayAuthClient.removeChannel==='function'){
+    try{splayAuthClient.removeChannel(splayRealtimeChannel)}catch(_error){}
+  }
+  if(cloudDirty){e.preventDefault();e.returnValue=''}
+});
+document.addEventListener('focusin',event=>{
+  const target=event.target;
+  if(target&&target.matches&&target.matches('#splayDesktopApp input,#splayDesktopApp textarea,#splayDesktopApp select'))localEditActive=true;
+});
+document.addEventListener('focusout',()=>{
+  setTimeout(()=>{
+    localEditActive=desktopEditElementActive();
+    tryApplyPendingRemoteState();
+  },0);
+});
 function closeDesktopTransients(){
   ['palette','splayMenu','workspaceMenu','createMenu','moveToMenu','shapeInspector','detailPanel','logDrawer','vaultPanel','wsSettingsPanel','confirmModal'].forEach(id=>{const el=cloudEl(id);if(el)el.classList.remove('show')});
   if(typeof hideMenus==='function')hideMenus();
@@ -886,6 +1098,7 @@ async function logoutSplay(){
     if(!saved){const preserved=cloudStateMessage==='Cloud save failed. Local cache preserved.';if(!confirm(preserved?'Cloud save failed. Local cache is preserved. Logout anyway?':'Cloud save failed. Local cache could not be updated. Logout anyway?'))return;}
   }
   clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
+  await stopSplayRealtimeSubscription();
   try{if(splayAuthClient)await splayAuthClient.auth.signOut()}catch(_error){}
   splayAuthSession=null;
   resetCloudRuntimeState();
@@ -911,12 +1124,16 @@ async function initCloudAuth(){
   cloudEl('portalOpenApp')?.addEventListener('click',openSplayDesktop);
   cloudEl('portalCloudSave')?.addEventListener('click',manualCloudSave);
   cloudEl('portalCloudReload')?.addEventListener('click',manualCloudReload);
+  cloudEl('portalReloadRemote')?.addEventListener('click',reloadPendingRemoteState);
+  cloudEl('portalKeepLocal')?.addEventListener('click',keepLocalPendingRemoteState);
   cloudEl('portalSnapshotExport')?.addEventListener('click',runPortalSnapshotExport);
   cloudEl('portalAccount')?.addEventListener('click',toggleAccountPanel);
   cloudEl('portalLogout')?.addEventListener('click',logoutSplay);
   cloudEl('cloudBackPortal')?.addEventListener('click',showCloudPortal);
   cloudEl('cloudInlineSave')?.addEventListener('click',manualCloudSave);
   cloudEl('cloudInlineReload')?.addEventListener('click',manualCloudReload);
+  cloudEl('cloudInlineRemote')?.addEventListener('click',reloadPendingRemoteState);
+  cloudEl('cloudInlineKeepLocal')?.addEventListener('click',keepLocalPendingRemoteState);
   cloudEl('cloudInlineLogout')?.addEventListener('click',logoutSplay);
   cloudEl('cloudUploadLocal')?.addEventListener('click',uploadLocalDataToCloud);
   cloudEl('cloudStartNew')?.addEventListener('click',startNewCloudState);
@@ -939,12 +1156,14 @@ async function initCloudAuth(){
     client.auth.onAuthStateChange(async (_event,session)=>{
       const previousUserId=cloudInitializedForUser;
       splayAuthSession=session||null;
-      if(!splayAuthSession){resetCloudRuntimeState();showCloudPortal();renderCloudAuth();return}
+      if(!splayAuthSession){await stopSplayRealtimeSubscription();resetCloudRuntimeState();showCloudPortal();renderCloudAuth();return}
+      if(previousUserId&&previousUserId!==splayAuthSession.user?.id)await stopSplayRealtimeSubscription();
       renderCloudAuth();
       await initializeCloudForSession({force:previousUserId!==splayAuthSession.user?.id});
     });
   }catch(error){
     splayAuthSession=null;
+    await stopSplayRealtimeSubscription();
     resetCloudRuntimeState();
     renderCloudAuth();
     setAuthStatus(safeAuthMessage(error),'error');
@@ -1065,7 +1284,7 @@ state.selectedNodeIds=new Set(); /* v0.6.4: runtime-only, not persisted */
 function save(flash=false,options={}){
   if(flash&&typeof flash==='object'){options=flash;flash=false}
   const snapshot=createPersistableStateSnapshot(state);
-  const willDirty=options.markDirty!==false&&isSplayAuthenticated()&&cloudRowExists&&!cloudApplyingRemoteState&&!cloudConflict;
+  const willDirty=options.markDirty!==false&&isSplayAuthenticated()&&cloudRowExists&&!cloudApplyingRemoteState;
   const cacheResult=writeLocalStateCache(snapshot,{dirty:willDirty||cloudDirty,revision:cloudRevision});
   if(!cacheResult.ok)console.error('Splay OS local cache preservation failed',cacheResult.error);
   if(options.markDirty!==false)markCloudDirty(options);
@@ -1799,8 +2018,8 @@ window.addEventListener('pointermove',e=>{
   if(resizeFloat){const el=resizeFloat.el;let w=Math.max(resizeFloat.minW,e.clientX-resizeFloat.left),h=Math.max(resizeFloat.minH,e.clientY-resizeFloat.top);if(resizeFloat.key==='detailPanel'){w=Math.min(w,Math.max(resizeFloat.minW,innerWidth-resizeFloat.left-8));h=Math.min(h,Math.max(resizeFloat.minH,innerHeight-resizeFloat.top-8));}if(resizeFloat.aspect){const m=Math.max(w,h);w=m;h=m}el.style.width=w+'px';el.style.height=h+'px';el.classList.add('float-resizing');if(resizeFloat.key==='detailPanel')syncDetailPanelBody();}
 });
 window.addEventListener('pointerup',e=>{
-  if(connDrag){finishConnectionDrag(e.clientX,e.clientY);return}
-  if(ctrlCreate){const dist=Math.hypot(e.clientX-ctrlCreate.sx,e.clientY-ctrlCreate.sy);const p=screenToCanvas(e.clientX,e.clientY);ctrlCreate.ghost.remove(); if(dist>18)showCreateMenuAt(e.clientX,e.clientY,{x:(ctrlCreate.cx+p.x)/2,y:(ctrlCreate.cy+p.y)/2}); ctrlCreate=null; return}
+  if(connDrag){finishConnectionDrag(e.clientX,e.clientY);tryApplyPendingRemoteState();return}
+  if(ctrlCreate){const dist=Math.hypot(e.clientX-ctrlCreate.sx,e.clientY-ctrlCreate.sy);const p=screenToCanvas(e.clientX,e.clientY);ctrlCreate.ghost.remove(); if(dist>18)showCreateMenuAt(e.clientX,e.clientY,{x:(ctrlCreate.cx+p.x)/2,y:(ctrlCreate.cy+p.y)/2}); ctrlCreate=null; tryApplyPendingRemoteState(); return}
   /* v0.6.4: complete range selection */
   if(selectionDrag){
     const rect=document.getElementById('selectionRect');
@@ -1809,6 +2028,7 @@ window.addEventListener('pointerup',e=>{
     const dist=Math.hypot(e.clientX-selectionDrag.sx,e.clientY-selectionDrag.sy);
     selectionDrag=null;
     if(dist>8)finishRangeSelection(r);
+    tryApplyPendingRemoteState();
     return;
   }
   if(pan){save();pan=null}
@@ -1826,6 +2046,7 @@ window.addEventListener('pointerup',e=>{
   if(dragOrb){const id=dragOrb.el.id==='splayOrb'?'splayOrb':'workspaceOrb';state.ui[id]={...(state.ui[id]||{}),x:parseFloat(dragOrb.el.style.left),y:parseFloat(dragOrb.el.style.top),w:parseFloat(dragOrb.el.style.width)||undefined,h:parseFloat(dragOrb.el.style.height)||undefined};save();dragOrb=null}
   if(dragFloat){const key=dragFloat.key;state.ui[key]={...(state.ui[key]||{}),x:parseFloat(dragFloat.el.style.left),y:parseFloat(dragFloat.el.style.top),w:parseFloat(dragFloat.el.style.width)||undefined,h:parseFloat(dragFloat.el.style.height)||undefined};save();dragFloat.el.classList.remove('float-dragging');document.body.style.userSelect='';if(key==='detailPanel'){ensureDetailPanelInViewport();updateNodeProjection();}dragFloat=null}
   if(resizeFloat){const key=resizeFloat.key;state.ui[key]={...(state.ui[key]||{}),x:parseFloat(resizeFloat.el.style.left)||state.ui[key]?.x,y:parseFloat(resizeFloat.el.style.top)||state.ui[key]?.y,w:parseFloat(resizeFloat.el.style.width),h:parseFloat(resizeFloat.el.style.height)};resizeFloat.el.classList.remove('float-resizing');save();if(key==='detailPanel'){ensureDetailPanelInViewport();updateNodeProjection();}resizeFloat=null}
+  tryApplyPendingRemoteState();
 });
 function startNodeDrag(e,id){
   if(e.altKey){startConnectionDrag(e,id);return}
@@ -2178,6 +2399,7 @@ function importJSON(e){
   if(!f){input.value='';return}
   const r=new FileReader();
   r.onload=ev=>{
+    importInProgress=true;
     const previousState=state;
     const previousCacheKey=currentCloudCacheKey()||STORAGE_KEY;
     const previousStored=localStorage.getItem(previousCacheKey);
@@ -2203,9 +2425,9 @@ function importJSON(e){
       console.error('Splay OS import failed',err);
       const reason=err?.importStage==='parse'?'Could not parse JSON.':err?.importStage==='render'?'Imported data failed while rendering.':'Imported data structure is not supported.';
       alert('Import failed.\n'+reason+'\nCurrent Splay OS data was not changed.');
-    }finally{input.value=''}
+    }finally{importInProgress=false;input.value='';tryApplyPendingRemoteState()}
   };
-  r.onerror=()=>{console.error('Splay OS import file read failed',r.error);alert('Import failed.\nThe file could not be read.\nCurrent Splay OS data was not changed.');input.value=''};
+  r.onerror=()=>{importInProgress=false;console.error('Splay OS import file read failed',r.error);alert('Import failed.\nThe file could not be read.\nCurrent Splay OS data was not changed.');input.value=''};
   r.readAsText(f);
 }
 function resetAll(){if(confirm('初期状態に戻しますか？')){state=defaultState();if(Array.isArray(state.nodes))state.nodes.forEach(n=>{ensureNodeShape(n);ensureNodePresentation(n)});save();render()}}
