@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Splay OS Spatial Preview</title>
+<title>Splay OS Cloud Preview</title>
 <style>
 :root{
   --deep:#07120f; --mid:#0d211e; --panel:rgba(18,38,36,.62); --panel2:rgba(13,27,29,.54);
@@ -363,12 +363,74 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
 @media(max-width:760px){.focus-optical-field{width:102vw;height:78vh}.focus-field-pane{border-radius:18px;backdrop-filter:blur(4px)}.focus-pane-value{font-size:14px}.focus-core-title{font-size:20px}}
 /* === Tactical Spatial Radar Minimap === */
 .minimap{border-radius:14px 18px 12px 16px;border:1px solid rgba(112,164,184,.24);background:linear-gradient(145deg,rgba(2,9,18,.88),rgba(3,17,30,.78));box-shadow:0 24px 74px rgba(0,0,0,.50),0 0 0 1px rgba(var(--cyan-light),.045),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(10px) saturate(1.04);overflow:hidden;isolation:isolate;transition:opacity .2s ease,visibility .2s ease,filter .2s ease}.minimap::before{content:"";position:absolute;inset:1px;border-radius:13px 17px 11px 15px;z-index:0;pointer-events:none;background:linear-gradient(rgba(86,145,162,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(86,145,162,.045) 1px,transparent 1px),repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 6px),radial-gradient(ellipse at 50% 52%,rgba(var(--cyan-light),.08),transparent 58%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 22%,transparent 78%,rgba(0,0,0,.28));background-size:22px 22px,22px 22px,100% 6px,100% 100%,100% 100%;animation:miniScanDrift 32s linear infinite}.minimap::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;border-radius:inherit;background:linear-gradient(rgba(var(--cyan-core),.42),rgba(var(--cyan-core),.42)) left top/36px 1px no-repeat,linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) left top/1px 28px no-repeat,linear-gradient(rgba(var(--cyan-core),.30),rgba(var(--cyan-core),.30)) right bottom/38px 1px no-repeat,linear-gradient(rgba(var(--cyan-core),.24),rgba(var(--cyan-core),.24)) right bottom/1px 30px no-repeat,linear-gradient(90deg,rgba(var(--cyan-light),.32),transparent) 14px 7px/54px 1px no-repeat,repeating-linear-gradient(90deg,rgba(var(--cyan-light),.26) 0 1px,transparent 1px 8px) center bottom 6px/92px 5px no-repeat;box-shadow:inset 0 0 0 1px rgba(150,190,205,.09),inset 12px 0 24px rgba(var(--cyan-light),.025),inset -14px 0 28px rgba(var(--purple-light),.035)}@keyframes miniScanDrift{from{background-position:0 0,0 0,0 0,0 0,0 0}to{background-position:0 0,0 0,0 48px,0 0,0 0}}.minimap .float-resize-handle{right:4px;bottom:4px;z-index:30;opacity:.88;background:rgba(5,20,34,.92);border-color:rgba(var(--cyan-core),.38);box-shadow:0 0 0 1px rgba(0,0,0,.34),0 0 14px rgba(var(--cyan-light),.18)}.mini-conn-svg{z-index:1;mix-blend-mode:screen}.mini-conn-line{stroke:rgba(92,145,160,.24);stroke-width:.65;stroke-linecap:round;filter:none}.mini-conn-line.mini-conn-selected{stroke:rgba(132,210,226,.38);stroke-width:.85}.mini-conn-line.mini-conn-active{stroke:rgba(224,255,255,.68);stroke-width:1.05;filter:drop-shadow(0 0 3px rgba(var(--cyan-light),.22))}.mini-node{box-sizing:border-box;position:absolute;z-index:3;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle at 48% 42%,rgba(160,226,238,.18),rgba(3,15,27,.78) 52%,rgba(1,7,14,.90));border:1px solid rgba(116,178,194,.48);box-shadow:inset 0 0 8px rgba(var(--cyan-light),.08),0 0 6px rgba(var(--cyan-light),.045);transition:border-color .16s ease,box-shadow .16s ease,opacity .16s ease}.mini-node.mini-done{opacity:.48;filter:saturate(.55)}.mini-node.mini-selected{z-index:4;border-color:rgba(var(--cyan-core),.82);box-shadow:0 0 0 1px rgba(var(--cyan-light),.18),0 0 10px rgba(var(--cyan-light),.14),inset 0 0 9px rgba(var(--cyan-light),.09)}.mini-node.mini-selected::before{content:"";position:absolute;inset:-3px;border:1px solid rgba(var(--cyan-core),.36);border-radius:inherit;pointer-events:none}.mini-node.mini-active{z-index:5;border-color:rgba(235,255,255,.95);background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.96) 0 1.5px,rgba(var(--cyan-core),.42) 2px 4px,rgba(4,24,38,.84) 5px 100%);box-shadow:0 0 0 1px rgba(var(--cyan-core),.32),0 0 14px rgba(var(--cyan-light),.30),inset 0 0 10px rgba(255,255,255,.09);animation:miniActivePulse 5.6s ease-in-out infinite}.mini-node.mini-active.mini-selected{box-shadow:0 0 0 1px rgba(240,255,255,.42),0 0 16px rgba(var(--cyan-light),.34),inset 0 0 10px rgba(255,255,255,.12)}.mini-view{z-index:6;border:0;background:linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left top/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left top/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right top/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right top/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left bottom/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left bottom/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right bottom/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right bottom/1px 16px no-repeat,rgba(var(--cyan-light),.018);box-shadow:0 0 10px rgba(var(--cyan-core),.11),inset 0 0 18px rgba(var(--cyan-light),.025);pointer-events:none;transition:left .12s ease,top .12s ease,width .12s ease,height .12s ease}.mini-center{z-index:7;width:14px;height:14px;border-radius:50%;background:transparent;border:1px solid rgba(226,255,255,.56);box-shadow:0 0 9px rgba(var(--cyan-light),.18);pointer-events:none}.mini-center::before{content:"";position:absolute;left:50%;top:50%;width:2px;height:2px;border-radius:50%;transform:translate(-50%,-50%);background:rgba(245,255,255,.92);box-shadow:0 0 6px rgba(var(--cyan-core),.46)}.mini-center::after{content:"";position:absolute;inset:-5px;background:linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) center top/1px 4px no-repeat,linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) center bottom/1px 4px no-repeat,linear-gradient(90deg,rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) left center/4px 1px no-repeat,linear-gradient(90deg,rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) right center/4px 1px no-repeat}.mini-cross-x,.mini-cross-y{display:none!important}@keyframes miniActivePulse{0%,100%{filter:brightness(.96)}50%{filter:brightness(1.18)}}@media(max-width:760px){.minimap::before{background-size:28px 28px,28px 28px,100% 8px,100% 100%,100% 100%;opacity:.82}.minimap::after{background-size:24px 1px,1px 20px,26px 1px,1px 22px,40px 1px,70px 5px}.mini-view{transition:none}.mini-center{width:12px;height:12px}}
+/* === Cloud Edition Phase 2 Auth Portal === */
+.app[hidden],.cloud-shell[hidden]{display:none!important}.cloud-shell{position:fixed;inset:0;z-index:500;display:grid;place-items:center;overflow:auto;padding:28px;background:radial-gradient(circle at 50% 35%,rgba(var(--cyan-mid),.14),transparent 24%),radial-gradient(circle at 18% 18%,rgba(var(--blue-light),.11),transparent 26%),linear-gradient(180deg,#01040a,#020915 52%,#01040a);color:var(--ivory)}.cloud-shell::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(100,235,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,235,255,.025) 1px,transparent 1px),radial-gradient(circle at 50% 42%,rgba(210,255,255,.10),transparent 30%);background-size:76px 76px,76px 76px,100% 100%;mask-image:radial-gradient(circle at center,black,transparent 82%)}.cloud-panel{position:relative;width:min(920px,100%);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:24px;border:1px solid rgba(var(--cyan-light),.18);border-radius:30px;background:linear-gradient(145deg,rgba(5,20,36,.80),rgba(1,8,18,.78));box-shadow:0 34px 120px rgba(0,0,0,.54),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(18px);padding:28px;overflow:hidden}.cloud-panel::after{content:"";position:absolute;left:24px;right:24px;top:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--cyan-core),.52),transparent);pointer-events:none}.cloud-brand{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:38px;min-height:390px}.cloud-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--cyan-core),.76)}.cloud-brand h1{margin:10px 0 0;font-size:clamp(36px,7vw,72px);line-height:.95;color:#75f7ff;text-shadow:0 0 28px rgba(var(--cyan-light),.34);letter-spacing:0}.cloud-brand p{max-width:430px;margin:18px 0 0;color:rgba(200,220,232,.74);line-height:1.75}.cloud-phase{display:flex;flex-wrap:wrap;gap:8px}.cloud-chip{border:1px solid rgba(var(--cyan-light),.18);border-radius:999px;background:rgba(4,18,31,.68);color:rgba(220,240,248,.74);padding:7px 11px;font-size:11px}.cloud-auth-card{position:relative;z-index:1;border:1px solid rgba(var(--cyan-light),.16);border-radius:24px;background:rgba(1,8,18,.52);padding:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.055)}.cloud-auth-card h2{margin:0 0 6px;font-size:22px}.cloud-auth-card p{margin:0;color:rgba(200,220,232,.68);font-size:13px;line-height:1.65}.auth-form{margin-top:18px}.auth-form label{margin-top:12px}.auth-actions,.portal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.portal-actions{grid-template-columns:1fr;margin-top:18px}.portal-actions button{width:100%;text-align:left;padding:12px 15px}.cloud-account{margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:13px;color:rgba(230,246,252,.86);font-size:12px;line-height:1.7;overflow-wrap:anywhere}.cloud-status,.cloud-migration{margin-top:14px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:12px;color:rgba(220,240,248,.80);font-size:12px;line-height:1.6;white-space:pre-wrap}.cloud-migration p{margin:0 0 8px;color:rgba(230,246,252,.86)}.cloud-migration pre{margin:0;color:rgba(200,220,232,.76);font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}.cloud-migration .portal-actions{margin-top:12px}.cloud-account[hidden],.cloud-migration[hidden],#authPortal[hidden],#authForm[hidden]{display:none!important}.auth-status{min-height:20px;margin-top:14px;color:rgba(200,220,232,.72);font-size:12px;line-height:1.6}.auth-status.error{color:#ffb3b3}.auth-status.ok{color:rgba(130,232,184,.92)}.account-mini{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;padding:12px;background:rgba(255,255,255,.035);color:rgba(220,240,248,.82);font-size:12px}.account-mini b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cloud-lock{font-size:11px;color:rgba(200,220,232,.54);margin-top:12px}.cloud-session-bar{position:fixed;left:20px;top:18px;z-index:490;display:flex;gap:8px;padding:7px;border:1px solid rgba(var(--cyan-light),.16);border-radius:999px;background:rgba(1,8,18,.68);backdrop-filter:blur(14px);box-shadow:0 14px 50px rgba(0,0,0,.35)}.cloud-session-bar[hidden]{display:none!important}.cloud-session-bar button{padding:7px 11px;font-size:11px}.cloud-migration .portal-actions{grid-template-columns:1fr 1fr}.cloud-migration button{text-align:center}@media(max-width:760px){.cloud-shell{padding:16px}.cloud-panel{grid-template-columns:1fr;padding:20px;border-radius:24px}.cloud-brand{min-height:auto;gap:22px}.cloud-auth-card{padding:18px}.auth-actions{grid-template-columns:1fr}.cloud-brand h1{font-size:44px}}
 @media(prefers-reduced-motion:reduce){.detail-panel.node-surface.show,.detail-panel.node-surface.surface-focus,.projector-ring,.projection-flow,.focus-projection-base,.surface-body,.focus-node-core,.focus-core-orbits span,.focus-satellite,.focus-field-pane,.focus-optical-field{animation:none!important}.surface-backdrop,.node-projection,.focus-field-pane,.focus-satellite,body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-focus-active .minimap,body.surface-focus-active .save-state,body.surface-focus-active .hud,.mini-node,.mini-view{transition:none!important}.projection-flow{stroke-dashoffset:0}.projector-ring{opacity:.86}.focus-satellite,.focus-field-pane,.focus-node-core{opacity:1!important;transform:none!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.spatial-nebula,.bright-star,.horizon-core,.orb,.minimap::before,.mini-node.mini-active{animation:none!important}.spatial-stars,.spatial-ground,.spatial-particles,.bright-stars,.spatial-nebula,.spatial-horizon{transform:none!important}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<div class="app">
+<section class="cloud-shell" id="cloudShell" data-auth-view="login" aria-live="polite">
+  <div class="cloud-panel">
+    <div class="cloud-brand">
+      <div>
+        <div class="cloud-kicker">Cloud Edition Phase 2</div>
+        <h1>Splay OS</h1>
+        <p>Spatial workspace portal</p>
+      </div>
+      <div class="cloud-phase" aria-label="Cloud phase">
+        <span class="cloud-chip">Portal</span>
+        <span class="cloud-chip">Auth</span>
+        <span class="cloud-chip">Session</span>
+        <span class="cloud-chip">Auth Gate</span><span class="cloud-chip">Cloud State</span>
+      </div>
+    </div>
+    <div class="cloud-auth-card">
+      <h2 id="cloudPanelTitle">Login</h2>
+      <p id="cloudPanelSub">Email + Password</p>
+      <form class="auth-form" id="authForm" autocomplete="on">
+        <label for="authEmail">Email</label>
+        <input id="authEmail" type="email" autocomplete="email" required>
+        <label for="authPassword">Password</label>
+        <input id="authPassword" type="password" autocomplete="current-password" required>
+        <div class="auth-actions">
+          <button type="submit" class="primary">Login</button>
+          <button type="button" id="authSignupButton">Create account</button>
+        </div>
+      </form>
+      <div id="authPortal" hidden>
+        <div class="account-mini"><span>Signed in</span><b id="accountEmail">Account</b></div>
+        <div class="portal-actions">
+          <button type="button" class="primary" id="portalOpenApp">Open Splay OS</button>
+          <button type="button" id="portalCloudSave">Save to Cloud</button>
+          <button type="button" id="portalCloudReload">Reload from Cloud</button>
+          <button type="button" id="portalSnapshotExport">Snapshot Export</button>
+          <button type="button" id="portalAccount">Account</button>
+          <button type="button" class="danger" id="portalLogout">Logout</button>
+        </div>
+        <div class="cloud-status" id="cloudStatusPanel">Cloud: checking...</div>
+        <div class="cloud-migration" id="cloudMigrationPanel" hidden>
+          <p>This account has no Cloud data yet.</p>
+          <pre id="cloudMigrationSummary"></pre>
+          <div class="portal-actions">
+            <button type="button" class="primary" id="cloudUploadLocal">Upload Local Data</button>
+            <button type="button" id="cloudStartNew">Start with New Workspace</button>
+          </div>
+        </div>
+        <div class="cloud-account" id="accountPanel" hidden>
+          <div><b>Email</b></div>
+          <div id="accountEmailDetail"></div>
+          <div style="margin-top:10px"><b>User ID</b></div>
+          <div id="accountIdDetail"></div>
+        </div>
+      </div>
+      <div class="auth-status" id="authStatus">Restoring session...</div>
+    </div>
+  </div>
+</section>
+<div class="cloud-session-bar" id="cloudSessionBar" hidden><button type="button" id="cloudBackPortal">Portal</button><button type="button" id="cloudInlineSave">Save</button><button type="button" id="cloudInlineReload">Reload</button><button type="button" class="danger" id="cloudInlineLogout">Logout</button></div>
+<div class="app" id="splayDesktopApp" hidden inert aria-hidden="true">
   <div class="spatial-environment" id="spatialEnvironment" aria-hidden="true">
     <canvas class="spatial-stars" id="spatialStars"></canvas>
     <div class="spatial-nebula"></div>
@@ -408,6 +470,451 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
 </div>
 <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
 <script>
+const SPLAY_SUPABASE_CONFIG={
+  url:'https://iwyukgxdtneqoatpaghe.supabase.co',
+  publishableKey:'sb_publishable_72N3IuPsn_YAQbYoAYoOBw_BIgrxN75'
+};
+let splayAuthClient=null;
+let splayAuthSession=null;
+let splayDesktopBooted=false;
+const SPLAY_STORAGE_MODE='cloud';
+const storageAdapter={mode:SPLAY_STORAGE_MODE};
+const CLOUD_CACHE_KEY_PREFIX='splay_os_cloud_cache_';
+const CLOUD_SAVE_DEBOUNCE_MS=1200;
+let cloudStateStatus='cloud-loading';
+let cloudStateMessage='Cloud: checking...';
+let cloudRevision=null;
+let cloudUpdatedAt=null;
+let cloudRowExists=false;
+let cloudDirty=false;
+let cloudSaveInFlight=false;
+let cloudSavePending=false;
+let cloudSaveTimer=null;
+let cloudLoadPromise=null;
+let cloudInitializedForUser=null;
+let cloudApplyingRemoteState=false;
+let cloudConflict=false;
+function cloudEl(id){return document.getElementById(id)}
+function isSplayAuthenticated(){return Boolean(splayAuthSession&&splayAuthSession.user)}
+function hasSupabaseConfig(){
+  const url=String(SPLAY_SUPABASE_CONFIG.url||'').trim();
+  const key=String(SPLAY_SUPABASE_CONFIG.publishableKey||'').trim();
+  return Boolean(url&&key&&!url.includes('YOUR_')&&!key.includes('YOUR_')&&!/service_role|secret/i.test(key));
+}
+function setAuthStatus(message,tone=''){
+  const el=cloudEl('authStatus');
+  if(!el)return;
+  el.textContent=message||'';
+  el.classList.toggle('error',tone==='error');
+  el.classList.toggle('ok',tone==='ok');
+}
+function setCloudAuthDisabled(disabled){
+  ['authEmail','authPassword','authSignupButton'].forEach(id=>{const el=cloudEl(id);if(el)el.disabled=disabled});
+  const submit=cloudEl('authForm')?.querySelector('button[type="submit"]');
+  if(submit)submit.disabled=disabled;
+}
+function clearAuthPassword(){const el=cloudEl('authPassword');if(el)el.value=''}
+function cloudUserId(){return splayAuthSession?.user?.id||''}
+function currentCloudCacheKey(){const id=cloudUserId();return id?CLOUD_CACHE_KEY_PREFIX+id:null}
+function formatCloudDate(value){if(!value)return '';const d=new Date(value);return Number.isNaN(d.getTime())?'':d.toLocaleString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
+function createPersistableStateSnapshot(sourceState=state){
+  const snapshot={...sourceState};
+  delete snapshot.selectedNodeIds;
+  return JSON.parse(JSON.stringify(snapshot));
+}
+function countStateSummary(sourceState){
+  const snapshot=createPersistableStateSnapshot(sourceState);
+  const nodes=Array.isArray(snapshot.nodes)?snapshot.nodes:[];
+  const groups=Array.isArray(snapshot.groups)?snapshot.groups:[];
+  const connections=nodes.reduce((total,n)=>total+(Array.isArray(n.connections)?n.connections.length:0),0);
+  return {workspaces:Array.isArray(snapshot.workspaces)?snapshot.workspaces.length:0,nodes:nodes.length,groups:groups.length,connections};
+}
+function summaryLines(summary){return ['Workspace: '+summary.workspaces,'Node: '+summary.nodes,'Group: '+summary.groups,'Connection: '+summary.connections].join('\n')}
+function prepareCloudState(rawState){
+  const cloned=JSON.parse(JSON.stringify(rawState));
+  return prepareImportedState(cloned);
+}
+function finalizeRuntimeState(nextState){
+  if(Array.isArray(nextState.nodes))nextState.nodes.forEach(n=>{ensureNodeShape(n);ensureNodePresentation(n)});
+  nextState.selectedNodeIds=new Set();
+  return nextState;
+}
+function applyRuntimeState(nextState,renderNow=false){
+  state=finalizeRuntimeState(nextState);
+  if(renderNow&&splayDesktopBooted)render();
+}
+function readStateCandidateFromStorage(key){
+  if(!key)return null;
+  try{
+    const raw=localStorage.getItem(key);
+    if(!raw)return null;
+    const candidate=prepareCloudState(JSON.parse(raw));
+    return {key,state:candidate,summary:countStateSummary(candidate)};
+  }catch(_error){return null}
+}
+function getLocalMigrationCandidate(){
+  const keys=[currentCloudCacheKey(),STORAGE_KEY,SOURCE_STORAGE_KEY,...LEGACY_KEYS].filter(Boolean);
+  const seen=new Set();
+  for(const key of keys){
+    if(seen.has(key))continue;
+    seen.add(key);
+    const candidate=readStateCandidateFromStorage(key);
+    if(candidate)return candidate;
+  }
+  return null;
+}
+function writeLocalStateCache(snapshot=createPersistableStateSnapshot()){
+  const key=currentCloudCacheKey()||STORAGE_KEY;
+  try{localStorage.setItem(key,JSON.stringify(snapshot));return key}
+  catch(error){console.error('Splay OS local cache write failed',error);return null}
+}
+function setCloudStateStatus(status,message){
+  cloudStateStatus=status;
+  cloudStateMessage=message||messageForCloudStatus(status);
+  renderCloudStorageStatus();
+}
+function messageForCloudStatus(status){
+  if(status==='cloud-ready')return 'Cloud: Connected';
+  if(status==='cloud-loading')return 'Cloud: Loading...';
+  if(status==='cloud-saving')return 'Cloud: Saving...';
+  if(status==='cloud-saved')return 'Cloud: Saved';
+  if(status==='cloud-empty')return 'Cloud data not created';
+  if(status==='cloud-conflict')return 'Cloud conflict. Reload Cloud State.';
+  if(status==='local-fallback')return 'Local fallback. Cloud unavailable.';
+  if(status==='cloud-error')return 'Cloud error. Local cache preserved.';
+  return 'Cloud: checking...';
+}
+function renderCloudStorageStatus(){
+  const panel=cloudEl('cloudStatusPanel');
+  const migration=cloudEl('cloudMigrationPanel');
+  const migrationSummary=cloudEl('cloudMigrationSummary');
+  if(panel){
+    const lines=[cloudStateMessage];
+    if(cloudRevision!=null)lines.push('Revision: '+cloudRevision);
+    if(cloudUpdatedAt)lines.push('Last saved: '+formatCloudDate(cloudUpdatedAt));
+    if(cloudDirty)lines.push('Local changes pending');
+    panel.textContent=lines.join('\n');
+  }
+  if(migration){
+    const show=cloudStateStatus==='cloud-empty';
+    migration.hidden=!show;
+    if(show&&migrationSummary){
+      const local=getLocalMigrationCandidate();
+      migrationSummary.textContent=local?'Local data available\n'+summaryLines(local.summary):'No local data found. You can start a new Cloud State.';
+    }
+  }
+  const saveState=cloudEl('saveState');
+  if(saveState){
+    if(cloudStateStatus==='cloud-saved')saveState.textContent='cloud saved · '+nowStr();
+    else if(cloudStateStatus==='cloud-saving')saveState.textContent='cloud saving... local cache preserved';
+    else if(cloudStateStatus==='cloud-conflict')saveState.textContent='Cloud conflict · reload required';
+    else if(cloudStateStatus==='local-fallback')saveState.textContent='local fallback · cloud unavailable';
+    else if(cloudDirty)saveState.textContent='local saved · cloud pending';
+    else saveState.textContent=cloudStateMessage||'preview localStorage · autosaved';
+  }
+}
+function resetCloudRuntimeState(){
+  clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
+  cloudRevision=null;cloudUpdatedAt=null;cloudRowExists=false;cloudDirty=false;cloudSaveInFlight=false;cloudSavePending=false;cloudLoadPromise=null;cloudInitializedForUser=null;cloudApplyingRemoteState=false;cloudConflict=false;
+  setCloudStateStatus('cloud-loading','Cloud: checking...');
+}
+async function loadCloudState(options={}){
+  if(!isSplayAuthenticated())return false;
+  const userId=cloudUserId();
+  const client=getSupabaseAuthClient();
+  setCloudStateStatus('cloud-loading','Cloud: Loading...');
+  try{
+    const {data,error}=await client.from('splay_states').select('state_json,revision,updated_at,source_version').eq('user_id',userId).maybeSingle();
+    if(error)throw error;
+    cloudInitializedForUser=userId;
+    cloudConflict=false;
+    if(!data){
+      cloudRowExists=false;cloudRevision=null;cloudUpdatedAt=null;cloudDirty=false;
+      setCloudStateStatus('cloud-empty','Cloud data not created');
+      return false;
+    }
+    const candidate=prepareCloudState(data.state_json);
+    cloudApplyingRemoteState=true;
+    applyRuntimeState(candidate,options.renderNow===true);
+    cloudApplyingRemoteState=false;
+    cloudRowExists=true;cloudRevision=Number(data.revision||1);cloudUpdatedAt=data.updated_at||null;cloudDirty=false;
+    writeLocalStateCache(createPersistableStateSnapshot(state));
+    setCloudStateStatus('cloud-ready','Cloud: Connected');
+    return true;
+  }catch(error){
+    cloudApplyingRemoteState=false;
+    console.error('Splay OS cloud load failed',error);
+    const fallback=readStateCandidateFromStorage(currentCloudCacheKey());
+    if(fallback)applyRuntimeState(fallback.state,options.renderNow===true);
+    else applyRuntimeState(defaultState(),options.renderNow===true);
+    cloudRowExists=false;cloudRevision=null;cloudUpdatedAt=null;cloudDirty=false;
+    setCloudStateStatus('local-fallback','Local fallback. Cloud unavailable.');
+    return true;
+  }
+}
+async function ensureCloudStateLoaded(options={}){
+  if(!isSplayAuthenticated())return false;
+  const userId=cloudUserId();
+  if(!options.force&&cloudInitializedForUser===userId&&(cloudRowExists||cloudStateStatus==='cloud-empty'||cloudStateStatus==='local-fallback'))return cloudRowExists||cloudStateStatus==='local-fallback';
+  if(cloudLoadPromise)return cloudLoadPromise;
+  cloudLoadPromise=loadCloudState(options).finally(()=>{cloudLoadPromise=null});
+  return cloudLoadPromise;
+}
+async function initializeCloudForSession(options={}){await ensureCloudStateLoaded({force:options.force===true})}
+async function createCloudStateFromSnapshot(snapshot){
+  if(!isSplayAuthenticated())return false;
+  const userId=cloudUserId();
+  const client=getSupabaseAuthClient();
+  const payload={user_id:userId,state_json:snapshot,revision:1,source_version:snapshot.version||''};
+  setCloudStateStatus('cloud-saving','Creating Cloud State...');
+  const {data,error}=await client.from('splay_states').insert(payload).select('state_json,revision,updated_at,source_version').single();
+  if(error)throw error;
+  const candidate=prepareCloudState(data.state_json||snapshot);
+  applyRuntimeState(candidate,false);
+  cloudInitializedForUser=userId;cloudRowExists=true;cloudRevision=Number(data.revision||1);cloudUpdatedAt=data.updated_at||null;cloudDirty=false;cloudConflict=false;
+  writeLocalStateCache(createPersistableStateSnapshot(state));
+  setCloudStateStatus('cloud-saved','Cloud State created');
+  return true;
+}
+async function uploadLocalDataToCloud(){
+  const local=getLocalMigrationCandidate();
+  if(!local){alert('No valid local Splay OS data was found.');return}
+  const ok=confirm('現在のローカルデータをCloudへ保存します。\n\n'+summaryLines(local.summary)+'\n\nこのCloudアカウントにはまだデータがありません。');
+  if(!ok)return;
+  try{await createCloudStateFromSnapshot(createPersistableStateSnapshot(local.state));await openSplayDesktop()}
+  catch(error){console.error('Splay OS initial cloud upload failed',error);setCloudStateStatus('cloud-error','Cloud upload failed. Local cache preserved.')}
+}
+async function startNewCloudState(){
+  const ok=confirm('新しいSplay OS Cloud Stateを作成します。現在のローカルデータは上書きされません。');
+  if(!ok)return;
+  try{const fresh=finalizeRuntimeState(defaultState());await createCloudStateFromSnapshot(createPersistableStateSnapshot(fresh));await openSplayDesktop()}
+  catch(error){console.error('Splay OS initial cloud state creation failed',error);setCloudStateStatus('cloud-error','Cloud State creation failed. Local cache preserved.')}
+}
+function markCloudDirty(options={}){
+  if(cloudApplyingRemoteState||!isSplayAuthenticated())return;
+  if(!cloudRowExists){renderCloudStorageStatus();return}
+  if(cloudConflict)return;
+  cloudDirty=true;renderCloudStorageStatus();
+  if(options.scheduleCloud!==false)scheduleCloudSave();
+}
+function scheduleCloudSave(){
+  if(!isSplayAuthenticated()||!cloudRowExists||cloudConflict)return;
+  clearTimeout(cloudSaveTimer);
+  cloudSaveTimer=setTimeout(()=>{saveCloudState({debounced:true})},CLOUD_SAVE_DEBOUNCE_MS);
+}
+async function saveCloudState(options={}){
+  if(!isSplayAuthenticated())return false;
+  if(!cloudRowExists){setCloudStateStatus('cloud-empty','Cloud data not created');return false}
+  if(cloudConflict&&!options.force){setCloudStateStatus('cloud-conflict','Cloud data changed elsewhere. Reload Cloud State.');return false}
+  if(cloudSaveInFlight){cloudSavePending=true;return false}
+  cloudSaveInFlight=true;
+  clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
+  try{
+    do{
+      cloudSavePending=false;
+      const snapshot=createPersistableStateSnapshot(state);
+      const currentRevision=Number(cloudRevision||1);
+      const nextRevision=currentRevision+1;
+      const updatedAt=new Date().toISOString();
+      setCloudStateStatus('cloud-saving','Cloud: Saving...');
+      const {data,error}=await getSupabaseAuthClient().from('splay_states').update({state_json:snapshot,revision:nextRevision,updated_at:updatedAt,source_version:snapshot.version||''}).eq('user_id',cloudUserId()).eq('revision',currentRevision).select('revision,updated_at').maybeSingle();
+      if(error)throw error;
+      if(!data){
+        cloudConflict=true;cloudDirty=true;cloudSavePending=false;
+        setCloudStateStatus('cloud-conflict','Cloud data changed elsewhere. Reload Cloud State.');
+        return false;
+      }
+      cloudRevision=Number(data.revision||nextRevision);cloudUpdatedAt=data.updated_at||updatedAt;cloudDirty=false;cloudConflict=false;
+      writeLocalStateCache(snapshot);
+      setCloudStateStatus('cloud-saved','Cloud: Saved');
+    }while(cloudSavePending);
+    return true;
+  }catch(error){
+    cloudDirty=true;
+    console.error('Splay OS cloud save failed',error);
+    setCloudStateStatus('cloud-error','Cloud save failed. Local cache preserved.');
+    return false;
+  }finally{cloudSaveInFlight=false}
+}
+async function manualCloudSave(){
+  const ready=await ensureCloudStateLoaded();
+  if(!ready){setCloudStateStatus('cloud-empty','Cloud data not created');return false}
+  return saveCloudState({manual:true});
+}
+async function manualCloudReload(){
+  if(cloudDirty&&!confirm('Load the latest Cloud State. Unsaved local changes may be lost.'))return false;
+  const ok=await loadCloudState({force:true,manual:true,renderNow:true});
+  if(ok&&splayDesktopBooted)render();
+  return ok;
+}
+async function promptCloudSaveAfterImport(){
+  if(!isSplayAuthenticated()||!cloudRowExists)return;
+  cloudDirty=true;renderCloudStorageStatus();
+  if(confirm('JSON Import was applied locally. Save this imported state to Cloud now?'))await saveCloudState({manual:true});
+}
+window.addEventListener('beforeunload',e=>{if(cloudDirty){e.preventDefault();e.returnValue=''}});
+function closeDesktopTransients(){
+  ['palette','splayMenu','workspaceMenu','createMenu','moveToMenu','shapeInspector','detailPanel','logDrawer','vaultPanel','wsSettingsPanel','confirmModal'].forEach(id=>{const el=cloudEl(id);if(el)el.classList.remove('show')});
+  if(typeof hideMenus==='function')hideMenus();
+  if(typeof setNodeSurfaceFocus==='function')setNodeSurfaceFocus(false,true);
+}
+function lockDesktopApp(){
+  const app=cloudEl('splayDesktopApp');
+  const bar=cloudEl('cloudSessionBar');
+  if(app){app.hidden=true;app.inert=true;app.setAttribute('aria-hidden','true')}
+  if(bar)bar.hidden=true;
+  closeDesktopTransients();
+}
+function showCloudPortal(){
+  const shell=cloudEl('cloudShell');
+  if(shell)shell.hidden=false;
+  lockDesktopApp();
+}
+async function openSplayDesktop(){
+  if(!isSplayAuthenticated()){showCloudPortal();setAuthStatus('Login required.','error');return false}
+  const ready=await ensureCloudStateLoaded({renderNow:false});
+  if(!ready){showCloudPortal();return false}
+  const shell=cloudEl('cloudShell');
+  const app=cloudEl('splayDesktopApp');
+  const bar=cloudEl('cloudSessionBar');
+  if(shell)shell.hidden=true;
+  if(app){app.hidden=false;app.inert=false;app.setAttribute('aria-hidden','false')}
+  if(bar)bar.hidden=false;
+  if(typeof bootSplayDesktop==='function')bootSplayDesktop();
+  return true;
+}
+function renderCloudAuth(){
+  const signedIn=isSplayAuthenticated();
+  const form=cloudEl('authForm');
+  const portal=cloudEl('authPortal');
+  const title=cloudEl('cloudPanelTitle');
+  const sub=cloudEl('cloudPanelSub');
+  if(form)form.hidden=signedIn;
+  if(portal)portal.hidden=!signedIn;
+  if(title)title.textContent=signedIn?'Portal':'Login';
+  if(sub)sub.textContent=signedIn?'Splay OS Cloud Edition':'Email + Password';
+  const email=splayAuthSession?.user?.email||'';
+  const uid=splayAuthSession?.user?.id||'';
+  const accountEmail=cloudEl('accountEmail');
+  const accountEmailDetail=cloudEl('accountEmailDetail');
+  const accountIdDetail=cloudEl('accountIdDetail');
+  if(accountEmail)accountEmail.textContent=email||'Account';
+  if(accountEmailDetail)accountEmailDetail.textContent=email||'';
+  if(accountIdDetail)accountIdDetail.textContent=uid||'';
+  if(!signedIn)lockDesktopApp();
+  renderCloudStorageStatus();
+}
+function safeAuthMessage(error){return error&&error.message?String(error.message):'Authentication failed.'}
+function getSupabaseAuthClient(){
+  if(!hasSupabaseConfig())throw new Error('Supabase URL and publishable key are not configured.');
+  if(!window.supabase||typeof window.supabase.createClient!=='function')throw new Error('Supabase Auth SDK could not be loaded.');
+  if(!splayAuthClient){
+    splayAuthClient=window.supabase.createClient(SPLAY_SUPABASE_CONFIG.url,SPLAY_SUPABASE_CONFIG.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  }
+  return splayAuthClient;
+}
+function readAuthCredentials(){
+  const email=String(cloudEl('authEmail')?.value||'').trim();
+  const password=String(cloudEl('authPassword')?.value||'');
+  if(!email||!password)throw new Error('Email and password are required.');
+  return {email,password};
+}
+async function signInWithPassword(e){
+  e?.preventDefault();
+  try{
+    const client=getSupabaseAuthClient();
+    const {email,password}=readAuthCredentials();
+    setCloudAuthDisabled(true);setAuthStatus('Signing in...');
+    const {error}=await client.auth.signInWithPassword({email,password});
+    clearAuthPassword();
+    if(error)throw error;
+    setAuthStatus('Session ready.','ok');
+  }catch(error){clearAuthPassword();setAuthStatus(safeAuthMessage(error),'error')}
+  finally{setCloudAuthDisabled(false)}
+}
+async function createAccountWithPassword(){
+  try{
+    const client=getSupabaseAuthClient();
+    const {email,password}=readAuthCredentials();
+    setCloudAuthDisabled(true);setAuthStatus('Creating account...');
+    const {data,error}=await client.auth.signUp({email,password});
+    clearAuthPassword();
+    if(error)throw error;
+    if(data&&data.session){splayAuthSession=data.session;renderCloudAuth();setAuthStatus('Session ready.','ok');await initializeCloudForSession({force:true})}
+    else setAuthStatus('Account created. Confirm the email if required.','ok');
+  }catch(error){clearAuthPassword();setAuthStatus(safeAuthMessage(error),'error')}
+  finally{setCloudAuthDisabled(false)}
+}
+async function logoutSplay(){
+  if(cloudDirty&&cloudRowExists){
+    const saved=await saveCloudState({manual:true,beforeLogout:true});
+    if(!saved&&!confirm('Cloud save failed. Local cache is preserved. Logout anyway?'))return;
+  }
+  clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
+  try{if(splayAuthClient)await splayAuthClient.auth.signOut()}catch(_error){}
+  splayAuthSession=null;
+  resetCloudRuntimeState();
+  showCloudPortal();
+  renderCloudAuth();
+  setAuthStatus('Logged out.','ok');
+}
+function toggleAccountPanel(){const panel=cloudEl('accountPanel');if(panel)panel.hidden=!panel.hidden}
+async function runPortalSnapshotExport(){
+  if(!isSplayAuthenticated()){setAuthStatus('Login required.','error');return}
+  const opened=await openSplayDesktop();
+  if(!opened)return;
+  setTimeout(()=>{
+    const workspaceId=state?.activeWorkspaceId||state?.workspaces?.[0]?.id;
+    if(typeof exportWorkspaceSnapshotHTML==='function')exportWorkspaceSnapshotHTML(workspaceId);
+    else if(typeof exportWorkspaceMobileHTML==='function')exportWorkspaceMobileHTML(workspaceId);
+  },0);
+}
+async function initCloudAuth(){
+  const form=cloudEl('authForm');
+  if(form&&!form.dataset.bound){form.dataset.bound='1';form.addEventListener('submit',signInWithPassword)}
+  cloudEl('authSignupButton')?.addEventListener('click',createAccountWithPassword);
+  cloudEl('portalOpenApp')?.addEventListener('click',openSplayDesktop);
+  cloudEl('portalCloudSave')?.addEventListener('click',manualCloudSave);
+  cloudEl('portalCloudReload')?.addEventListener('click',manualCloudReload);
+  cloudEl('portalSnapshotExport')?.addEventListener('click',runPortalSnapshotExport);
+  cloudEl('portalAccount')?.addEventListener('click',toggleAccountPanel);
+  cloudEl('portalLogout')?.addEventListener('click',logoutSplay);
+  cloudEl('cloudBackPortal')?.addEventListener('click',showCloudPortal);
+  cloudEl('cloudInlineSave')?.addEventListener('click',manualCloudSave);
+  cloudEl('cloudInlineReload')?.addEventListener('click',manualCloudReload);
+  cloudEl('cloudInlineLogout')?.addEventListener('click',logoutSplay);
+  cloudEl('cloudUploadLocal')?.addEventListener('click',uploadLocalDataToCloud);
+  cloudEl('cloudStartNew')?.addEventListener('click',startNewCloudState);
+  renderCloudAuth();
+  if(!hasSupabaseConfig()){
+    setCloudAuthDisabled(true);
+    setAuthStatus('Supabase URL and publishable key are not configured.','error');
+    return;
+  }
+  try{
+    const client=getSupabaseAuthClient();
+    const {data,error}=await client.auth.getSession();
+    if(error)throw error;
+    splayAuthSession=data?.session||null;
+    renderCloudAuth();
+    if(splayAuthSession){
+      setAuthStatus('Session restored.','ok');
+      await initializeCloudForSession({force:true});
+    }else setAuthStatus('','ok');
+    client.auth.onAuthStateChange(async (_event,session)=>{
+      const previousUserId=cloudInitializedForUser;
+      splayAuthSession=session||null;
+      if(!splayAuthSession){resetCloudRuntimeState();showCloudPortal();renderCloudAuth();return}
+      renderCloudAuth();
+      await initializeCloudForSession({force:previousUserId!==splayAuthSession.user?.id});
+    });
+  }catch(error){
+    splayAuthSession=null;
+    resetCloudRuntimeState();
+    renderCloudAuth();
+    setAuthStatus(safeAuthMessage(error),'error');
+  }
+}
 const STORAGE_KEY='splay_os_state_v5_preview_spatial';
 const SOURCE_STORAGE_KEY='splay_os_state_v5';
 const LEGACY_KEYS=['splay_os_state_v4','splay_os_state_v3','splay_os_state_v2','splay_os_state_v1'];
@@ -520,7 +1027,16 @@ function load(){try{let raw=localStorage.getItem(STORAGE_KEY);if(raw)return migr
 let state=load();
 if(Array.isArray(state.nodes))state.nodes.forEach(n=>{ensureNodeShape(n);ensureNodePresentation(n)});
 state.selectedNodeIds=new Set(); /* v0.6.4: runtime-only, not persisted */
-function save(flash=false){const toSave={...state};delete toSave.selectedNodeIds;localStorage.setItem(STORAGE_KEY,JSON.stringify(toSave)); if(flash){const el=document.getElementById('saveState');el.textContent='preview saved · '+nowStr();setTimeout(()=>el.textContent='preview localStorage · autosaved',1300)}}
+function save(flash=false,options={}){
+  if(flash&&typeof flash==='object'){options=flash;flash=false}
+  const snapshot=createPersistableStateSnapshot(state);
+  writeLocalStateCache(snapshot);
+  if(options.markDirty!==false)markCloudDirty(options);
+  if(flash){
+    const el=document.getElementById('saveState');
+    if(el){el.textContent='local saved · '+nowStr();setTimeout(()=>renderCloudStorageStatus(),1300)}
+  }else renderCloudStorageStatus();
+}
 function log(text){state.logs.unshift({id:uid('log'),time:nowStr(),text}); if(state.logs.length>300)state.logs.pop(); save(); renderLog()}
 function count(){let decided=0,considering=0,pending=0,open=0;state.nodes.forEach(n=>{if(n.type==='decision'){if(['決定','仮決定'].includes(n.data.status))decided++;else if(n.data.status==='検討中')considering++;else if(n.data.status==='保留')pending++} if(n.type==='task'&&n.data.status!=='Done')open++});return{decided,considering,pending,open}}
 function activeWs(){return state.workspaces.find(w=>w.id===state.activeWorkspaceId)||state.workspaces[0]}
@@ -955,6 +1471,7 @@ function renderSplayMenu(){const items=[['🏠 Home',()=>closeWorkspace()],['＋
 function renderWorkspaceMenu(){
   const items=state.workspaces.map(ws=>[(ws.icon||'🪐')+' '+ws.name,()=>openWorkspace(ws.id)]);
   items.push(['＋ New Workspace',()=>addWorkspace()]);
+  items.push(['Snapshot Export',()=>exportWorkspaceSnapshotHTML(state.activeWorkspaceId||state.workspaces[0]?.id)]);
   items.push(['📝 Workspace Settings',()=>openWorkspaceSettings(state.activeWorkspaceId||state.workspaces[0]?.id)]);
   items.push(['🗑 Delete Workspace',()=>deleteWorkspace(state.activeWorkspaceId||state.workspaces[0]?.id),'orb-item-danger']);
   items.push(['✕ Close Workspace',()=>closeWorkspace()]);
@@ -1416,9 +1933,7 @@ document.getElementById('paletteInput').addEventListener('input',renderCommands)
 function toggleLog(){const p=document.getElementById('logDrawer');p.classList.toggle('show');touchFloat(p)}
 function toggleVault(){const p=document.getElementById('vaultPanel');p.classList.toggle('show');renderVault();touchFloat(p)}
 function serializableState(source=state){
-  const snapshot={...source};
-  delete snapshot.selectedNodeIds;
-  return snapshot;
+  return createPersistableStateSnapshot(source);
 }
 function validateImportRoot(candidate){
   if(!candidate||typeof candidate!=='object'||Array.isArray(candidate))throw new TypeError('Unsupported Structure: root must be an object');
@@ -1455,6 +1970,171 @@ function exportJSON(){
   setTimeout(()=>URL.revokeObjectURL(url),0);
   log('JSON Export');
 }
+function cloneMobileValue(value){try{return JSON.parse(JSON.stringify(value??{}))}catch(_){return {}}}
+function mobilePresentationSnapshot(n){
+  const p=(n&&n.presentation&&typeof n.presentation==='object'&&!Array.isArray(n.presentation))?n.presentation:{};
+  const labels={};
+  if(p.fieldLabels&&typeof p.fieldLabels==='object'&&!Array.isArray(p.fieldLabels))Object.keys(p.fieldLabels).forEach(k=>labels[k]=String(p.fieldLabels[k]??''));
+  return {titleVisible:typeof p.titleVisible==='boolean'?p.titleVisible:true,hiddenFields:Array.isArray(p.hiddenFields)?p.hiddenFields.map(String):[],fieldLabels:labels,fieldOrder:Array.isArray(p.fieldOrder)?p.fieldOrder.map(String):[]};
+}
+function mobileOrderedFieldDefs(n,presentation){
+  const defs=fieldDefsFor(n),keys=defs.map(d=>d.key),order=(presentation.fieldOrder||[]).filter(k=>keys.includes(k));
+  keys.forEach(k=>{if(!order.includes(k))order.push(k)});
+  return order.map(k=>defs.find(d=>d.key===k)).filter(Boolean);
+}
+function mobileFieldLabel(def,presentation){const custom=presentation.fieldLabels?.[def.key];return custom&&String(custom).trim()?String(custom).trim():def.label}
+function mobileCollectStrings(value,out=[]){
+  if(value==null)return out;
+  if(['string','number','boolean'].includes(typeof value)){out.push(String(value));return out}
+  if(Array.isArray(value)){value.forEach(v=>mobileCollectStrings(v,out));return out}
+  if(typeof value==='object')Object.keys(value).forEach(k=>mobileCollectStrings(value[k],out));
+  return out;
+}
+function mobileDueState(n){
+  if(!n||n.type!=='task')return '';
+  if(String(n.data?.status||'').toLowerCase()==='done')return 'done';
+  const due=String(n.data?.due||'').trim();
+  if(!due)return 'none';
+  const d=new Date(due+'T00:00:00');
+  if(Number.isNaN(d.getTime()))return 'none';
+  const today=new Date(); today.setHours(0,0,0,0);
+  if(d.getTime()<today.getTime())return 'overdue';
+  if(d.getTime()===today.getTime())return 'today';
+  return 'upcoming';
+}
+function buildMobileNodeConnections(n,context){
+  const items=[],seen=new Set();
+  const push=(targetId,type,label,fromAnchor,toAnchor)=>{
+    if(!targetId||seen.has(String(targetId)+'|'+String(type||'related')+'|'+String(label||'')))return;
+    const target=context.nodesById.get(targetId);
+    if(!target)return;
+    const ctype=CONNECTION_TYPES[type]||CONNECTION_TYPES.related;
+    seen.add(String(targetId)+'|'+String(type||'related')+'|'+String(label||''));
+    const targetWs=context.workspacesById.get(target.workspaceId);
+    items.push({sourceNodeId:n.id,targetNodeId:target.id,targetTitle:nodeIdentityTitle(target),targetWorkspaceId:target.workspaceId,targetWorkspaceName:targetWs?.name||'',external:target.workspaceId!==context.workspace.id,type:ctype===CONNECTION_TYPES.related?(type||'related'):(type||'related'),typeLabel:ctype.label||type||'Related',label:String(label||''),fromAnchor:fromAnchor||'auto',toAnchor:toAnchor||'auto'});
+  };
+  (Array.isArray(n.connections)?n.connections:[]).forEach(c=>push(c.targetId,c.type||'related',c.label||'',c.fromAnchor||'auto',c.toAnchor||'auto'));
+  (Array.isArray(n.links)?n.links:[]).forEach(id=>{if(!(Array.isArray(n.connections)&&n.connections.some(c=>c.targetId===id)))push(id,'related','link','auto','auto')});
+  return items;
+}
+function buildMobileNodeViewModel(n,context){
+  const presentation=mobilePresentationSnapshot(n);
+  const defs=mobileOrderedFieldDefs(n,presentation);
+  const hidden=new Set(presentation.hiddenFields||[]);
+  const fields=defs.filter(def=>!hidden.has(def.key)&&!fieldIsEmpty(n.data?.[def.key])).map(def=>({key:def.key,label:mobileFieldLabel(def,presentation),kind:def.kind||'text',value:n.data?.[def.key]}));
+  const groups=context.groups.filter(g=>g.nodeIds.includes(n.id)).map(g=>({id:g.id,name:g.name||g.id}));
+  const connections=buildMobileNodeConnections(n,context);
+  const data=cloneMobileValue(n.data||{});
+  const searchBits=[nodeIdentityTitle(n),labels[n.type]||n.type,n.title||'',...mobileCollectStrings(data),...groups.map(g=>g.name),...connections.flatMap(c=>[c.targetTitle,c.typeLabel,c.label,c.targetWorkspaceName])];
+  return {id:n.id,type:n.type,typeLabel:labels[n.type]||n.type,title:nodeIdentityTitle(n),createdAt:n.createdAt||null,updatedAt:n.updatedAt||null,data,presentation,fields,groupIds:groups.map(g=>g.id),groups,connections,dueState:mobileDueState(n),searchText:searchBits.join(' ').toLowerCase()};
+}
+function buildWorkspaceMobileViewModel(workspaceId){
+  const workspaces=Array.isArray(state.workspaces)?state.workspaces:[];
+  if(!workspaces.length)throw new Error('No workspace available');
+  let ws=workspaces.find(w=>w.id===workspaceId)||workspaces.find(w=>w.id===state.activeWorkspaceId);
+  if(!ws&&state.mode==='home')ws=workspaces.find(w=>w.id===state.activeWorkspaceId)||workspaces[0];
+  if(!ws)throw new Error('Target workspace not found');
+  const nodeIds=new Set((Array.isArray(state.nodes)?state.nodes:[]).filter(n=>n.workspaceId===ws.id).map(n=>n.id));
+  const groups=(Array.isArray(state.groups)?state.groups:[]).map(g=>({id:g.id||'',name:g.name||g.id||'Group',workspaceId:g.workspaceId||ws.id,nodeIds:(Array.isArray(g.nodeIds)?g.nodeIds:[]).filter(id=>nodeIds.has(id))})).filter(g=>g.nodeIds.length>0);
+  const context={workspace:ws,groups,nodesById:new Map((Array.isArray(state.nodes)?state.nodes:[]).map(n=>[n.id,n])),workspacesById:new Map(workspaces.map(w=>[w.id,w]))};
+  const nodes=(Array.isArray(state.nodes)?state.nodes:[]).filter(n=>n.workspaceId===ws.id).slice().sort((a,b)=>(a.y-b.y)||(a.x-b.x)||String(a.id).localeCompare(String(b.id))).map(n=>buildMobileNodeViewModel(n,context));
+  const summary={total:nodes.length,task:0,decision:0,note:0,memo:0,meeting:0,file:0};
+  nodes.forEach(n=>{if(summary[n.type]!=null)summary[n.type]++});
+  return {schema:'splay-mobile-view',schemaVersion:1,sourceVersion:state.version||'',generatedAt:new Date().toISOString(),workspace:{id:ws.id,name:ws.name||'Workspace',description:ws.description||'',icon:ws.icon||'',accentColor:ws.accentColor||'cyan'},summary,nodes,groups};
+}
+function sanitizeDownloadSlug(value,fallback='workspace'){
+  const slug=String(value||'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,72);
+  return slug||String(fallback||'workspace').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-+|-+$/g,'').toLowerCase()||'workspace';
+}
+function safeJsonForHtml(data){return JSON.stringify(data).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029')}
+function downloadTextFile(content,filename,mimeType){
+  const blob=new Blob([content],{type:mimeType||'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1200);
+}
+function buildWorkspaceMobileDocument(viewModel){
+  const dataJson=safeJsonForHtml(viewModel);
+  const title=esc((viewModel.workspace?.name||'Workspace')+' Snapshot Export');
+  return `<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>${title}</title>
+<style>
+:root{color-scheme:dark;--bg:#020711;--panel:#071525;--panel2:#0b1b2d;--text:#eef8ff;--muted:#9db5c4;--line:rgba(142,211,226,.22);--cyan:#73e7ff;--accent:#9a7cff;--danger:#ffb3b3}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 20% 0%,rgba(115,231,255,.10),transparent 28%),radial-gradient(circle at 88% 10%,rgba(154,124,255,.08),transparent 30%),linear-gradient(180deg,#020711,#050b14 42%,#020711);color:var(--text);font:15px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{overflow-x:hidden}.app{width:min(880px,100%);margin:0 auto;padding:18px 14px 44px}.hero{position:sticky;top:0;z-index:20;margin:0 -14px 14px;padding:16px 14px 14px;background:linear-gradient(180deg,rgba(2,7,17,.96),rgba(2,7,17,.82));backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.hero-main{display:flex;gap:12px;align-items:flex-start}.icon{width:44px;height:44px;border-radius:16px;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.22),rgba(115,231,255,.13) 34%,rgba(7,21,37,.9));border:1px solid var(--line);font-size:23px;flex:0 0 auto}.hero h1{margin:0;font-size:22px;line-height:1.18}.desc{margin:6px 0 0;color:var(--muted)}.meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.chip,.filter button{border:1px solid var(--line);border-radius:999px;background:rgba(7,21,37,.72);color:var(--muted);padding:7px 10px;font-size:12px}.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.summary .chip{display:flex;justify-content:space-between;align-items:center;min-height:40px}.controls{position:sticky;top:105px;z-index:15;margin:0 -2px 14px;padding:8px 2px 10px;background:linear-gradient(180deg,rgba(2,7,17,.90),rgba(2,7,17,.72),transparent);backdrop-filter:blur(10px)}.search{width:100%;min-height:44px;border-radius:16px;border:1px solid var(--line);background:rgba(4,14,25,.88);color:var(--text);padding:10px 13px;font:inherit;outline:none}.search:focus,.filter button:focus,.card-head:focus{outline:2px solid rgba(115,231,255,.55);outline-offset:2px}.filter{display:flex;gap:8px;overflow:auto;padding:9px 0 2px}.filter button{min-height:38px;white-space:nowrap;cursor:pointer}.filter button.active{color:#061018;background:linear-gradient(135deg,var(--cyan),#c8fbff);border-color:rgba(230,255,255,.8)}.status-filter{display:none;margin-top:8px}.status-filter.show{display:flex}.cards{display:grid;gap:12px}.card{border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,rgba(8,24,41,.88),rgba(3,12,23,.92));box-shadow:0 22px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.055);overflow:hidden}.card-head{width:100%;display:block;text-align:left;border:0;background:transparent;color:inherit;padding:14px 14px 13px;cursor:pointer}.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.type{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}.updated{font-size:11px;color:var(--muted)}.title{margin:7px 0 0;font-size:17px;font-weight:720;line-height:1.3}.meta-row,.group-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.mini{border:1px solid rgba(142,211,226,.16);border-radius:999px;background:rgba(255,255,255,.035);color:#c9d9e3;padding:3px 8px;font-size:11px}.mini.important{color:#fff;border-color:rgba(115,231,255,.35)}.card-body{display:none;border-top:1px solid rgba(142,211,226,.14);padding:13px 14px 16px;background:rgba(0,0,0,.16)}.card.open .card-body{display:block}.field{margin:0 0 13px}.field label{display:block;margin-bottom:4px;color:#9fd4e0;font-size:11px;letter-spacing:.08em;text-transform:uppercase}.value{white-space:pre-wrap;overflow-wrap:anywhere}.value a{color:#9ff4ff}.connections{margin-top:14px;padding-top:12px;border-top:1px solid rgba(142,211,226,.12)}.conn{display:grid;grid-template-columns:auto 1fr;gap:8px;padding:7px 0;color:#d8eaf2}.conn span{color:var(--cyan)}.conn em{display:block;color:var(--muted);font-style:normal;font-size:12px}.empty{display:none;text-align:center;color:var(--muted);padding:38px 14px;border:1px dashed rgba(142,211,226,.20);border-radius:22px}.empty.show{display:block}.footer{margin-top:28px;color:#718a98;font-size:12px;text-align:center}@media(min-width:720px){.summary{grid-template-columns:repeat(4,1fr)}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.card-body{min-height:160px}}@media(max-width:360px){.app{padding-left:10px;padding-right:10px}.hero{margin-left:-10px;margin-right:-10px}.controls{top:122px}.title{font-size:16px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="app"><header class="hero"><div class="hero-main"><div class="icon" id="wsIcon"></div><div><h1 id="wsName"></h1><p class="desc" id="wsDesc"></p><div class="meta" id="heroMeta"></div></div></div></header><section class="summary" id="summary"></section><section class="controls"><label><span style="position:absolute;left:-9999px">Search</span><input class="search" id="search" type="search" autocomplete="off" placeholder="Search nodes"></label><div class="filter" id="typeFilters" aria-label="Type filter"></div><div class="filter status-filter" id="statusFilters" aria-label="Status filter"></div></section><main><div class="cards" id="cards"></div><div class="empty" id="empty">No nodes match the current filters.</div></main><footer class="footer">Snapshot Export generated by Splay OS.</footer></div>
+<script id="splayMobileData" type="application/json">${dataJson}<\/script>
+<script>
+(function(){
+  'use strict';
+  const DATA=JSON.parse(document.getElementById('splayMobileData').textContent);
+  const TYPES=['all','task','decision','note','memo','meeting','file'];
+  const TYPE_LABEL={all:'All',task:'Task',decision:'Decision',note:'Note',memo:'Memo',meeting:'Meeting',file:'File'};
+  let typeFilter='all',statusFilter='all',query='';
+  const expanded=new Set();
+  const byId=id=>document.getElementById(id);
+  function el(tag,attrs){const node=document.createElement(tag);Object.keys(attrs||{}).forEach(k=>{const v=attrs[k];if(v==null)return;if(k==='class')node.className=v;else if(k==='text')node.textContent=v;else node.setAttribute(k,v)});return node}
+  function clear(node){while(node.firstChild)node.removeChild(node.firstChild)}
+  function fmtDate(value){if(!value)return '';const d=new Date(value);return Number.isNaN(d.getTime())?'':d.toLocaleString(undefined,{year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
+  function safeUrl(url){
+    const raw=String(url||'').trim();
+    let compact='';
+    for(const ch of raw){
+      if(ch.charCodeAt(0)<=32)continue;
+      compact+=ch;
+    }
+    compact=compact.toLowerCase();
+    if(!raw||compact.startsWith('javascript:')||compact.startsWith('vbscript:')||compact.startsWith('data:text/html'))return '';
+    return raw;
+  }
+  function addChip(parent,label,value,cls){if(!value&&value!==0)return;const c=el('span',{class:'mini '+(cls||''),text:label?label+': '+value:String(value)});parent.appendChild(c)}
+  function searchable(node){return (node.searchText||'').includes(query)}
+  function typeMatches(node){return typeFilter==='all'||node.type===typeFilter}
+  function statusMatches(node){return statusFilter==='all'||String(node.data&&node.data.status||'')===statusFilter}
+  function filteredNodes(){return DATA.nodes.filter(n=>searchable(n)&&typeMatches(n)&&statusMatches(n))}
+  function renderHeader(){byId('wsIcon').textContent=DATA.workspace.icon||'S';byId('wsName').textContent=DATA.workspace.name||'Workspace';const desc=byId('wsDesc');desc.textContent=DATA.workspace.description||'';desc.style.display=DATA.workspace.description?'block':'none';const meta=byId('heroMeta');clear(meta);meta.appendChild(el('span',{class:'chip',text:DATA.summary.total+' Nodes'}));meta.appendChild(el('span',{class:'chip',text:'Generated '+fmtDate(DATA.generatedAt)}));if(DATA.sourceVersion)meta.appendChild(el('span',{class:'chip',text:'Splay OS v'+DATA.sourceVersion}))}
+  function renderSummary(){const box=byId('summary');clear(box);TYPES.forEach(t=>{const c=el('div',{class:'chip'});c.appendChild(el('span',{text:TYPE_LABEL[t]}));c.appendChild(el('b',{text:String(t==='all'?DATA.summary.total:(DATA.summary[t]||0))}));box.appendChild(c)})}
+  function renderFilters(){const box=byId('typeFilters');clear(box);TYPES.forEach(t=>{const b=el('button',{type:'button',class:t===typeFilter?'active':'','aria-pressed':t===typeFilter?'true':'false',text:TYPE_LABEL[t]+' '+(t==='all'?DATA.summary.total:(DATA.summary[t]||0))});b.addEventListener('click',()=>{typeFilter=t;renderAll()});box.appendChild(b)});const statuses=Array.from(new Set(DATA.nodes.map(n=>String(n.data&&n.data.status||'')).filter(Boolean))).sort();const sx=byId('statusFilters');clear(sx);sx.classList.toggle('show',statuses.length>0);['all'].concat(statuses).forEach(s=>{const b=el('button',{type:'button',class:s===statusFilter?'active':'','aria-pressed':s===statusFilter?'true':'false',text:s==='all'?'Any status':s});b.addEventListener('click',()=>{statusFilter=s;renderAll()});sx.appendChild(b)})}
+  function renderCard(node){const card=el('article',{class:'card'+(expanded.has(node.id)?' open':'')});const head=el('button',{type:'button',class:'card-head','aria-expanded':expanded.has(node.id)?'true':'false','aria-label':'Toggle '+node.title});const top=el('div',{class:'card-top'});top.appendChild(el('span',{class:'type',text:node.typeLabel||node.type}));top.appendChild(el('span',{class:'updated',text:fmtDate(node.updatedAt)||fmtDate(node.createdAt)}));head.appendChild(top);if(node.presentation&&node.presentation.titleVisible!==false)head.appendChild(el('div',{class:'title',text:node.title||node.typeLabel||'Node'}));const meta=el('div',{class:'meta-row'});addChip(meta,'Status',node.data&&node.data.status,'important');addChip(meta,'Importance',node.data&&node.data.importance,'important');addChip(meta,'Owner',node.data&&node.data.owner);addChip(meta,'Due',node.data&&node.data.due);addChip(meta,'Due state',node.dueState&&node.dueState!=='none'?node.dueState:'');if(node.connections&&node.connections.length)addChip(meta,'Links',node.connections.length);head.appendChild(meta);if(node.groups&&node.groups.length){const row=el('div',{class:'group-row'});node.groups.forEach(g=>row.appendChild(el('span',{class:'mini',text:g.name})));head.appendChild(row)}head.addEventListener('click',()=>{expanded.has(node.id)?expanded.delete(node.id):expanded.add(node.id);renderCards()});card.appendChild(head);const body=el('div',{class:'card-body'});(node.fields||[]).forEach(f=>{const wrap=el('div',{class:'field'});wrap.appendChild(el('label',{text:f.label||f.key}));const val=el('div',{class:'value'});if(f.kind==='url'){const safe=safeUrl(f.value);if(safe){const a=el('a',{href:safe,target:'_blank',rel:'noopener noreferrer',text:String(f.value||'')});val.appendChild(a)}else val.textContent=String(f.value||'')}else val.textContent=String(f.value||'');wrap.appendChild(val);body.appendChild(wrap)});if(node.connections&&node.connections.length){const con=el('section',{class:'connections'});con.appendChild(el('label',{text:'Connections'}));node.connections.forEach(c=>{const row=el('div',{class:'conn'});row.appendChild(el('span',{text:'->'}));const tx=el('div');tx.appendChild(el('b',{text:c.targetTitle||'Node'}));const detail=[c.typeLabel,c.label,c.external?c.targetWorkspaceName:''].filter(Boolean).join(' · ');if(detail)tx.appendChild(el('em',{text:detail}));row.appendChild(tx);con.appendChild(row)});body.appendChild(con)}card.appendChild(body);return card}
+  function renderCards(){const list=byId('cards');clear(list);const nodes=filteredNodes();nodes.forEach(n=>list.appendChild(renderCard(n)));byId('empty').classList.toggle('show',nodes.length===0)}
+  function renderAll(){renderFilters();renderCards()}
+  byId('search').addEventListener('input',e=>{query=String(e.target.value||'').toLowerCase();renderCards()});
+  try{
+    renderHeader();
+    renderSummary();
+    renderAll();
+  }catch(error){
+    console.error('Splay OS snapshot export initialization failed',error);
+    const empty=document.getElementById('empty');
+    if(empty){
+      empty.textContent='Snapshot Exportの表示に失敗しました。Consoleを確認してください。';
+      empty.classList.add('show');
+    }
+  }
+})();
+<\/script>
+</body>
+</html>`;
+}
+function exportWorkspaceMobileHTML(workspaceId){
+  try{
+    const viewModel=buildWorkspaceMobileViewModel(workspaceId||state.activeWorkspaceId);
+    const html=buildWorkspaceMobileDocument(viewModel);
+    const slug=sanitizeDownloadSlug(viewModel.workspace.name,viewModel.workspace.id);
+    downloadTextFile(html,'splay_workspace_'+slug+'_snapshot_export.html','text/html;charset=utf-8');
+    log('Snapshot Export: '+viewModel.workspace.name);
+  }catch(error){
+    console.error('Splay OS snapshot export failed',error);
+    alert('Snapshot Export failed. Current Splay OS data was not changed.');
+  }
+}
+function exportWorkspaceSnapshotHTML(workspaceId){return exportWorkspaceMobileHTML(workspaceId)}
 function importJSON(e){
   const input=e.target;
   const f=input.files?.[0];
@@ -1462,7 +2142,8 @@ function importJSON(e){
   const r=new FileReader();
   r.onload=ev=>{
     const previousState=state;
-    const previousStored=localStorage.getItem(STORAGE_KEY);
+    const previousCacheKey=currentCloudCacheKey()||STORAGE_KEY;
+    const previousStored=localStorage.getItem(previousCacheKey);
     try{
       let parsed;
       try{parsed=JSON.parse(String(ev.target?.result??''))}catch(parseError){parseError.importStage='parse';throw parseError}
@@ -1471,26 +2152,28 @@ function importJSON(e){
       try{render()}catch(renderError){renderError.importStage='render';throw renderError}
       state.logs.unshift({id:uid('log'),time:nowStr(),text:'JSON Import'});
       if(state.logs.length>300)state.logs.length=300;
-      save(true);
+      save(true,{scheduleCloud:false});
       renderLog();
       hideMenus();closeShapeInspector();closeWorkspaceSettings();closeConfirm();
       document.getElementById('createMenu').classList.remove('show');
       document.getElementById('moveToMenu').classList.remove('show');
-      alert('Importが完了しました。');
+      alert('Import completed. Local cache was updated.');
+      promptCloudSaveAfterImport();
     }catch(err){
       state=previousState;
-      if(previousStored===null)localStorage.removeItem(STORAGE_KEY);else localStorage.setItem(STORAGE_KEY,previousStored);
+      if(previousStored===null)localStorage.removeItem(previousCacheKey);else localStorage.setItem(previousCacheKey,previousStored);
       try{render()}catch(rollbackError){console.error('Splay OS import rollback render failed',rollbackError)}
       console.error('Splay OS import failed',err);
-      const reason=err?.importStage==='parse'?'JSON形式を解析できませんでした。':err?.importStage==='render'?'保存データの描画中にエラーが発生しました。':'保存データの構造を確認してください。';
-      alert('Importに失敗しました。\n'+reason+'\n現在のデータは変更されていません。');
+      const reason=err?.importStage==='parse'?'Could not parse JSON.':err?.importStage==='render'?'Imported data failed while rendering.':'Imported data structure is not supported.';
+      alert('Import failed.\n'+reason+'\nCurrent Splay OS data was not changed.');
     }finally{input.value=''}
   };
-  r.onerror=()=>{console.error('Splay OS import file read failed',r.error);alert('Importに失敗しました。\nファイルを読み取れませんでした。\n現在のデータは変更されていません。');input.value=''};
+  r.onerror=()=>{console.error('Splay OS import file read failed',r.error);alert('Import failed.\nThe file could not be read.\nCurrent Splay OS data was not changed.');input.value=''};
   r.readAsText(f);
 }
 function resetAll(){if(confirm('初期状態に戻しますか？')){state=defaultState();if(Array.isArray(state.nodes))state.nodes.forEach(n=>{ensureNodeShape(n);ensureNodePresentation(n)});save();render()}}
 window.addEventListener('keydown',e=>{
+  if(!isSplayAuthenticated())return;
   const tag=(document.activeElement?.tagName||'').toLowerCase();
   const typing=['input','textarea','select'].includes(tag);
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();togglePalette();return}
@@ -1694,9 +2377,18 @@ function drawSpatialGround(){const svg=document.getElementById('spatialGround');
 function drawSpatialParticles(){const canvas=document.getElementById('spatialParticles');if(!canvas)return;const w=innerWidth,h=innerHeight,ctx=fitSpatialCanvas(canvas,w,h),rnd=spatialSeeded(41733),hy=h*.435;ctx.clearRect(0,0,w,h);ctx.globalCompositeOperation='lighter';for(let i=0;i<150;i++){const t=Math.pow(rnd(),.55);const y=hy+(h-hy)*t;const spread=w*(.05+.72*t);const x=w*.5+(rnd()-.5)*spread*2;if(x<0||x>w)continue;const a=.12+rnd()*.42;const r=.45+rnd()*1.4;ctx.fillStyle=`rgba(100,235,255,${a})`;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()}for(let i=0;i<7;i++){const t=.25+rnd()*.65;const x=w*.5+(rnd()-.5)*w*.78*t,y=hy+(h-hy)*t;const g=ctx.createRadialGradient(x,y,0,x,y,22+rnd()*30);g.addColorStop(0,'rgba(210,255,255,.42)');g.addColorStop(.2,'rgba(100,235,255,.18)');g.addColorStop(1,'rgba(100,235,255,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,48,0,Math.PI*2);ctx.fill()}ctx.globalCompositeOperation='source-over'}
 function initSpatialEnvironment(){drawSpatialStars();drawSpatialGround();drawSpatialParticles();applySpatialParallax()}
 function applySpatialParallax(){if(!state||!state.view)return;const clamp=(v,m)=>Math.max(-m,Math.min(m,v));document.documentElement.style.setProperty('--spx',clamp(state.view.x,900)+'px');document.documentElement.style.setProperty('--spy',clamp(state.view.y,700)+'px');document.documentElement.style.setProperty('--sps',state.view.scale||1)}
-makeOrbDraggable(document.getElementById('splayOrb'),toggleSplayMenu);makeOrbDraggable(document.getElementById('workspaceOrb'),()=>toggleWorkspaceMenu());initFloatingControls();
-window.addEventListener('resize',()=>{initSpatialEnvironment();renderMenus();renderMinimap();positionOrbs();ensureDetailPanelInViewport();updateNodeProjection();if(shapeInspectorNodeId)positionShapeInspector(shapeInspectorNodeId)});
-initSpatialEnvironment();render();save();
+function bootSplayDesktop(){
+  if(splayDesktopBooted||!isSplayAuthenticated())return;
+  splayDesktopBooted=true;
+  makeOrbDraggable(document.getElementById('splayOrb'),toggleSplayMenu);
+  makeOrbDraggable(document.getElementById('workspaceOrb'),()=>toggleWorkspaceMenu());
+  initFloatingControls();
+  initSpatialEnvironment();
+  render();
+  save(false,{markDirty:false});
+}
+window.addEventListener('resize',()=>{if(!splayDesktopBooted||!isSplayAuthenticated())return;initSpatialEnvironment();renderMenus();renderMinimap();positionOrbs();ensureDetailPanelInViewport();updateNodeProjection();if(shapeInspectorNodeId)positionShapeInspector(shapeInspectorNodeId)});
+initCloudAuth();
 </script>
 </body>
 </html>
