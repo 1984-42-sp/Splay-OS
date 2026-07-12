@@ -500,6 +500,9 @@ let splayRealtimeChannel=null;
 let splayRealtimeUserId=null;
 let realtimeStatus='disconnected';
 let realtimeWasDisconnected=false;
+let realtimeRecoveryInFlight=false;
+let realtimeSuppressNextSubscribedCheck=false;
+let browserNetworkListenersBound=false;
 let pendingRemoteState=null;
 let pendingRemoteRevision=null;
 let pendingRemoteUpdatedAt=null;
@@ -658,7 +661,7 @@ function renderCloudStorageStatus(){
 }
 function resetCloudRuntimeState(){
   clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
-  cloudRevision=null;cloudUpdatedAt=null;cloudRowExists=false;cloudDirty=false;cloudSaveInFlight=false;cloudSavePending=false;cloudLoadPromise=null;cloudInitializedForUser=null;cloudApplyingRemoteState=false;cloudConflict=false;clearPendingRemoteState();realtimeStatus='disconnected';
+  cloudRevision=null;cloudUpdatedAt=null;cloudRowExists=false;cloudDirty=false;cloudSaveInFlight=false;cloudSavePending=false;cloudLoadPromise=null;cloudInitializedForUser=null;cloudApplyingRemoteState=false;cloudConflict=false;clearPendingRemoteState();realtimeStatus='disconnected';realtimeRecoveryInFlight=false;realtimeSuppressNextSubscribedCheck=false;
   setCloudStateStatus('cloud-loading','Cloud: checking...');
 }
 async function loadCloudState(options={}){
@@ -829,13 +832,14 @@ async function startSplayRealtimeSubscription(){
   const channel=client.channel(channelName);
   splayRealtimeChannel=channel;
   splayRealtimeUserId=userId;
-  setRealtimeStatus('connecting');
+  setRealtimeStatus(realtimeRecoveryInFlight?'reconnecting':'connecting');
   channel.on('postgres_changes',{event:'UPDATE',schema:'public',table:'splay_states',filter:'user_id=eq.'+userId},handleRealtimeStateUpdate).subscribe(handleRealtimeChannelStatus);
   return true;
 }
 function handleRealtimeChannelStatus(status){
   if(status==='SUBSCRIBED'){
-    const shouldCheck=realtimeWasDisconnected;
+    const shouldCheck=realtimeWasDisconnected&&!realtimeSuppressNextSubscribedCheck;
+    realtimeSuppressNextSubscribedCheck=false;
     realtimeWasDisconnected=false;
     setRealtimeStatus('connected');
     if(shouldCheck)checkCloudRevisionAfterReconnect();
@@ -954,6 +958,37 @@ async function checkCloudRevisionAfterReconnect(){
     return false;
   }
 }
+function handleBrowserOffline(){
+  realtimeWasDisconnected=true;
+  setRealtimeStatus('disconnected');
+}
+async function recoverRealtimeAfterOnline(){
+  if(realtimeRecoveryInFlight)return false;
+  if(!isSplayAuthenticated()||!cloudRowExists)return false;
+  realtimeRecoveryInFlight=true;
+  setRealtimeStatus('reconnecting');
+  try{
+    realtimeSuppressNextSubscribedCheck=true;
+    await stopSplayRealtimeSubscription();
+    const started=await startSplayRealtimeSubscription();
+    if(!started){realtimeSuppressNextSubscribedCheck=false;return false}
+    await checkCloudRevisionAfterReconnect();
+    return true;
+  }catch(error){
+    realtimeSuppressNextSubscribedCheck=false;
+    console.error('Splay OS online recovery failed',error);
+    setRealtimeStatus('error');
+    return false;
+  }finally{
+    realtimeRecoveryInFlight=false;
+  }
+}
+function bindBrowserNetworkListeners(){
+  if(browserNetworkListenersBound)return;
+  window.addEventListener('offline',handleBrowserOffline);
+  window.addEventListener('online',recoverRealtimeAfterOnline);
+  browserNetworkListenersBound=true;
+}
 async function reloadPendingRemoteState(){
   if(!pendingRemoteState)return manualCloudReload();
   if(!confirm('Apply the newer Cloud State. Unsaved local changes may be lost.'))return false;
@@ -1000,6 +1035,7 @@ document.addEventListener('focusout',()=>{
     tryApplyPendingRemoteState();
   },0);
 });
+bindBrowserNetworkListeners();
 function closeDesktopTransients(){
   ['palette','splayMenu','workspaceMenu','createMenu','moveToMenu','shapeInspector','detailPanel','logDrawer','vaultPanel','wsSettingsPanel','confirmModal'].forEach(id=>{const el=cloudEl(id);if(el)el.classList.remove('show')});
   if(typeof hideMenus==='function')hideMenus();
