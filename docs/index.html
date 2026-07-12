@@ -363,8 +363,8 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
 @media(max-width:760px){.focus-optical-field{width:102vw;height:78vh}.focus-field-pane{border-radius:18px;backdrop-filter:blur(4px)}.focus-pane-value{font-size:14px}.focus-core-title{font-size:20px}}
 /* === Tactical Spatial Radar Minimap === */
 .minimap{border-radius:14px 18px 12px 16px;border:1px solid rgba(112,164,184,.24);background:linear-gradient(145deg,rgba(2,9,18,.88),rgba(3,17,30,.78));box-shadow:0 24px 74px rgba(0,0,0,.50),0 0 0 1px rgba(var(--cyan-light),.045),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(10px) saturate(1.04);overflow:hidden;isolation:isolate;transition:opacity .2s ease,visibility .2s ease,filter .2s ease}.minimap::before{content:"";position:absolute;inset:1px;border-radius:13px 17px 11px 15px;z-index:0;pointer-events:none;background:linear-gradient(rgba(86,145,162,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(86,145,162,.045) 1px,transparent 1px),repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 6px),radial-gradient(ellipse at 50% 52%,rgba(var(--cyan-light),.08),transparent 58%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 22%,transparent 78%,rgba(0,0,0,.28));background-size:22px 22px,22px 22px,100% 6px,100% 100%,100% 100%;animation:miniScanDrift 32s linear infinite}.minimap::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;border-radius:inherit;background:linear-gradient(rgba(var(--cyan-core),.42),rgba(var(--cyan-core),.42)) left top/36px 1px no-repeat,linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) left top/1px 28px no-repeat,linear-gradient(rgba(var(--cyan-core),.30),rgba(var(--cyan-core),.30)) right bottom/38px 1px no-repeat,linear-gradient(rgba(var(--cyan-core),.24),rgba(var(--cyan-core),.24)) right bottom/1px 30px no-repeat,linear-gradient(90deg,rgba(var(--cyan-light),.32),transparent) 14px 7px/54px 1px no-repeat,repeating-linear-gradient(90deg,rgba(var(--cyan-light),.26) 0 1px,transparent 1px 8px) center bottom 6px/92px 5px no-repeat;box-shadow:inset 0 0 0 1px rgba(150,190,205,.09),inset 12px 0 24px rgba(var(--cyan-light),.025),inset -14px 0 28px rgba(var(--purple-light),.035)}@keyframes miniScanDrift{from{background-position:0 0,0 0,0 0,0 0,0 0}to{background-position:0 0,0 0,0 48px,0 0,0 0}}.minimap .float-resize-handle{right:4px;bottom:4px;z-index:30;opacity:.88;background:rgba(5,20,34,.92);border-color:rgba(var(--cyan-core),.38);box-shadow:0 0 0 1px rgba(0,0,0,.34),0 0 14px rgba(var(--cyan-light),.18)}.mini-conn-svg{z-index:1;mix-blend-mode:screen}.mini-conn-line{stroke:rgba(92,145,160,.24);stroke-width:.65;stroke-linecap:round;filter:none}.mini-conn-line.mini-conn-selected{stroke:rgba(132,210,226,.38);stroke-width:.85}.mini-conn-line.mini-conn-active{stroke:rgba(224,255,255,.68);stroke-width:1.05;filter:drop-shadow(0 0 3px rgba(var(--cyan-light),.22))}.mini-node{box-sizing:border-box;position:absolute;z-index:3;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle at 48% 42%,rgba(160,226,238,.18),rgba(3,15,27,.78) 52%,rgba(1,7,14,.90));border:1px solid rgba(116,178,194,.48);box-shadow:inset 0 0 8px rgba(var(--cyan-light),.08),0 0 6px rgba(var(--cyan-light),.045);transition:border-color .16s ease,box-shadow .16s ease,opacity .16s ease}.mini-node.mini-done{opacity:.48;filter:saturate(.55)}.mini-node.mini-selected{z-index:4;border-color:rgba(var(--cyan-core),.82);box-shadow:0 0 0 1px rgba(var(--cyan-light),.18),0 0 10px rgba(var(--cyan-light),.14),inset 0 0 9px rgba(var(--cyan-light),.09)}.mini-node.mini-selected::before{content:"";position:absolute;inset:-3px;border:1px solid rgba(var(--cyan-core),.36);border-radius:inherit;pointer-events:none}.mini-node.mini-active{z-index:5;border-color:rgba(235,255,255,.95);background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.96) 0 1.5px,rgba(var(--cyan-core),.42) 2px 4px,rgba(4,24,38,.84) 5px 100%);box-shadow:0 0 0 1px rgba(var(--cyan-core),.32),0 0 14px rgba(var(--cyan-light),.30),inset 0 0 10px rgba(255,255,255,.09);animation:miniActivePulse 5.6s ease-in-out infinite}.mini-node.mini-active.mini-selected{box-shadow:0 0 0 1px rgba(240,255,255,.42),0 0 16px rgba(var(--cyan-light),.34),inset 0 0 10px rgba(255,255,255,.12)}.mini-view{z-index:6;border:0;background:linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left top/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left top/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right top/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right top/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left bottom/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left bottom/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right bottom/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right bottom/1px 16px no-repeat,rgba(var(--cyan-light),.018);box-shadow:0 0 10px rgba(var(--cyan-core),.11),inset 0 0 18px rgba(var(--cyan-light),.025);pointer-events:none;transition:left .12s ease,top .12s ease,width .12s ease,height .12s ease}.mini-center{z-index:7;width:14px;height:14px;border-radius:50%;background:transparent;border:1px solid rgba(226,255,255,.56);box-shadow:0 0 9px rgba(var(--cyan-light),.18);pointer-events:none}.mini-center::before{content:"";position:absolute;left:50%;top:50%;width:2px;height:2px;border-radius:50%;transform:translate(-50%,-50%);background:rgba(245,255,255,.92);box-shadow:0 0 6px rgba(var(--cyan-core),.46)}.mini-center::after{content:"";position:absolute;inset:-5px;background:linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) center top/1px 4px no-repeat,linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) center bottom/1px 4px no-repeat,linear-gradient(90deg,rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) left center/4px 1px no-repeat,linear-gradient(90deg,rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) right center/4px 1px no-repeat}.mini-cross-x,.mini-cross-y{display:none!important}@keyframes miniActivePulse{0%,100%{filter:brightness(.96)}50%{filter:brightness(1.18)}}@media(max-width:760px){.minimap::before{background-size:28px 28px,28px 28px,100% 8px,100% 100%,100% 100%;opacity:.82}.minimap::after{background-size:24px 1px,1px 20px,26px 1px,1px 22px,40px 1px,70px 5px}.mini-view{transition:none}.mini-center{width:12px;height:12px}}
-/* === Cloud Edition Phase 1 Auth Portal === */
-.app[hidden],.cloud-shell[hidden]{display:none!important}.cloud-shell{position:fixed;inset:0;z-index:500;display:grid;place-items:center;overflow:auto;padding:28px;background:radial-gradient(circle at 50% 35%,rgba(var(--cyan-mid),.14),transparent 24%),radial-gradient(circle at 18% 18%,rgba(var(--blue-light),.11),transparent 26%),linear-gradient(180deg,#01040a,#020915 52%,#01040a);color:var(--ivory)}.cloud-shell::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(100,235,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,235,255,.025) 1px,transparent 1px),radial-gradient(circle at 50% 42%,rgba(210,255,255,.10),transparent 30%);background-size:76px 76px,76px 76px,100% 100%;mask-image:radial-gradient(circle at center,black,transparent 82%)}.cloud-panel{position:relative;width:min(920px,100%);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:24px;border:1px solid rgba(var(--cyan-light),.18);border-radius:30px;background:linear-gradient(145deg,rgba(5,20,36,.80),rgba(1,8,18,.78));box-shadow:0 34px 120px rgba(0,0,0,.54),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(18px);padding:28px;overflow:hidden}.cloud-panel::after{content:"";position:absolute;left:24px;right:24px;top:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--cyan-core),.52),transparent);pointer-events:none}.cloud-brand{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:38px;min-height:390px}.cloud-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--cyan-core),.76)}.cloud-brand h1{margin:10px 0 0;font-size:clamp(36px,7vw,72px);line-height:.95;color:#75f7ff;text-shadow:0 0 28px rgba(var(--cyan-light),.34);letter-spacing:0}.cloud-brand p{max-width:430px;margin:18px 0 0;color:rgba(200,220,232,.74);line-height:1.75}.cloud-phase{display:flex;flex-wrap:wrap;gap:8px}.cloud-chip{border:1px solid rgba(var(--cyan-light),.18);border-radius:999px;background:rgba(4,18,31,.68);color:rgba(220,240,248,.74);padding:7px 11px;font-size:11px}.cloud-auth-card{position:relative;z-index:1;border:1px solid rgba(var(--cyan-light),.16);border-radius:24px;background:rgba(1,8,18,.52);padding:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.055)}.cloud-auth-card h2{margin:0 0 6px;font-size:22px}.cloud-auth-card p{margin:0;color:rgba(200,220,232,.68);font-size:13px;line-height:1.65}.auth-form{margin-top:18px}.auth-form label{margin-top:12px}.auth-actions,.portal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.portal-actions{grid-template-columns:1fr;margin-top:18px}.portal-actions button{width:100%;text-align:left;padding:12px 15px}.cloud-account{margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:13px;color:rgba(230,246,252,.86);font-size:12px;line-height:1.7;overflow-wrap:anywhere}.cloud-account[hidden],#authPortal[hidden],#authForm[hidden]{display:none!important}.auth-status{min-height:20px;margin-top:14px;color:rgba(200,220,232,.72);font-size:12px;line-height:1.6}.auth-status.error{color:#ffb3b3}.auth-status.ok{color:rgba(130,232,184,.92)}.account-mini{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;padding:12px;background:rgba(255,255,255,.035);color:rgba(220,240,248,.82);font-size:12px}.account-mini b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cloud-lock{font-size:11px;color:rgba(200,220,232,.54);margin-top:12px}.cloud-session-bar{position:fixed;left:20px;top:18px;z-index:490;display:flex;gap:8px;padding:7px;border:1px solid rgba(var(--cyan-light),.16);border-radius:999px;background:rgba(1,8,18,.68);backdrop-filter:blur(14px);box-shadow:0 14px 50px rgba(0,0,0,.35)}.cloud-session-bar[hidden]{display:none!important}.cloud-session-bar button{padding:7px 11px;font-size:11px}@media(max-width:760px){.cloud-shell{padding:16px}.cloud-panel{grid-template-columns:1fr;padding:20px;border-radius:24px}.cloud-brand{min-height:auto;gap:22px}.cloud-auth-card{padding:18px}.auth-actions{grid-template-columns:1fr}.cloud-brand h1{font-size:44px}}
+/* === Cloud Edition Phase 2 Auth Portal === */
+.app[hidden],.cloud-shell[hidden]{display:none!important}.cloud-shell{position:fixed;inset:0;z-index:500;display:grid;place-items:center;overflow:auto;padding:28px;background:radial-gradient(circle at 50% 35%,rgba(var(--cyan-mid),.14),transparent 24%),radial-gradient(circle at 18% 18%,rgba(var(--blue-light),.11),transparent 26%),linear-gradient(180deg,#01040a,#020915 52%,#01040a);color:var(--ivory)}.cloud-shell::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(100,235,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,235,255,.025) 1px,transparent 1px),radial-gradient(circle at 50% 42%,rgba(210,255,255,.10),transparent 30%);background-size:76px 76px,76px 76px,100% 100%;mask-image:radial-gradient(circle at center,black,transparent 82%)}.cloud-panel{position:relative;width:min(920px,100%);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:24px;border:1px solid rgba(var(--cyan-light),.18);border-radius:30px;background:linear-gradient(145deg,rgba(5,20,36,.80),rgba(1,8,18,.78));box-shadow:0 34px 120px rgba(0,0,0,.54),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(18px);padding:28px;overflow:hidden}.cloud-panel::after{content:"";position:absolute;left:24px;right:24px;top:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--cyan-core),.52),transparent);pointer-events:none}.cloud-brand{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:38px;min-height:390px}.cloud-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--cyan-core),.76)}.cloud-brand h1{margin:10px 0 0;font-size:clamp(36px,7vw,72px);line-height:.95;color:#75f7ff;text-shadow:0 0 28px rgba(var(--cyan-light),.34);letter-spacing:0}.cloud-brand p{max-width:430px;margin:18px 0 0;color:rgba(200,220,232,.74);line-height:1.75}.cloud-phase{display:flex;flex-wrap:wrap;gap:8px}.cloud-chip{border:1px solid rgba(var(--cyan-light),.18);border-radius:999px;background:rgba(4,18,31,.68);color:rgba(220,240,248,.74);padding:7px 11px;font-size:11px}.cloud-auth-card{position:relative;z-index:1;border:1px solid rgba(var(--cyan-light),.16);border-radius:24px;background:rgba(1,8,18,.52);padding:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.055)}.cloud-auth-card h2{margin:0 0 6px;font-size:22px}.cloud-auth-card p{margin:0;color:rgba(200,220,232,.68);font-size:13px;line-height:1.65}.auth-form{margin-top:18px}.auth-form label{margin-top:12px}.auth-actions,.portal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.portal-actions{grid-template-columns:1fr;margin-top:18px}.portal-actions button{width:100%;text-align:left;padding:12px 15px}.cloud-account{margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:13px;color:rgba(230,246,252,.86);font-size:12px;line-height:1.7;overflow-wrap:anywhere}.cloud-status,.cloud-migration{margin-top:14px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:12px;color:rgba(220,240,248,.80);font-size:12px;line-height:1.6;white-space:pre-wrap}.cloud-migration p{margin:0 0 8px;color:rgba(230,246,252,.86)}.cloud-migration pre{margin:0;color:rgba(200,220,232,.76);font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}.cloud-migration .portal-actions{margin-top:12px}.cloud-account[hidden],.cloud-migration[hidden],#authPortal[hidden],#authForm[hidden]{display:none!important}.auth-status{min-height:20px;margin-top:14px;color:rgba(200,220,232,.72);font-size:12px;line-height:1.6}.auth-status.error{color:#ffb3b3}.auth-status.ok{color:rgba(130,232,184,.92)}.account-mini{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;padding:12px;background:rgba(255,255,255,.035);color:rgba(220,240,248,.82);font-size:12px}.account-mini b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cloud-lock{font-size:11px;color:rgba(200,220,232,.54);margin-top:12px}.cloud-session-bar{position:fixed;left:20px;top:18px;z-index:490;display:flex;gap:8px;padding:7px;border:1px solid rgba(var(--cyan-light),.16);border-radius:999px;background:rgba(1,8,18,.68);backdrop-filter:blur(14px);box-shadow:0 14px 50px rgba(0,0,0,.35)}.cloud-session-bar[hidden]{display:none!important}.cloud-session-bar button{padding:7px 11px;font-size:11px}.cloud-migration .portal-actions{grid-template-columns:1fr 1fr}.cloud-migration button{text-align:center}@media(max-width:760px){.cloud-shell{padding:16px}.cloud-panel{grid-template-columns:1fr;padding:20px;border-radius:24px}.cloud-brand{min-height:auto;gap:22px}.cloud-auth-card{padding:18px}.auth-actions{grid-template-columns:1fr}.cloud-brand h1{font-size:44px}}
 @media(prefers-reduced-motion:reduce){.detail-panel.node-surface.show,.detail-panel.node-surface.surface-focus,.projector-ring,.projection-flow,.focus-projection-base,.surface-body,.focus-node-core,.focus-core-orbits span,.focus-satellite,.focus-field-pane,.focus-optical-field{animation:none!important}.surface-backdrop,.node-projection,.focus-field-pane,.focus-satellite,body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-focus-active .minimap,body.surface-focus-active .save-state,body.surface-focus-active .hud,.mini-node,.mini-view{transition:none!important}.projection-flow{stroke-dashoffset:0}.projector-ring{opacity:.86}.focus-satellite,.focus-field-pane,.focus-node-core{opacity:1!important;transform:none!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.spatial-nebula,.bright-star,.horizon-core,.orb,.minimap::before,.mini-node.mini-active{animation:none!important}.spatial-stars,.spatial-ground,.spatial-particles,.bright-stars,.spatial-nebula,.spatial-horizon{transform:none!important}}
 </style>
@@ -375,7 +375,7 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
   <div class="cloud-panel">
     <div class="cloud-brand">
       <div>
-        <div class="cloud-kicker">Cloud Edition Phase 1</div>
+        <div class="cloud-kicker">Cloud Edition Phase 2</div>
         <h1>Splay OS</h1>
         <p>Spatial workspace portal</p>
       </div>
@@ -383,7 +383,7 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
         <span class="cloud-chip">Portal</span>
         <span class="cloud-chip">Auth</span>
         <span class="cloud-chip">Session</span>
-        <span class="cloud-chip">Auth Gate</span>
+        <span class="cloud-chip">Auth Gate</span><span class="cloud-chip">Cloud State</span>
       </div>
     </div>
     <div class="cloud-auth-card">
@@ -403,9 +403,20 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
         <div class="account-mini"><span>Signed in</span><b id="accountEmail">Account</b></div>
         <div class="portal-actions">
           <button type="button" class="primary" id="portalOpenApp">Open Splay OS</button>
+          <button type="button" id="portalCloudSave">Save to Cloud</button>
+          <button type="button" id="portalCloudReload">Reload from Cloud</button>
           <button type="button" id="portalSnapshotExport">Snapshot Export</button>
           <button type="button" id="portalAccount">Account</button>
           <button type="button" class="danger" id="portalLogout">Logout</button>
+        </div>
+        <div class="cloud-status" id="cloudStatusPanel">Cloud: checking...</div>
+        <div class="cloud-migration" id="cloudMigrationPanel" hidden>
+          <p>This account has no Cloud data yet.</p>
+          <pre id="cloudMigrationSummary"></pre>
+          <div class="portal-actions">
+            <button type="button" class="primary" id="cloudUploadLocal">Upload Local Data</button>
+            <button type="button" id="cloudStartNew">Start with New Workspace</button>
+          </div>
         </div>
         <div class="cloud-account" id="accountPanel" hidden>
           <div><b>Email</b></div>
@@ -418,7 +429,7 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
     </div>
   </div>
 </section>
-<div class="cloud-session-bar" id="cloudSessionBar" hidden><button type="button" id="cloudBackPortal">Portal</button><button type="button" class="danger" id="cloudInlineLogout">Logout</button></div>
+<div class="cloud-session-bar" id="cloudSessionBar" hidden><button type="button" id="cloudBackPortal">Portal</button><button type="button" id="cloudInlineSave">Save</button><button type="button" id="cloudInlineReload">Reload</button><button type="button" class="danger" id="cloudInlineLogout">Logout</button></div>
 <div class="app" id="splayDesktopApp" hidden inert aria-hidden="true">
   <div class="spatial-environment" id="spatialEnvironment" aria-hidden="true">
     <canvas class="spatial-stars" id="spatialStars"></canvas>
@@ -466,6 +477,23 @@ const SPLAY_SUPABASE_CONFIG={
 let splayAuthClient=null;
 let splayAuthSession=null;
 let splayDesktopBooted=false;
+const SPLAY_STORAGE_MODE='cloud';
+const storageAdapter={mode:SPLAY_STORAGE_MODE};
+const CLOUD_CACHE_KEY_PREFIX='splay_os_cloud_cache_';
+const CLOUD_SAVE_DEBOUNCE_MS=1200;
+let cloudStateStatus='cloud-loading';
+let cloudStateMessage='Cloud: checking...';
+let cloudRevision=null;
+let cloudUpdatedAt=null;
+let cloudRowExists=false;
+let cloudDirty=false;
+let cloudSaveInFlight=false;
+let cloudSavePending=false;
+let cloudSaveTimer=null;
+let cloudLoadPromise=null;
+let cloudInitializedForUser=null;
+let cloudApplyingRemoteState=false;
+let cloudConflict=false;
 function cloudEl(id){return document.getElementById(id)}
 function isSplayAuthenticated(){return Boolean(splayAuthSession&&splayAuthSession.user)}
 function hasSupabaseConfig(){
@@ -486,6 +514,245 @@ function setCloudAuthDisabled(disabled){
   if(submit)submit.disabled=disabled;
 }
 function clearAuthPassword(){const el=cloudEl('authPassword');if(el)el.value=''}
+function cloudUserId(){return splayAuthSession?.user?.id||''}
+function currentCloudCacheKey(){const id=cloudUserId();return id?CLOUD_CACHE_KEY_PREFIX+id:null}
+function formatCloudDate(value){if(!value)return '';const d=new Date(value);return Number.isNaN(d.getTime())?'':d.toLocaleString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
+function createPersistableStateSnapshot(sourceState=state){
+  const snapshot={...sourceState};
+  delete snapshot.selectedNodeIds;
+  return JSON.parse(JSON.stringify(snapshot));
+}
+function countStateSummary(sourceState){
+  const snapshot=createPersistableStateSnapshot(sourceState);
+  const nodes=Array.isArray(snapshot.nodes)?snapshot.nodes:[];
+  const groups=Array.isArray(snapshot.groups)?snapshot.groups:[];
+  const connections=nodes.reduce((total,n)=>total+(Array.isArray(n.connections)?n.connections.length:0),0);
+  return {workspaces:Array.isArray(snapshot.workspaces)?snapshot.workspaces.length:0,nodes:nodes.length,groups:groups.length,connections};
+}
+function summaryLines(summary){return ['Workspace: '+summary.workspaces,'Node: '+summary.nodes,'Group: '+summary.groups,'Connection: '+summary.connections].join('\n')}
+function prepareCloudState(rawState){
+  const cloned=JSON.parse(JSON.stringify(rawState));
+  return prepareImportedState(cloned);
+}
+function finalizeRuntimeState(nextState){
+  if(Array.isArray(nextState.nodes))nextState.nodes.forEach(n=>{ensureNodeShape(n);ensureNodePresentation(n)});
+  nextState.selectedNodeIds=new Set();
+  return nextState;
+}
+function applyRuntimeState(nextState,renderNow=false){
+  state=finalizeRuntimeState(nextState);
+  if(renderNow&&splayDesktopBooted)render();
+}
+function readStateCandidateFromStorage(key){
+  if(!key)return null;
+  try{
+    const raw=localStorage.getItem(key);
+    if(!raw)return null;
+    const candidate=prepareCloudState(JSON.parse(raw));
+    return {key,state:candidate,summary:countStateSummary(candidate)};
+  }catch(_error){return null}
+}
+function getLocalMigrationCandidate(){
+  const keys=[currentCloudCacheKey(),STORAGE_KEY,SOURCE_STORAGE_KEY,...LEGACY_KEYS].filter(Boolean);
+  const seen=new Set();
+  for(const key of keys){
+    if(seen.has(key))continue;
+    seen.add(key);
+    const candidate=readStateCandidateFromStorage(key);
+    if(candidate)return candidate;
+  }
+  return null;
+}
+function writeLocalStateCache(snapshot=createPersistableStateSnapshot()){
+  const key=currentCloudCacheKey()||STORAGE_KEY;
+  try{localStorage.setItem(key,JSON.stringify(snapshot));return key}
+  catch(error){console.error('Splay OS local cache write failed',error);return null}
+}
+function setCloudStateStatus(status,message){
+  cloudStateStatus=status;
+  cloudStateMessage=message||messageForCloudStatus(status);
+  renderCloudStorageStatus();
+}
+function messageForCloudStatus(status){
+  if(status==='cloud-ready')return 'Cloud: Connected';
+  if(status==='cloud-loading')return 'Cloud: Loading...';
+  if(status==='cloud-saving')return 'Cloud: Saving...';
+  if(status==='cloud-saved')return 'Cloud: Saved';
+  if(status==='cloud-empty')return 'Cloud data not created';
+  if(status==='cloud-conflict')return 'Cloud conflict. Reload Cloud State.';
+  if(status==='local-fallback')return 'Local fallback. Cloud unavailable.';
+  if(status==='cloud-error')return 'Cloud error. Local cache preserved.';
+  return 'Cloud: checking...';
+}
+function renderCloudStorageStatus(){
+  const panel=cloudEl('cloudStatusPanel');
+  const migration=cloudEl('cloudMigrationPanel');
+  const migrationSummary=cloudEl('cloudMigrationSummary');
+  if(panel){
+    const lines=[cloudStateMessage];
+    if(cloudRevision!=null)lines.push('Revision: '+cloudRevision);
+    if(cloudUpdatedAt)lines.push('Last saved: '+formatCloudDate(cloudUpdatedAt));
+    if(cloudDirty)lines.push('Local changes pending');
+    panel.textContent=lines.join('\n');
+  }
+  if(migration){
+    const show=cloudStateStatus==='cloud-empty';
+    migration.hidden=!show;
+    if(show&&migrationSummary){
+      const local=getLocalMigrationCandidate();
+      migrationSummary.textContent=local?'Local data available\n'+summaryLines(local.summary):'No local data found. You can start a new Cloud State.';
+    }
+  }
+  const saveState=cloudEl('saveState');
+  if(saveState){
+    if(cloudStateStatus==='cloud-saved')saveState.textContent='cloud saved · '+nowStr();
+    else if(cloudStateStatus==='cloud-saving')saveState.textContent='cloud saving... local cache preserved';
+    else if(cloudStateStatus==='cloud-conflict')saveState.textContent='Cloud conflict · reload required';
+    else if(cloudStateStatus==='local-fallback')saveState.textContent='local fallback · cloud unavailable';
+    else if(cloudDirty)saveState.textContent='local saved · cloud pending';
+    else saveState.textContent=cloudStateMessage||'preview localStorage · autosaved';
+  }
+}
+function resetCloudRuntimeState(){
+  clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
+  cloudRevision=null;cloudUpdatedAt=null;cloudRowExists=false;cloudDirty=false;cloudSaveInFlight=false;cloudSavePending=false;cloudLoadPromise=null;cloudInitializedForUser=null;cloudApplyingRemoteState=false;cloudConflict=false;
+  setCloudStateStatus('cloud-loading','Cloud: checking...');
+}
+async function loadCloudState(options={}){
+  if(!isSplayAuthenticated())return false;
+  const userId=cloudUserId();
+  const client=getSupabaseAuthClient();
+  setCloudStateStatus('cloud-loading','Cloud: Loading...');
+  try{
+    const {data,error}=await client.from('splay_states').select('state_json,revision,updated_at,source_version').eq('user_id',userId).maybeSingle();
+    if(error)throw error;
+    cloudInitializedForUser=userId;
+    cloudConflict=false;
+    if(!data){
+      cloudRowExists=false;cloudRevision=null;cloudUpdatedAt=null;cloudDirty=false;
+      setCloudStateStatus('cloud-empty','Cloud data not created');
+      return false;
+    }
+    const candidate=prepareCloudState(data.state_json);
+    cloudApplyingRemoteState=true;
+    applyRuntimeState(candidate,options.renderNow===true);
+    cloudApplyingRemoteState=false;
+    cloudRowExists=true;cloudRevision=Number(data.revision||1);cloudUpdatedAt=data.updated_at||null;cloudDirty=false;
+    writeLocalStateCache(createPersistableStateSnapshot(state));
+    setCloudStateStatus('cloud-ready','Cloud: Connected');
+    return true;
+  }catch(error){
+    cloudApplyingRemoteState=false;
+    console.error('Splay OS cloud load failed',error);
+    const fallback=readStateCandidateFromStorage(currentCloudCacheKey());
+    if(fallback)applyRuntimeState(fallback.state,options.renderNow===true);
+    else applyRuntimeState(defaultState(),options.renderNow===true);
+    cloudRowExists=false;cloudRevision=null;cloudUpdatedAt=null;cloudDirty=false;
+    setCloudStateStatus('local-fallback','Local fallback. Cloud unavailable.');
+    return true;
+  }
+}
+async function ensureCloudStateLoaded(options={}){
+  if(!isSplayAuthenticated())return false;
+  const userId=cloudUserId();
+  if(!options.force&&cloudInitializedForUser===userId&&(cloudRowExists||cloudStateStatus==='cloud-empty'||cloudStateStatus==='local-fallback'))return cloudRowExists||cloudStateStatus==='local-fallback';
+  if(cloudLoadPromise)return cloudLoadPromise;
+  cloudLoadPromise=loadCloudState(options).finally(()=>{cloudLoadPromise=null});
+  return cloudLoadPromise;
+}
+async function initializeCloudForSession(options={}){await ensureCloudStateLoaded({force:options.force===true})}
+async function createCloudStateFromSnapshot(snapshot){
+  if(!isSplayAuthenticated())return false;
+  const userId=cloudUserId();
+  const client=getSupabaseAuthClient();
+  const payload={user_id:userId,state_json:snapshot,revision:1,source_version:snapshot.version||''};
+  setCloudStateStatus('cloud-saving','Creating Cloud State...');
+  const {data,error}=await client.from('splay_states').insert(payload).select('state_json,revision,updated_at,source_version').single();
+  if(error)throw error;
+  const candidate=prepareCloudState(data.state_json||snapshot);
+  applyRuntimeState(candidate,false);
+  cloudInitializedForUser=userId;cloudRowExists=true;cloudRevision=Number(data.revision||1);cloudUpdatedAt=data.updated_at||null;cloudDirty=false;cloudConflict=false;
+  writeLocalStateCache(createPersistableStateSnapshot(state));
+  setCloudStateStatus('cloud-saved','Cloud State created');
+  return true;
+}
+async function uploadLocalDataToCloud(){
+  const local=getLocalMigrationCandidate();
+  if(!local){alert('No valid local Splay OS data was found.');return}
+  const ok=confirm('現在のローカルデータをCloudへ保存します。\n\n'+summaryLines(local.summary)+'\n\nこのCloudアカウントにはまだデータがありません。');
+  if(!ok)return;
+  try{await createCloudStateFromSnapshot(createPersistableStateSnapshot(local.state));await openSplayDesktop()}
+  catch(error){console.error('Splay OS initial cloud upload failed',error);setCloudStateStatus('cloud-error','Cloud upload failed. Local cache preserved.')}
+}
+async function startNewCloudState(){
+  const ok=confirm('新しいSplay OS Cloud Stateを作成します。現在のローカルデータは上書きされません。');
+  if(!ok)return;
+  try{const fresh=finalizeRuntimeState(defaultState());await createCloudStateFromSnapshot(createPersistableStateSnapshot(fresh));await openSplayDesktop()}
+  catch(error){console.error('Splay OS initial cloud state creation failed',error);setCloudStateStatus('cloud-error','Cloud State creation failed. Local cache preserved.')}
+}
+function markCloudDirty(options={}){
+  if(cloudApplyingRemoteState||!isSplayAuthenticated())return;
+  if(!cloudRowExists){renderCloudStorageStatus();return}
+  if(cloudConflict)return;
+  cloudDirty=true;renderCloudStorageStatus();
+  if(options.scheduleCloud!==false)scheduleCloudSave();
+}
+function scheduleCloudSave(){
+  if(!isSplayAuthenticated()||!cloudRowExists||cloudConflict)return;
+  clearTimeout(cloudSaveTimer);
+  cloudSaveTimer=setTimeout(()=>{saveCloudState({debounced:true})},CLOUD_SAVE_DEBOUNCE_MS);
+}
+async function saveCloudState(options={}){
+  if(!isSplayAuthenticated())return false;
+  if(!cloudRowExists){setCloudStateStatus('cloud-empty','Cloud data not created');return false}
+  if(cloudConflict&&!options.force){setCloudStateStatus('cloud-conflict','Cloud data changed elsewhere. Reload Cloud State.');return false}
+  if(cloudSaveInFlight){cloudSavePending=true;return false}
+  cloudSaveInFlight=true;
+  clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
+  try{
+    do{
+      cloudSavePending=false;
+      const snapshot=createPersistableStateSnapshot(state);
+      const currentRevision=Number(cloudRevision||1);
+      const nextRevision=currentRevision+1;
+      const updatedAt=new Date().toISOString();
+      setCloudStateStatus('cloud-saving','Cloud: Saving...');
+      const {data,error}=await getSupabaseAuthClient().from('splay_states').update({state_json:snapshot,revision:nextRevision,updated_at:updatedAt,source_version:snapshot.version||''}).eq('user_id',cloudUserId()).eq('revision',currentRevision).select('revision,updated_at').maybeSingle();
+      if(error)throw error;
+      if(!data){
+        cloudConflict=true;cloudDirty=true;cloudSavePending=false;
+        setCloudStateStatus('cloud-conflict','Cloud data changed elsewhere. Reload Cloud State.');
+        return false;
+      }
+      cloudRevision=Number(data.revision||nextRevision);cloudUpdatedAt=data.updated_at||updatedAt;cloudDirty=false;cloudConflict=false;
+      writeLocalStateCache(snapshot);
+      setCloudStateStatus('cloud-saved','Cloud: Saved');
+    }while(cloudSavePending);
+    return true;
+  }catch(error){
+    cloudDirty=true;
+    console.error('Splay OS cloud save failed',error);
+    setCloudStateStatus('cloud-error','Cloud save failed. Local cache preserved.');
+    return false;
+  }finally{cloudSaveInFlight=false}
+}
+async function manualCloudSave(){
+  const ready=await ensureCloudStateLoaded();
+  if(!ready){setCloudStateStatus('cloud-empty','Cloud data not created');return false}
+  return saveCloudState({manual:true});
+}
+async function manualCloudReload(){
+  if(cloudDirty&&!confirm('Load the latest Cloud State. Unsaved local changes may be lost.'))return false;
+  const ok=await loadCloudState({force:true,manual:true,renderNow:true});
+  if(ok&&splayDesktopBooted)render();
+  return ok;
+}
+async function promptCloudSaveAfterImport(){
+  if(!isSplayAuthenticated()||!cloudRowExists)return;
+  cloudDirty=true;renderCloudStorageStatus();
+  if(confirm('JSON Import was applied locally. Save this imported state to Cloud now?'))await saveCloudState({manual:true});
+}
+window.addEventListener('beforeunload',e=>{if(cloudDirty){e.preventDefault();e.returnValue=''}});
 function closeDesktopTransients(){
   ['palette','splayMenu','workspaceMenu','createMenu','moveToMenu','shapeInspector','detailPanel','logDrawer','vaultPanel','wsSettingsPanel','confirmModal'].forEach(id=>{const el=cloudEl(id);if(el)el.classList.remove('show')});
   if(typeof hideMenus==='function')hideMenus();
@@ -503,8 +770,10 @@ function showCloudPortal(){
   if(shell)shell.hidden=false;
   lockDesktopApp();
 }
-function openSplayDesktop(){
-  if(!isSplayAuthenticated()){showCloudPortal();setAuthStatus('Login required.','error');return}
+async function openSplayDesktop(){
+  if(!isSplayAuthenticated()){showCloudPortal();setAuthStatus('Login required.','error');return false}
+  const ready=await ensureCloudStateLoaded({renderNow:false});
+  if(!ready){showCloudPortal();return false}
   const shell=cloudEl('cloudShell');
   const app=cloudEl('splayDesktopApp');
   const bar=cloudEl('cloudSessionBar');
@@ -512,6 +781,7 @@ function openSplayDesktop(){
   if(app){app.hidden=false;app.inert=false;app.setAttribute('aria-hidden','false')}
   if(bar)bar.hidden=false;
   if(typeof bootSplayDesktop==='function')bootSplayDesktop();
+  return true;
 }
 function renderCloudAuth(){
   const signedIn=isSplayAuthenticated();
@@ -532,6 +802,7 @@ function renderCloudAuth(){
   if(accountEmailDetail)accountEmailDetail.textContent=email||'';
   if(accountIdDetail)accountIdDetail.textContent=uid||'';
   if(!signedIn)lockDesktopApp();
+  renderCloudStorageStatus();
 }
 function safeAuthMessage(error){return error&&error.message?String(error.message):'Authentication failed.'}
 function getSupabaseAuthClient(){
@@ -569,22 +840,29 @@ async function createAccountWithPassword(){
     const {data,error}=await client.auth.signUp({email,password});
     clearAuthPassword();
     if(error)throw error;
-    if(data&&data.session){splayAuthSession=data.session;renderCloudAuth();setAuthStatus('Session ready.','ok')}
+    if(data&&data.session){splayAuthSession=data.session;renderCloudAuth();setAuthStatus('Session ready.','ok');await initializeCloudForSession({force:true})}
     else setAuthStatus('Account created. Confirm the email if required.','ok');
   }catch(error){clearAuthPassword();setAuthStatus(safeAuthMessage(error),'error')}
   finally{setCloudAuthDisabled(false)}
 }
 async function logoutSplay(){
+  if(cloudDirty&&cloudRowExists){
+    const saved=await saveCloudState({manual:true,beforeLogout:true});
+    if(!saved&&!confirm('Cloud save failed. Local cache is preserved. Logout anyway?'))return;
+  }
+  clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
   try{if(splayAuthClient)await splayAuthClient.auth.signOut()}catch(_error){}
   splayAuthSession=null;
+  resetCloudRuntimeState();
   showCloudPortal();
   renderCloudAuth();
   setAuthStatus('Logged out.','ok');
 }
 function toggleAccountPanel(){const panel=cloudEl('accountPanel');if(panel)panel.hidden=!panel.hidden}
-function runPortalSnapshotExport(){
+async function runPortalSnapshotExport(){
   if(!isSplayAuthenticated()){setAuthStatus('Login required.','error');return}
-  openSplayDesktop();
+  const opened=await openSplayDesktop();
+  if(!opened)return;
   setTimeout(()=>{
     const workspaceId=state?.activeWorkspaceId||state?.workspaces?.[0]?.id;
     if(typeof exportWorkspaceSnapshotHTML==='function')exportWorkspaceSnapshotHTML(workspaceId);
@@ -596,11 +874,17 @@ async function initCloudAuth(){
   if(form&&!form.dataset.bound){form.dataset.bound='1';form.addEventListener('submit',signInWithPassword)}
   cloudEl('authSignupButton')?.addEventListener('click',createAccountWithPassword);
   cloudEl('portalOpenApp')?.addEventListener('click',openSplayDesktop);
+  cloudEl('portalCloudSave')?.addEventListener('click',manualCloudSave);
+  cloudEl('portalCloudReload')?.addEventListener('click',manualCloudReload);
   cloudEl('portalSnapshotExport')?.addEventListener('click',runPortalSnapshotExport);
   cloudEl('portalAccount')?.addEventListener('click',toggleAccountPanel);
   cloudEl('portalLogout')?.addEventListener('click',logoutSplay);
   cloudEl('cloudBackPortal')?.addEventListener('click',showCloudPortal);
+  cloudEl('cloudInlineSave')?.addEventListener('click',manualCloudSave);
+  cloudEl('cloudInlineReload')?.addEventListener('click',manualCloudReload);
   cloudEl('cloudInlineLogout')?.addEventListener('click',logoutSplay);
+  cloudEl('cloudUploadLocal')?.addEventListener('click',uploadLocalDataToCloud);
+  cloudEl('cloudStartNew')?.addEventListener('click',startNewCloudState);
   renderCloudAuth();
   if(!hasSupabaseConfig()){
     setCloudAuthDisabled(true);
@@ -613,14 +897,20 @@ async function initCloudAuth(){
     if(error)throw error;
     splayAuthSession=data?.session||null;
     renderCloudAuth();
-    setAuthStatus(splayAuthSession?'Session restored.':'','ok');
-    client.auth.onAuthStateChange((_event,session)=>{
+    if(splayAuthSession){
+      setAuthStatus('Session restored.','ok');
+      await initializeCloudForSession({force:true});
+    }else setAuthStatus('','ok');
+    client.auth.onAuthStateChange(async (_event,session)=>{
+      const previousUserId=cloudInitializedForUser;
       splayAuthSession=session||null;
-      if(!splayAuthSession)showCloudPortal();
+      if(!splayAuthSession){resetCloudRuntimeState();showCloudPortal();renderCloudAuth();return}
       renderCloudAuth();
+      await initializeCloudForSession({force:previousUserId!==splayAuthSession.user?.id});
     });
   }catch(error){
     splayAuthSession=null;
+    resetCloudRuntimeState();
     renderCloudAuth();
     setAuthStatus(safeAuthMessage(error),'error');
   }
@@ -737,7 +1027,16 @@ function load(){try{let raw=localStorage.getItem(STORAGE_KEY);if(raw)return migr
 let state=load();
 if(Array.isArray(state.nodes))state.nodes.forEach(n=>{ensureNodeShape(n);ensureNodePresentation(n)});
 state.selectedNodeIds=new Set(); /* v0.6.4: runtime-only, not persisted */
-function save(flash=false){const toSave={...state};delete toSave.selectedNodeIds;localStorage.setItem(STORAGE_KEY,JSON.stringify(toSave)); if(flash){const el=document.getElementById('saveState');el.textContent='preview saved · '+nowStr();setTimeout(()=>el.textContent='preview localStorage · autosaved',1300)}}
+function save(flash=false,options={}){
+  if(flash&&typeof flash==='object'){options=flash;flash=false}
+  const snapshot=createPersistableStateSnapshot(state);
+  writeLocalStateCache(snapshot);
+  if(options.markDirty!==false)markCloudDirty(options);
+  if(flash){
+    const el=document.getElementById('saveState');
+    if(el){el.textContent='local saved · '+nowStr();setTimeout(()=>renderCloudStorageStatus(),1300)}
+  }else renderCloudStorageStatus();
+}
 function log(text){state.logs.unshift({id:uid('log'),time:nowStr(),text}); if(state.logs.length>300)state.logs.pop(); save(); renderLog()}
 function count(){let decided=0,considering=0,pending=0,open=0;state.nodes.forEach(n=>{if(n.type==='decision'){if(['決定','仮決定'].includes(n.data.status))decided++;else if(n.data.status==='検討中')considering++;else if(n.data.status==='保留')pending++} if(n.type==='task'&&n.data.status!=='Done')open++});return{decided,considering,pending,open}}
 function activeWs(){return state.workspaces.find(w=>w.id===state.activeWorkspaceId)||state.workspaces[0]}
@@ -1634,9 +1933,7 @@ document.getElementById('paletteInput').addEventListener('input',renderCommands)
 function toggleLog(){const p=document.getElementById('logDrawer');p.classList.toggle('show');touchFloat(p)}
 function toggleVault(){const p=document.getElementById('vaultPanel');p.classList.toggle('show');renderVault();touchFloat(p)}
 function serializableState(source=state){
-  const snapshot={...source};
-  delete snapshot.selectedNodeIds;
-  return snapshot;
+  return createPersistableStateSnapshot(source);
 }
 function validateImportRoot(candidate){
   if(!candidate||typeof candidate!=='object'||Array.isArray(candidate))throw new TypeError('Unsupported Structure: root must be an object');
@@ -1845,7 +2142,8 @@ function importJSON(e){
   const r=new FileReader();
   r.onload=ev=>{
     const previousState=state;
-    const previousStored=localStorage.getItem(STORAGE_KEY);
+    const previousCacheKey=currentCloudCacheKey()||STORAGE_KEY;
+    const previousStored=localStorage.getItem(previousCacheKey);
     try{
       let parsed;
       try{parsed=JSON.parse(String(ev.target?.result??''))}catch(parseError){parseError.importStage='parse';throw parseError}
@@ -1854,22 +2152,23 @@ function importJSON(e){
       try{render()}catch(renderError){renderError.importStage='render';throw renderError}
       state.logs.unshift({id:uid('log'),time:nowStr(),text:'JSON Import'});
       if(state.logs.length>300)state.logs.length=300;
-      save(true);
+      save(true,{scheduleCloud:false});
       renderLog();
       hideMenus();closeShapeInspector();closeWorkspaceSettings();closeConfirm();
       document.getElementById('createMenu').classList.remove('show');
       document.getElementById('moveToMenu').classList.remove('show');
-      alert('Importが完了しました。');
+      alert('Import completed. Local cache was updated.');
+      promptCloudSaveAfterImport();
     }catch(err){
       state=previousState;
-      if(previousStored===null)localStorage.removeItem(STORAGE_KEY);else localStorage.setItem(STORAGE_KEY,previousStored);
+      if(previousStored===null)localStorage.removeItem(previousCacheKey);else localStorage.setItem(previousCacheKey,previousStored);
       try{render()}catch(rollbackError){console.error('Splay OS import rollback render failed',rollbackError)}
       console.error('Splay OS import failed',err);
-      const reason=err?.importStage==='parse'?'JSON形式を解析できませんでした。':err?.importStage==='render'?'保存データの描画中にエラーが発生しました。':'保存データの構造を確認してください。';
-      alert('Importに失敗しました。\n'+reason+'\n現在のデータは変更されていません。');
+      const reason=err?.importStage==='parse'?'Could not parse JSON.':err?.importStage==='render'?'Imported data failed while rendering.':'Imported data structure is not supported.';
+      alert('Import failed.\n'+reason+'\nCurrent Splay OS data was not changed.');
     }finally{input.value=''}
   };
-  r.onerror=()=>{console.error('Splay OS import file read failed',r.error);alert('Importに失敗しました。\nファイルを読み取れませんでした。\n現在のデータは変更されていません。');input.value=''};
+  r.onerror=()=>{console.error('Splay OS import file read failed',r.error);alert('Import failed.\nThe file could not be read.\nCurrent Splay OS data was not changed.');input.value=''};
   r.readAsText(f);
 }
 function resetAll(){if(confirm('初期状態に戻しますか？')){state=defaultState();if(Array.isArray(state.nodes))state.nodes.forEach(n=>{ensureNodeShape(n);ensureNodePresentation(n)});save();render()}}
@@ -2086,7 +2385,7 @@ function bootSplayDesktop(){
   initFloatingControls();
   initSpatialEnvironment();
   render();
-  save();
+  save(false,{markDirty:false});
 }
 window.addEventListener('resize',()=>{if(!splayDesktopBooted||!isSplayAuthenticated())return;initSpatialEnvironment();renderMenus();renderMinimap();positionOrbs();ensureDetailPanelInViewport();updateNodeProjection();if(shapeInspectorNodeId)positionShapeInspector(shapeInspectorNodeId)});
 initCloudAuth();
