@@ -1,13 +1,13 @@
 {
-  "released_at": "2026-07-12T22:23:56+09:00",
+  "released_at": "2026-07-13T13:09:59+09:00",
   "source": "release/preview/splay_os_preview.html",
   "stable": "release/stable/splay_os.html",
   "public": "docs/index.html",
   "version": "0.6.4",
-  "source_sha256": "d1b0f43021659ef3b5e6f70aaec3e2bf2e647e50308e3c2eefda956991ece25e",
-  "stable_sha256": "985c743aa810f2e1656c0b4d5961ad53363837bf38d5ce511a08bafac5a34067",
-  "docs_sha256": "985c743aa810f2e1656c0b4d5961ad53363837bf38d5ce511a08bafac5a34067",
-  "archive": "release/archive/splay_os_20260712_222356_f693039da530.html",
+  "source_sha256": "a2cde2cc1362eedd17f8f9e629091568db7773df86a558f498a4dc5a85e2339a",
+  "stable_sha256": "ccf230d44fb0964358140b6ba7ffce342e9f02b098d5a7c5d4767e90e5442e7e",
+  "docs_sha256": "ccf230d44fb0964358140b6ba7ffce342e9f02b098d5a7c5d4767e90e5442e7e",
+  "archive": "release/archive/splay_os_20260713_130952_eeab4ffb2a61.html",
   "transformations": [
     "preview title -> stable title",
     "preview STORAGE_KEY -> stable STORAGE_KEY",

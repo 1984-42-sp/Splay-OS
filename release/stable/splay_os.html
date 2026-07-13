@@ -2,7 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; font-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none';">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Splay OS Cloud</title>
 <style>
 :root{
@@ -364,7 +365,7 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
 /* === Tactical Spatial Radar Minimap === */
 .minimap{border-radius:14px 18px 12px 16px;border:1px solid rgba(112,164,184,.24);background:linear-gradient(145deg,rgba(2,9,18,.88),rgba(3,17,30,.78));box-shadow:0 24px 74px rgba(0,0,0,.50),0 0 0 1px rgba(var(--cyan-light),.045),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(10px) saturate(1.04);overflow:hidden;isolation:isolate;transition:opacity .2s ease,visibility .2s ease,filter .2s ease}.minimap::before{content:"";position:absolute;inset:1px;border-radius:13px 17px 11px 15px;z-index:0;pointer-events:none;background:linear-gradient(rgba(86,145,162,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(86,145,162,.045) 1px,transparent 1px),repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 6px),radial-gradient(ellipse at 50% 52%,rgba(var(--cyan-light),.08),transparent 58%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 22%,transparent 78%,rgba(0,0,0,.28));background-size:22px 22px,22px 22px,100% 6px,100% 100%,100% 100%;animation:miniScanDrift 32s linear infinite}.minimap::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;border-radius:inherit;background:linear-gradient(rgba(var(--cyan-core),.42),rgba(var(--cyan-core),.42)) left top/36px 1px no-repeat,linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) left top/1px 28px no-repeat,linear-gradient(rgba(var(--cyan-core),.30),rgba(var(--cyan-core),.30)) right bottom/38px 1px no-repeat,linear-gradient(rgba(var(--cyan-core),.24),rgba(var(--cyan-core),.24)) right bottom/1px 30px no-repeat,linear-gradient(90deg,rgba(var(--cyan-light),.32),transparent) 14px 7px/54px 1px no-repeat,repeating-linear-gradient(90deg,rgba(var(--cyan-light),.26) 0 1px,transparent 1px 8px) center bottom 6px/92px 5px no-repeat;box-shadow:inset 0 0 0 1px rgba(150,190,205,.09),inset 12px 0 24px rgba(var(--cyan-light),.025),inset -14px 0 28px rgba(var(--purple-light),.035)}@keyframes miniScanDrift{from{background-position:0 0,0 0,0 0,0 0,0 0}to{background-position:0 0,0 0,0 48px,0 0,0 0}}.minimap .float-resize-handle{right:4px;bottom:4px;z-index:30;opacity:.88;background:rgba(5,20,34,.92);border-color:rgba(var(--cyan-core),.38);box-shadow:0 0 0 1px rgba(0,0,0,.34),0 0 14px rgba(var(--cyan-light),.18)}.mini-conn-svg{z-index:1;mix-blend-mode:screen}.mini-conn-line{stroke:rgba(92,145,160,.24);stroke-width:.65;stroke-linecap:round;filter:none}.mini-conn-line.mini-conn-selected{stroke:rgba(132,210,226,.38);stroke-width:.85}.mini-conn-line.mini-conn-active{stroke:rgba(224,255,255,.68);stroke-width:1.05;filter:drop-shadow(0 0 3px rgba(var(--cyan-light),.22))}.mini-node{box-sizing:border-box;position:absolute;z-index:3;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle at 48% 42%,rgba(160,226,238,.18),rgba(3,15,27,.78) 52%,rgba(1,7,14,.90));border:1px solid rgba(116,178,194,.48);box-shadow:inset 0 0 8px rgba(var(--cyan-light),.08),0 0 6px rgba(var(--cyan-light),.045);transition:border-color .16s ease,box-shadow .16s ease,opacity .16s ease}.mini-node.mini-done{opacity:.48;filter:saturate(.55)}.mini-node.mini-selected{z-index:4;border-color:rgba(var(--cyan-core),.82);box-shadow:0 0 0 1px rgba(var(--cyan-light),.18),0 0 10px rgba(var(--cyan-light),.14),inset 0 0 9px rgba(var(--cyan-light),.09)}.mini-node.mini-selected::before{content:"";position:absolute;inset:-3px;border:1px solid rgba(var(--cyan-core),.36);border-radius:inherit;pointer-events:none}.mini-node.mini-active{z-index:5;border-color:rgba(235,255,255,.95);background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.96) 0 1.5px,rgba(var(--cyan-core),.42) 2px 4px,rgba(4,24,38,.84) 5px 100%);box-shadow:0 0 0 1px rgba(var(--cyan-core),.32),0 0 14px rgba(var(--cyan-light),.30),inset 0 0 10px rgba(255,255,255,.09);animation:miniActivePulse 5.6s ease-in-out infinite}.mini-node.mini-active.mini-selected{box-shadow:0 0 0 1px rgba(240,255,255,.42),0 0 16px rgba(var(--cyan-light),.34),inset 0 0 10px rgba(255,255,255,.12)}.mini-view{z-index:6;border:0;background:linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left top/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left top/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right top/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right top/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left bottom/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) left bottom/1px 16px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right bottom/16px 1px no-repeat,linear-gradient(rgba(226,255,255,.78),rgba(226,255,255,.78)) right bottom/1px 16px no-repeat,rgba(var(--cyan-light),.018);box-shadow:0 0 10px rgba(var(--cyan-core),.11),inset 0 0 18px rgba(var(--cyan-light),.025);pointer-events:none;transition:left .12s ease,top .12s ease,width .12s ease,height .12s ease}.mini-center{z-index:7;width:14px;height:14px;border-radius:50%;background:transparent;border:1px solid rgba(226,255,255,.56);box-shadow:0 0 9px rgba(var(--cyan-light),.18);pointer-events:none}.mini-center::before{content:"";position:absolute;left:50%;top:50%;width:2px;height:2px;border-radius:50%;transform:translate(-50%,-50%);background:rgba(245,255,255,.92);box-shadow:0 0 6px rgba(var(--cyan-core),.46)}.mini-center::after{content:"";position:absolute;inset:-5px;background:linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) center top/1px 4px no-repeat,linear-gradient(rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) center bottom/1px 4px no-repeat,linear-gradient(90deg,rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) left center/4px 1px no-repeat,linear-gradient(90deg,rgba(var(--cyan-core),.34),rgba(var(--cyan-core),.34)) right center/4px 1px no-repeat}.mini-cross-x,.mini-cross-y{display:none!important}@keyframes miniActivePulse{0%,100%{filter:brightness(.96)}50%{filter:brightness(1.18)}}@media(max-width:760px){.minimap::before{background-size:28px 28px,28px 28px,100% 8px,100% 100%,100% 100%;opacity:.82}.minimap::after{background-size:24px 1px,1px 20px,26px 1px,1px 22px,40px 1px,70px 5px}.mini-view{transition:none}.mini-center{width:12px;height:12px}}
 /* === Cloud Edition Phase 2 Auth Portal === */
-.app[hidden],.cloud-shell[hidden]{display:none!important}.cloud-shell{position:fixed;inset:0;z-index:500;display:grid;place-items:center;overflow:auto;padding:28px;background:radial-gradient(circle at 50% 35%,rgba(var(--cyan-mid),.14),transparent 24%),radial-gradient(circle at 18% 18%,rgba(var(--blue-light),.11),transparent 26%),linear-gradient(180deg,#01040a,#020915 52%,#01040a);color:var(--ivory)}.cloud-shell::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(100,235,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,235,255,.025) 1px,transparent 1px),radial-gradient(circle at 50% 42%,rgba(210,255,255,.10),transparent 30%);background-size:76px 76px,76px 76px,100% 100%;mask-image:radial-gradient(circle at center,black,transparent 82%)}.cloud-panel{position:relative;width:min(920px,100%);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:24px;border:1px solid rgba(var(--cyan-light),.18);border-radius:30px;background:linear-gradient(145deg,rgba(5,20,36,.80),rgba(1,8,18,.78));box-shadow:0 34px 120px rgba(0,0,0,.54),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(18px);padding:28px;overflow:hidden}.cloud-panel::after{content:"";position:absolute;left:24px;right:24px;top:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--cyan-core),.52),transparent);pointer-events:none}.cloud-brand{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:38px;min-height:390px}.cloud-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--cyan-core),.76)}.cloud-brand h1{margin:10px 0 0;font-size:clamp(36px,7vw,72px);line-height:.95;color:#75f7ff;text-shadow:0 0 28px rgba(var(--cyan-light),.34);letter-spacing:0}.cloud-brand p{max-width:430px;margin:18px 0 0;color:rgba(200,220,232,.74);line-height:1.75}.cloud-phase{display:flex;flex-wrap:wrap;gap:8px}.cloud-chip{border:1px solid rgba(var(--cyan-light),.18);border-radius:999px;background:rgba(4,18,31,.68);color:rgba(220,240,248,.74);padding:7px 11px;font-size:11px}.cloud-auth-card{position:relative;z-index:1;border:1px solid rgba(var(--cyan-light),.16);border-radius:24px;background:rgba(1,8,18,.52);padding:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.055)}.cloud-auth-card h2{margin:0 0 6px;font-size:22px}.cloud-auth-card p{margin:0;color:rgba(200,220,232,.68);font-size:13px;line-height:1.65}.auth-form{margin-top:18px}.auth-form label{margin-top:12px}.auth-actions,.portal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.portal-actions{grid-template-columns:1fr;margin-top:18px}.portal-actions button{width:100%;text-align:left;padding:12px 15px}.cloud-account{margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:13px;color:rgba(230,246,252,.86);font-size:12px;line-height:1.7;overflow-wrap:anywhere}.cloud-status,.cloud-migration{margin-top:14px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:12px;color:rgba(220,240,248,.80);font-size:12px;line-height:1.6;white-space:pre-wrap}.cloud-migration p{margin:0 0 8px;color:rgba(230,246,252,.86)}.cloud-migration pre{margin:0;color:rgba(200,220,232,.76);font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}.cloud-migration .portal-actions{margin-top:12px}.cloud-account[hidden],.cloud-migration[hidden],#authPortal[hidden],#authForm[hidden]{display:none!important}.auth-status{min-height:20px;margin-top:14px;color:rgba(200,220,232,.72);font-size:12px;line-height:1.6}.auth-status.error{color:#ffb3b3}.auth-status.ok{color:rgba(130,232,184,.92)}.account-mini{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;padding:12px;background:rgba(255,255,255,.035);color:rgba(220,240,248,.82);font-size:12px}.account-mini b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cloud-lock{font-size:11px;color:rgba(200,220,232,.54);margin-top:12px}.cloud-session-bar{position:fixed;left:20px;top:18px;z-index:490;display:flex;gap:8px;padding:7px;border:1px solid rgba(var(--cyan-light),.16);border-radius:999px;background:rgba(1,8,18,.68);backdrop-filter:blur(14px);box-shadow:0 14px 50px rgba(0,0,0,.35)}.cloud-session-bar[hidden]{display:none!important}.cloud-session-bar button{padding:7px 11px;font-size:11px}.cloud-migration .portal-actions{grid-template-columns:1fr 1fr}.cloud-migration button{text-align:center}@media(max-width:760px){.cloud-shell{padding:16px}.cloud-panel{grid-template-columns:1fr;padding:20px;border-radius:24px}.cloud-brand{min-height:auto;gap:22px}.cloud-auth-card{padding:18px}.auth-actions{grid-template-columns:1fr}.cloud-brand h1{font-size:44px}}
+.app[hidden],.cloud-shell[hidden]{display:none!important}.cloud-shell{position:fixed;inset:0;z-index:500;display:grid;place-items:center;overflow:auto;padding:28px;background:radial-gradient(circle at 50% 35%,rgba(var(--cyan-mid),.14),transparent 24%),radial-gradient(circle at 18% 18%,rgba(var(--blue-light),.11),transparent 26%),linear-gradient(180deg,#01040a,#020915 52%,#01040a);color:var(--ivory)}.cloud-shell::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(100,235,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,235,255,.025) 1px,transparent 1px),radial-gradient(circle at 50% 42%,rgba(210,255,255,.10),transparent 30%);background-size:76px 76px,76px 76px,100% 100%;mask-image:radial-gradient(circle at center,black,transparent 82%)}.cloud-panel{position:relative;width:min(920px,100%);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);gap:24px;border:1px solid rgba(var(--cyan-light),.18);border-radius:30px;background:linear-gradient(145deg,rgba(5,20,36,.80),rgba(1,8,18,.78));box-shadow:0 34px 120px rgba(0,0,0,.54),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(18px);padding:28px;overflow:hidden}.cloud-panel::after{content:"";position:absolute;left:24px;right:24px;top:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--cyan-core),.52),transparent);pointer-events:none}.cloud-brand{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:38px;min-height:390px}.cloud-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--cyan-core),.76)}.cloud-brand h1{margin:10px 0 0;font-size:clamp(36px,7vw,72px);line-height:.95;color:#75f7ff;text-shadow:0 0 28px rgba(var(--cyan-light),.34);letter-spacing:0}.cloud-brand p{max-width:430px;margin:18px 0 0;color:rgba(200,220,232,.74);line-height:1.75}.cloud-phase{display:flex;flex-wrap:wrap;gap:8px}.cloud-chip{border:1px solid rgba(var(--cyan-light),.18);border-radius:999px;background:rgba(4,18,31,.68);color:rgba(220,240,248,.74);padding:7px 11px;font-size:11px}.cloud-auth-card{position:relative;z-index:1;border:1px solid rgba(var(--cyan-light),.16);border-radius:24px;background:rgba(1,8,18,.52);padding:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.055)}.cloud-auth-card h2{margin:0 0 6px;font-size:22px}.cloud-auth-card p{margin:0;color:rgba(200,220,232,.68);font-size:13px;line-height:1.65}.auth-form{margin-top:18px}.auth-form label{margin-top:12px}.auth-actions,.portal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.portal-actions{grid-template-columns:1fr;margin-top:18px}.portal-actions button{width:100%;text-align:left;padding:12px 15px}.cloud-account{margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:13px;color:rgba(230,246,252,.86);font-size:12px;line-height:1.7;overflow-wrap:anywhere}.cloud-status,.cloud-migration{margin-top:14px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;background:rgba(255,255,255,.035);padding:12px;color:rgba(220,240,248,.80);font-size:12px;line-height:1.6;white-space:pre-wrap}.cloud-migration p{margin:0 0 8px;color:rgba(230,246,252,.86)}.cloud-migration pre{margin:0;color:rgba(200,220,232,.76);font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}.cloud-migration .portal-actions{margin-top:12px}.cloud-account[hidden],.cloud-migration[hidden],#authPortal[hidden],#authForm[hidden]{display:none!important}.auth-status{min-height:20px;margin-top:14px;color:rgba(200,220,232,.72);font-size:12px;line-height:1.6}.auth-status.error{color:#ffb3b3}.auth-status.ok{color:rgba(130,232,184,.92)}.account-mini{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;border:1px solid rgba(var(--cyan-light),.12);border-radius:18px;padding:12px;background:rgba(255,255,255,.035);color:rgba(220,240,248,.82);font-size:12px}.account-mini b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cloud-lock{font-size:11px;color:rgba(200,220,232,.54);margin-top:12px}.cloud-session-bar{position:fixed;left:20px;top:18px;z-index:490;display:flex;gap:8px;padding:7px;border:1px solid rgba(var(--cyan-light),.16);border-radius:999px;background:rgba(1,8,18,.68);backdrop-filter:blur(14px);box-shadow:0 14px 50px rgba(0,0,0,.35)}.cloud-session-bar[hidden]{display:none!important}.cloud-session-bar button{padding:7px 11px;font-size:11px}.cloud-migration .portal-actions{grid-template-columns:1fr 1fr}.cloud-migration button{text-align:center}.mobile-app{position:fixed;inset:0;z-index:300;display:grid;grid-template-rows:auto 1fr auto;min-height:100vh;min-height:100dvh;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);overflow:hidden;background:radial-gradient(circle at 50% 0%,rgba(var(--cyan-mid),.16),transparent 30%),radial-gradient(circle at 12% 18%,rgba(var(--blue-light),.12),transparent 28%),linear-gradient(180deg,#010612,#03101c 58%,#01050b);color:var(--ivory)}.mobile-app[hidden]{display:none!important}.mobile-app::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(100,235,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,235,255,.025) 1px,transparent 1px);background-size:52px 52px;mask-image:linear-gradient(black,transparent 78%)}.mobile-header,.mobile-bottom-nav{position:relative;z-index:1;background:rgba(1,9,18,.78);border-color:rgba(var(--cyan-light),.16);backdrop-filter:blur(18px)}.mobile-header{border-bottom:1px solid rgba(var(--cyan-light),.16);padding:10px 14px 10px}.mobile-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}.mobile-brand{min-width:0}.mobile-kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(var(--cyan-core),.76)}.mobile-brand h1{margin:2px 0 0;font-size:20px;line-height:1.15;letter-spacing:0;color:#dffbff}.mobile-sync{margin-top:6px;font-size:11px;color:rgba(210,230,240,.72);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mobile-actions{display:flex;gap:7px;flex-shrink:0}.mobile-icon-btn{min-width:44px;min-height:44px;border-radius:14px;padding:8px 10px;border:1px solid rgba(var(--cyan-light),.18);background:rgba(255,255,255,.045);color:#e8fbff;font-size:12px}.mobile-main{position:relative;z-index:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:12px 14px 18px;min-width:0}.mobile-bottom-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding:8px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid rgba(var(--cyan-light),.16)}.mobile-bottom-nav button{min-height:48px;border-radius:16px;padding:6px 4px;font-size:11px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.mobile-bottom-nav button b{font-size:14px;line-height:1}.mobile-bottom-nav button.active{background:linear-gradient(135deg,rgba(var(--cyan-core),.26),rgba(var(--blue-light),.18));border-color:rgba(var(--cyan-light),.42);color:#f5feff}.mobile-panel{border:1px solid rgba(var(--cyan-light),.16);border-radius:18px;background:linear-gradient(150deg,rgba(7,24,40,.78),rgba(2,9,18,.76));box-shadow:0 18px 60px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.055);padding:14px;margin-bottom:12px}.mobile-section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px}.mobile-section-title h2{margin:0;font-size:18px}.mobile-muted{color:rgba(210,230,240,.68);font-size:12px;line-height:1.55}.mobile-grid{display:grid;gap:10px}.mobile-card{width:100%;min-height:64px;border:1px solid rgba(var(--cyan-light),.16);border-radius:16px;background:rgba(255,255,255,.045);color:inherit;text-align:left;padding:13px;box-shadow:0 12px 34px rgba(0,0,0,.22)}.mobile-card:focus-visible,.mobile-icon-btn:focus-visible,.mobile-bottom-nav button:focus-visible,.mobile-chip:focus-visible{outline:2px solid rgba(var(--cyan-core),.78);outline-offset:2px}.mobile-card.active{border-color:rgba(var(--cyan-core),.62);box-shadow:0 0 0 1px rgba(var(--cyan-core),.16),0 18px 50px rgba(0,0,0,.30)}.mobile-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.mobile-card-title{font-size:16px;font-weight:720;line-height:1.32;overflow-wrap:anywhere}.mobile-card-sub{margin-top:5px;color:rgba(210,230,240,.70);font-size:12px;line-height:1.5;overflow-wrap:anywhere}.mobile-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.mobile-chip{min-height:34px;border:1px solid rgba(var(--cyan-light),.15);border-radius:999px;background:rgba(3,14,26,.62);color:rgba(230,246,252,.82);padding:7px 10px;font-size:12px;white-space:nowrap}.mobile-chip.active{background:rgba(var(--cyan-core),.22);border-color:rgba(var(--cyan-core),.46);color:#f4feff}.mobile-search{display:grid;gap:9px;margin-bottom:12px}.mobile-search input,.mobile-field input,.mobile-field textarea,.mobile-field select{width:100%;min-height:44px;border-radius:14px;border:1px solid rgba(var(--cyan-light),.16);background:rgba(2,10,18,.74);color:#f4fbff;padding:10px 12px;font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;outline:none}.mobile-field textarea{min-height:104px;resize:vertical}.mobile-filter-row{display:flex;gap:8px;overflow:auto;padding:1px 0 4px;scrollbar-width:none}.mobile-filter-row::-webkit-scrollbar{display:none}.mobile-empty{min-height:180px;display:grid;place-items:center;text-align:center;color:rgba(210,230,240,.62);border:1px dashed rgba(var(--cyan-light),.18);border-radius:18px;padding:22px}.mobile-detail-head{position:sticky;top:-12px;z-index:2;margin:-12px -14px 12px;padding:10px 14px;background:rgba(1,9,18,.92);border-bottom:1px solid rgba(var(--cyan-light),.14);backdrop-filter:blur(18px)}.mobile-detail-title{margin-top:6px;font-size:18px;font-weight:760;line-height:1.3;overflow-wrap:anywhere}.mobile-field{display:grid;gap:6px;margin-bottom:12px}.mobile-field label{font-size:12px;color:rgba(var(--cyan-core),.86);letter-spacing:.08em;text-transform:uppercase}.mobile-readonly{white-space:pre-wrap;overflow-wrap:anywhere;color:rgba(235,248,252,.86);line-height:1.6}.mobile-link{color:#9ff4ff;overflow-wrap:anywhere}.mobile-overview{position:relative;height:min(58vh,460px);min-height:300px;border:1px solid rgba(var(--cyan-light),.16);border-radius:18px;background:radial-gradient(circle at 50% 50%,rgba(var(--cyan-core),.10),transparent 42%),rgba(1,8,16,.62);overflow:hidden}.mobile-overview svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.mobile-marker{position:absolute;min-width:34px;min-height:30px;border:1px solid rgba(var(--cyan-light),.38);background:rgba(8,30,48,.88);color:#effbff;border-radius:12px;display:grid;place-items:center;font-size:11px;font-weight:760;box-shadow:0 8px 26px rgba(0,0,0,.30);transform:translate(-50%,-50%)}.mobile-marker.circle{border-radius:50%}.mobile-marker.active{border-color:rgba(var(--cyan-core),.86);box-shadow:0 0 0 2px rgba(var(--cyan-core),.18),0 10px 34px rgba(0,0,0,.34)}.mobile-more{position:absolute;right:12px;top:calc(64px + env(safe-area-inset-top));z-index:5;display:grid;gap:8px;width:min(230px,calc(100vw - 24px));padding:10px;border:1px solid rgba(var(--cyan-light),.18);border-radius:18px;background:rgba(2,10,20,.94);box-shadow:0 22px 80px rgba(0,0,0,.48);backdrop-filter:blur(18px)}.mobile-more[hidden]{display:none!important}.mobile-more button{min-height:42px;text-align:left}.mobile-conflict{border-color:rgba(255,179,179,.34);background:rgba(80,20,28,.24)}@media(max-width:360px){.mobile-header{padding-left:10px;padding-right:10px}.mobile-main{padding-left:10px;padding-right:10px}.mobile-bottom-nav{padding-left:8px;padding-right:8px;gap:5px}.mobile-card{padding:11px}.mobile-brand h1{font-size:18px}.mobile-icon-btn{min-width:42px;padding:8px}}@media(orientation:landscape) and (max-height:520px){.mobile-main{padding-top:8px}.mobile-overview{height:calc(100dvh - 132px);min-height:220px}.mobile-bottom-nav button{min-height:44px}.mobile-brand h1{font-size:17px}.mobile-sync{display:none}}@media(prefers-reduced-motion:reduce){.mobile-app *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}@media(max-width:760px){.cloud-shell{padding:16px}.cloud-panel{grid-template-columns:1fr;padding:20px;border-radius:24px}.cloud-brand{min-height:auto;gap:22px}.cloud-auth-card{padding:18px}.auth-actions{grid-template-columns:1fr}.cloud-brand h1{font-size:44px}}
 @media(prefers-reduced-motion:reduce){.detail-panel.node-surface.show,.detail-panel.node-surface.surface-focus,.projector-ring,.projection-flow,.focus-projection-base,.surface-body,.focus-node-core,.focus-core-orbits span,.focus-satellite,.focus-field-pane,.focus-optical-field{animation:none!important}.surface-backdrop,.node-projection,.focus-field-pane,.focus-satellite,body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-focus-active .minimap,body.surface-focus-active .save-state,body.surface-focus-active .hud,.mini-node,.mini-view{transition:none!important}.projection-flow{stroke-dashoffset:0}.projector-ring{opacity:.86}.focus-satellite,.focus-field-pane,.focus-node-core{opacity:1!important;transform:none!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.spatial-nebula,.bright-star,.horizon-core,.orb,.minimap::before,.mini-node.mini-active{animation:none!important}.spatial-stars,.spatial-ground,.spatial-particles,.bright-stars,.spatial-nebula,.spatial-horizon{transform:none!important}}
 </style>
@@ -403,6 +404,7 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
         <div class="account-mini"><span>Signed in</span><b id="accountEmail">Account</b></div>
         <div class="portal-actions">
           <button type="button" class="primary" id="portalOpenApp">Open Splay OS</button>
+          <button type="button" id="portalOpenMobile">Open Mobile View</button>
           <button type="button" id="portalCloudSave">Save to Cloud</button>
           <button type="button" id="portalCloudReload">Reload from Cloud</button>
           <button type="button" id="portalReloadRemote">Reload Remote</button>
@@ -431,7 +433,7 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
     </div>
   </div>
 </section>
-<div class="cloud-session-bar" id="cloudSessionBar" hidden><button type="button" id="cloudBackPortal">Portal</button><button type="button" id="cloudInlineSave">Save</button><button type="button" id="cloudInlineReload">Reload</button><button type="button" id="cloudInlineRemote">Remote</button><button type="button" id="cloudInlineKeepLocal">Keep</button><button type="button" class="danger" id="cloudInlineLogout">Logout</button></div>
+<div class="cloud-session-bar" id="cloudSessionBar" hidden><button type="button" id="cloudBackPortal">Portal</button><button type="button" id="cloudInlineSave">Save</button><button type="button" id="cloudInlineReload">Reload</button><button type="button" id="cloudInlineRemote">Remote</button><button type="button" id="cloudInlineKeepLocal">Keep</button><button type="button" id="cloudInlineMobile">Mobile</button><button type="button" class="danger" id="cloudInlineLogout">Logout</button></div>
 <div class="app" id="splayDesktopApp" hidden inert aria-hidden="true">
   <div class="spatial-environment" id="spatialEnvironment" aria-hidden="true">
     <canvas class="spatial-stars" id="spatialStars"></canvas>
@@ -470,7 +472,12 @@ body.surface-focus-active .orb,body.surface-focus-active .orb-menu,body.surface-
   </div>
   <div id="moveToMenu"></div>
 </div>
-<input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+<section class="mobile-app" id="mobileApp" hidden inert aria-hidden="true">
+  <header class="mobile-header" id="mobileHeader"></header>
+  <main class="mobile-main" id="mobileMain" tabindex="-1"></main>
+  <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile navigation"></nav>
+  <div class="mobile-more" id="mobileMoreMenu" hidden></div>
+</section><input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
 <script>
 const SPLAY_SUPABASE_CONFIG={
   url:'https://iwyukgxdtneqoatpaghe.supabase.co',
@@ -507,6 +514,20 @@ let pendingRemoteState=null;
 let pendingRemoteRevision=null;
 let pendingRemoteUpdatedAt=null;
 let pendingRemoteSource='';
+const VIEW_PREFERENCE_KEY='splay_os_view_preference';
+const MOBILE_ROUTES=new Set(['workspaces','nodes','overview','detail']);
+const MOBILE_TYPES=['all','task','decision','note','memo','meeting','file'];
+const MOBILE_STATUS_FILTERS=['all','open','done','blocked','waiting','overdue'];
+let appViewMode='desktop';
+let mobileRoute='workspaces';
+let mobileWorkspaceId=null;
+let mobileNodeId=null;
+let mobileSearchQuery='';
+let mobileTypeFilter='all';
+let mobileStatusFilter='all';
+let mobileMoreOpen=false;
+let mobileSearchTimer=null;
+let mobileQueryApplied=false;
 let localEditActive=false;
 let importInProgress=false;
 function cloudEl(id){return document.getElementById(id)}
@@ -658,6 +679,7 @@ function renderCloudStorageStatus(){
     else if(cloudDirty)saveState.textContent='local saved · cloud pending';
     else saveState.textContent=cloudStateMessage||'preview localStorage · autosaved';
   }
+  if(appViewMode==='mobile')renderMobileHeader();
 }
 function resetCloudRuntimeState(){
   clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
@@ -864,7 +886,7 @@ function prepareRemoteStateCandidate(row){
 }
 function desktopEditElementActive(){
   const active=document.activeElement;
-  return Boolean(active&&active.matches&&active.closest('#splayDesktopApp')&&active.matches('input,textarea,select,[contenteditable="true"]'));
+  return Boolean(active&&active.matches&&active.closest('#splayDesktopApp,#mobileApp')&&active.matches('input,textarea,select,[contenteditable="true"]'));
 }
 function canAutoApplyRemoteState(){
   const selectionRect=cloudEl('selectionRect');
@@ -1027,7 +1049,7 @@ window.addEventListener('beforeunload',e=>{
 });
 document.addEventListener('focusin',event=>{
   const target=event.target;
-  if(target&&target.matches&&target.matches('#splayDesktopApp input,#splayDesktopApp textarea,#splayDesktopApp select'))localEditActive=true;
+  if(target&&target.matches&&target.matches('#splayDesktopApp input,#splayDesktopApp textarea,#splayDesktopApp select,#mobileApp input,#mobileApp textarea,#mobileApp select'))localEditActive=true;
 });
 document.addEventListener('focusout',()=>{
   setTimeout(()=>{
@@ -1036,6 +1058,61 @@ document.addEventListener('focusout',()=>{
   },0);
 });
 bindBrowserNetworkListeners();
+function validAppViewMode(mode){return mode==='desktop'||mode==='mobile'}
+function readAppViewQuery(){try{const mode=new URL(location.href).searchParams.get('view');return validAppViewMode(mode)?mode:null}catch(_error){return null}}
+function readViewPreference(){try{const pref=localStorage.getItem(VIEW_PREFERENCE_KEY)||'auto';return ['auto','desktop','mobile'].includes(pref)?pref:'auto'}catch(_error){return 'auto'}}
+function writeViewPreference(pref){try{localStorage.setItem(VIEW_PREFERENCE_KEY,['auto','desktop','mobile'].includes(pref)?pref:'auto')}catch(_error){}}
+function devicePrefersMobileView(){return Boolean(window.matchMedia&&((matchMedia('(max-width: 760px)').matches)||(matchMedia('(pointer: coarse)').matches&&innerWidth<=900)))}
+function resolveAppViewMode(){const query=readAppViewQuery();if(query)return query;const pref=readViewPreference();if(validAppViewMode(pref))return pref;return devicePrefersMobileView()?'mobile':'desktop'}
+function mobileRoot(){return cloudEl('mobileApp')}
+function mobileMain(){return cloudEl('mobileMain')}
+function mobileClear(el){if(!el)return;while(el.firstChild)el.removeChild(el.firstChild)}
+function mobileMake(tag,attrs={}){const el=document.createElement(tag);Object.entries(attrs).forEach(([key,value])=>{if(value==null)return;if(key==='class')el.className=value;else if(key==='text')el.textContent=String(value);else if(key==='value')el.value=String(value);else if(key==='checked')el.checked=Boolean(value);else if(key==='disabled')el.disabled=Boolean(value);else el.setAttribute(key,String(value))});return el}
+function mobileButton(label,onClick,attrs={}){const btn=mobileMake('button',{type:'button',...attrs});btn.textContent=label;btn.addEventListener('click',onClick);return btn}
+function mobileAppend(parent,child){if(parent&&child)parent.appendChild(child);return child}
+function mobileAppendChip(parent,label,value,extraClass=''){if(value==null||String(value).trim()==='')return null;const chip=mobileMake('span',{class:'mobile-chip '+extraClass,text:label?label+': '+value:String(value)});parent.appendChild(chip);return chip}
+function mobileShortDate(value){if(!value)return '';const d=new Date(value);if(Number.isNaN(d.getTime()))return '';return d.toLocaleDateString('ja-JP',{month:'2-digit',day:'2-digit'})}
+function mobileWorkspaceById(id){return state?.workspaces?.find(ws=>ws.id===id)||null}
+function mobileNodeById(id){return state?.nodes?.find(n=>n.id===id)||null}
+function mobileCurrentWorkspace(){let ws=mobileWorkspaceById(mobileWorkspaceId)||mobileWorkspaceById(state?.activeWorkspaceId)||state?.workspaces?.[0]||null;if(ws)mobileWorkspaceId=ws.id;return ws}
+function mobileNodesForWorkspace(workspaceId){return (state?.nodes||[]).filter(n=>n.workspaceId===workspaceId)}
+function mobileNodeDisplayTitle(n){if(!n)return 'Node';const p=ensureNodePresentation(n);if(p.titleVisible===false)return labels[n.type]||n.type||'Node';return nodeTitle(n)}
+function mobileWorkspaceStats(ws){const nodes=mobileNodesForWorkspace(ws.id);const tasks=nodes.filter(n=>n.type==='task');const openTasks=tasks.filter(n=>String(n.data?.status||'')!=='Done');let updated=0;nodes.forEach(n=>{updated=Math.max(updated,Number(n.updatedAt||n.createdAt||0))});return {nodes,tasks,openTasks,updated}}
+function mobileSetPreference(pref){writeViewPreference(pref);const mode=pref==='auto'?(devicePrefersMobileView()?'mobile':'desktop'):pref;setAppViewMode(mode,{show:true,updateUrl:true})}
+function updateAppViewUrl(){try{const url=new URL(location.href);url.searchParams.set('view',appViewMode);if(appViewMode==='mobile'){const ws=mobileCurrentWorkspace();if(ws)url.searchParams.set('workspace',ws.id);else url.searchParams.delete('workspace');if(mobileRoute==='detail'&&mobileNodeId)url.searchParams.set('node',mobileNodeId);else url.searchParams.delete('node')}else{url.searchParams.delete('workspace');url.searchParams.delete('node')}history.replaceState(null,'',url.pathname+url.search+url.hash)}catch(_error){}}
+function applyMobileQueryRoute(){if(mobileQueryApplied)return;mobileQueryApplied=true;try{const params=new URL(location.href).searchParams;const nodeId=params.get('node');const workspaceId=params.get('workspace');if(nodeId&&isSafeId(nodeId)){const node=mobileNodeById(nodeId);if(node){mobileNodeId=node.id;mobileWorkspaceId=node.workspaceId;state.activeWorkspaceId=node.workspaceId;state.activeNodeId=node.id;mobileRoute='detail';return}}if(workspaceId&&isSafeId(workspaceId)&&mobileWorkspaceById(workspaceId)){mobileWorkspaceId=workspaceId;state.activeWorkspaceId=workspaceId;mobileRoute='nodes'}}catch(_error){}}
+function ensureMobileRoute(){const ws=mobileCurrentWorkspace();if(!ws){mobileRoute='workspaces';mobileWorkspaceId=null;mobileNodeId=null;return}if(!MOBILE_ROUTES.has(mobileRoute))mobileRoute='workspaces';if((mobileRoute==='nodes'||mobileRoute==='overview')&&!mobileWorkspaceId)mobileWorkspaceId=ws.id;if(mobileRoute==='detail'&&!mobileNodeById(mobileNodeId)){mobileRoute='nodes';mobileNodeId=null}}
+function setAppViewMode(mode,options={}){if(!validAppViewMode(mode))return false;appViewMode=mode;if(options.persist)writeViewPreference(mode);if(options.updateUrl!==false)updateAppViewUrl();if(options.show&&isSplayAuthenticated()&&cloudRowExists){return mode==='mobile'?showMobileView(options):showDesktopView(options)}return true}
+function setMobileRoute(route,options={}){if(!MOBILE_ROUTES.has(route))route='workspaces';mobileRoute=route;if(options.workspaceId)mobileWorkspaceId=options.workspaceId;if(options.nodeId)mobileNodeId=options.nodeId;if(route!=='detail')mobileNodeId=null;if(options.updateUrl!==false)updateAppViewUrl();if(options.render!==false)renderMobileApp();return true}
+function selectMobileWorkspace(id){const ws=mobileWorkspaceById(id);if(!ws)return;state.activeWorkspaceId=ws.id;state.mode='workspace';state.activeNodeId=null;mobileWorkspaceId=ws.id;mobileNodeId=null;save();setMobileRoute('nodes',{workspaceId:ws.id})}
+function openMobileNodeDetail(nodeId){const node=mobileNodeById(nodeId);if(!node)return;state.activeWorkspaceId=node.workspaceId;state.activeNodeId=node.id;mobileWorkspaceId=node.workspaceId;mobileNodeId=node.id;save(false,{markDirty:false});setMobileRoute('detail',{workspaceId:node.workspaceId,nodeId:node.id})}
+function showDesktopView(options={}){appViewMode='desktop';const shell=cloudEl('cloudShell'),app=cloudEl('splayDesktopApp'),bar=cloudEl('cloudSessionBar'),mobile=mobileRoot();if(shell)shell.hidden=true;if(mobile){mobile.hidden=true;mobile.inert=true;mobile.setAttribute('aria-hidden','true')}if(app){app.hidden=false;app.inert=false;app.setAttribute('aria-hidden','false')}if(bar)bar.hidden=false;mobileMoreOpen=false;closeDesktopTransients();if(typeof bootSplayDesktop==='function'){bootSplayDesktop();render()}else render();if(options.updateUrl!==false)updateAppViewUrl();return true}
+function showMobileView(options={}){if(!isSplayAuthenticated()||!cloudRowExists){showCloudPortal();return false}appViewMode='mobile';applyMobileQueryRoute();ensureMobileRoute();const shell=cloudEl('cloudShell'),app=cloudEl('splayDesktopApp'),bar=cloudEl('cloudSessionBar'),mobile=mobileRoot();if(shell)shell.hidden=true;if(app){app.hidden=true;app.inert=true;app.setAttribute('aria-hidden','true')}if(bar)bar.hidden=true;if(mobile){mobile.hidden=false;mobile.inert=false;mobile.setAttribute('aria-hidden','false')}closeDesktopTransients();if(typeof bootSplayDesktop==='function')bootSplayDesktop();renderMobileApp();if(options.updateUrl!==false)updateAppViewUrl();return true}
+async function openSplayMobile(){setAppViewMode('mobile',{persist:true,updateUrl:true});return openSplayDesktop({mode:'mobile',updateUrl:true})}
+async function openSplayDesktopMode(){setAppViewMode('desktop',{persist:true,updateUrl:true});return openSplayDesktop({mode:'desktop',updateUrl:true})}
+function renderMobileSyncText(){const parts=[cloudStateMessage||messageForCloudStatus(cloudStateStatus),realtimeStatusText()];if(cloudRevision!=null)parts.push('rev '+cloudRevision);if(cloudDirty)parts.push('pending');if(pendingRemoteRevision)parts.push('remote update');return parts.filter(Boolean).join(' / ')}
+function renderMobileHeader(){const header=cloudEl('mobileHeader');if(!header)return;mobileClear(header);const row=mobileMake('div',{class:'mobile-title-row'});const brand=mobileMake('div',{class:'mobile-brand'});brand.appendChild(mobileMake('div',{class:'mobile-kicker',text:'Mobile View'}));brand.appendChild(mobileMake('h1',{text:'Splay OS'}));const ws=mobileCurrentWorkspace();brand.appendChild(mobileMake('div',{class:'mobile-sync',text:(ws?ws.name:'Workspaces')+' / '+renderMobileSyncText()}));row.appendChild(brand);const actions=mobileMake('div',{class:'mobile-actions'});actions.appendChild(mobileButton('Desk',()=>openSplayDesktopMode(),{class:'mobile-icon-btn','aria-label':'Open Desktop View'}));actions.appendChild(mobileButton('More',()=>{mobileMoreOpen=!mobileMoreOpen;renderMobileMoreMenu()},{class:'mobile-icon-btn','aria-label':'Open Mobile Menu'}));row.appendChild(actions);header.appendChild(row)}
+function renderMobileMoreMenu(){const menu=cloudEl('mobileMoreMenu');if(!menu)return;mobileClear(menu);menu.hidden=!mobileMoreOpen;if(!mobileMoreOpen)return;menu.appendChild(mobileButton('Save to Cloud',()=>{mobileMoreOpen=false;renderMobileMoreMenu();manualCloudSave()}));menu.appendChild(mobileButton('Reload Cloud',()=>{mobileMoreOpen=false;renderMobileMoreMenu();manualCloudReload()}));menu.appendChild(mobileButton('Reload Remote',()=>{mobileMoreOpen=false;renderMobileMoreMenu();reloadPendingRemoteState()}));menu.appendChild(mobileButton('Keep Local',()=>{mobileMoreOpen=false;renderMobileMoreMenu();keepLocalPendingRemoteState()}));menu.appendChild(mobileButton('Open Desktop View',()=>{mobileMoreOpen=false;renderMobileMoreMenu();openSplayDesktopMode()}));menu.appendChild(mobileButton('Use Auto View',()=>{mobileMoreOpen=false;renderMobileMoreMenu();mobileSetPreference('auto')}));menu.appendChild(mobileButton('Portal',()=>{mobileMoreOpen=false;renderMobileMoreMenu();showCloudPortal()}));menu.appendChild(mobileButton('Logout',()=>{mobileMoreOpen=false;renderMobileMoreMenu();logoutSplay()},{class:'danger'}))}
+function renderMobileBottomNav(){const nav=cloudEl('mobileBottomNav');if(!nav)return;mobileClear(nav);const active=mobileRoute==='detail'?'nodes':mobileRoute;[['workspaces','WS','Workspaces'],['nodes','ND','Nodes'],['overview','OV','Overview']].forEach(([route,icon,label])=>{const btn=mobileButton('',()=>{if(route!=='workspaces'&&!mobileCurrentWorkspace())return setMobileRoute('workspaces');setMobileRoute(route)},{class:active===route?'active':''});btn.setAttribute('aria-label',label);btn.appendChild(mobileMake('b',{text:icon}));btn.appendChild(mobileMake('span',{text:label}));nav.appendChild(btn)});const portal=mobileButton('',()=>showCloudPortal());portal.setAttribute('aria-label','Portal');portal.appendChild(mobileMake('b',{text:'PT'}));portal.appendChild(mobileMake('span',{text:'Portal'}));nav.appendChild(portal)}
+function renderMobileConflictNotice(parent){if(!parent||(!pendingRemoteRevision&&!cloudConflict))return;const panel=mobileMake('section',{class:'mobile-panel mobile-conflict'});panel.appendChild(mobileMake('div',{class:'mobile-card-title',text:pendingRemoteRevision?'Remote update pending':'Cloud conflict'}));panel.appendChild(mobileMake('p',{class:'mobile-muted',text:'Local editing is protected. Reload Remote applies Cloud state; Keep Local preserves this device state.'}));const row=mobileMake('div',{class:'mobile-meta'});row.appendChild(mobileButton('Reload Remote',()=>reloadPendingRemoteState(),{class:'mobile-chip'}));row.appendChild(mobileButton('Keep Local',()=>keepLocalPendingRemoteState(),{class:'mobile-chip'}));panel.appendChild(row);parent.appendChild(panel)}
+function renderMobileWorkspaceList(){const main=mobileMain();mobileClear(main);renderMobileConflictNotice(main);const title=mobileMake('section',{class:'mobile-panel'});const head=mobileMake('div',{class:'mobile-section-title'});head.appendChild(mobileMake('h2',{text:'Workspaces'}));head.appendChild(mobileMake('span',{class:'mobile-muted',text:String(state.workspaces.length)}));title.appendChild(head);title.appendChild(mobileMake('p',{class:'mobile-muted',text:'Choose a workspace to inspect nodes, tasks, notes, and the live overview.'}));main.appendChild(title);const list=mobileMake('div',{class:'mobile-grid'});state.workspaces.forEach(ws=>{const stats=mobileWorkspaceStats(ws);const card=mobileButton('',()=>selectMobileWorkspace(ws.id),{class:'mobile-card '+(ws.id===state.activeWorkspaceId?'active':''),'aria-label':'Open workspace '+(ws.name||'Workspace')});const accent=ACCENT_COLORS[ws.accentColor]?.c;if(accent)card.style.borderColor='rgba('+accent+',.42)';const top=mobileMake('div',{class:'mobile-card-top'});top.appendChild(mobileMake('div',{class:'mobile-card-title',text:(ws.icon?ws.icon+' ':'')+(ws.name||'Workspace')}));top.appendChild(mobileMake('span',{class:'mobile-muted',text:mobileShortDate(stats.updated)}));card.appendChild(top);if(ws.description)card.appendChild(mobileMake('div',{class:'mobile-card-sub',text:ws.description}));const meta=mobileMake('div',{class:'mobile-meta'});mobileAppendChip(meta,'Nodes',stats.nodes.length);mobileAppendChip(meta,'Tasks',stats.tasks.length);mobileAppendChip(meta,'Open',stats.openTasks.length,stats.openTasks.length?'active':'');card.appendChild(meta);list.appendChild(card)});main.appendChild(list)}
+function mobileSearchBlob(n,ws){const values=[nodeTitle(n),n.title,ws?.name,n.type,labels[n.type],n.data?.name,n.data?.theme,n.data?.body,n.data?.memo,n.data?.owner,n.data?.status,n.data?.meetingName,n.data?.notes,n.data?.agenda,n.data?.url].filter(v=>v!=null);return values.join(' ').toLowerCase()}
+function mobileStatusMatches(n){const filter=mobileStatusFilter;if(filter==='all')return true;if(filter==='overdue')return taskDueState(n)==='overdue';const status=String(n.data?.status||'').toLowerCase();if(filter==='open')return status&&status!=='done'&&!status.includes('done');if(filter==='done')return status==='done'||status.includes('done');if(filter==='blocked')return status.includes('blocked');if(filter==='waiting')return status.includes('waiting');return true}
+function getMobileFilteredNodes(){const ws=mobileCurrentWorkspace();if(!ws)return [];const q=mobileSearchQuery.trim().toLowerCase();return mobileNodesForWorkspace(ws.id).filter(n=>(mobileTypeFilter==='all'||n.type===mobileTypeFilter)&&mobileStatusMatches(n)&&(!q||mobileSearchBlob(n,ws).includes(q)))}
+function renderMobileFilters(parent){const search=mobileMake('div',{class:'mobile-search'});const input=mobileMake('input',{type:'search',value:mobileSearchQuery,placeholder:'Search nodes','aria-label':'Search nodes'});input.addEventListener('input',()=>{clearTimeout(mobileSearchTimer);mobileSearchTimer=setTimeout(()=>{mobileSearchQuery=input.value;renderMobileNodeList();updateAppViewUrl()},190)});search.appendChild(input);const typeRow=mobileMake('div',{class:'mobile-filter-row','aria-label':'Type filter'});MOBILE_TYPES.forEach(type=>{const label=type==='all'?'All':(labels[type]||type);typeRow.appendChild(mobileButton(label,()=>{mobileTypeFilter=type;renderMobileNodeList()},{class:'mobile-chip '+(mobileTypeFilter===type?'active':''),'aria-pressed':mobileTypeFilter===type?'true':'false'}))});search.appendChild(typeRow);const statusRow=mobileMake('div',{class:'mobile-filter-row','aria-label':'Status filter'});MOBILE_STATUS_FILTERS.forEach(status=>{const label={all:'All',open:'Open',done:'Done',blocked:'Blocked',waiting:'Waiting',overdue:'Overdue'}[status]||status;statusRow.appendChild(mobileButton(label,()=>{mobileStatusFilter=status;renderMobileNodeList()},{class:'mobile-chip '+(mobileStatusFilter===status?'active':''),'aria-pressed':mobileStatusFilter===status?'true':'false'}))});search.appendChild(statusRow);parent.appendChild(search)}
+function mobileConnectionCount(n){const links=Array.isArray(n.links)?n.links.length:0;const conns=Array.isArray(n.connections)?n.connections.length:0;return links+conns}
+function renderMobileNodeCard(n){const card=mobileButton('',()=>openMobileNodeDetail(n.id),{class:'mobile-card '+(n.id===state.activeNodeId?'active':''),'aria-label':'Open node '+mobileNodeDisplayTitle(n),'aria-expanded':n.id===mobileNodeId?'true':'false'});const top=mobileMake('div',{class:'mobile-card-top'});top.appendChild(mobileMake('span',{class:'mobile-muted',text:labels[n.type]||n.type}));top.appendChild(mobileMake('span',{class:'mobile-muted',text:mobileShortDate(n.updatedAt||n.createdAt)}));card.appendChild(top);if(ensureNodePresentation(n).titleVisible!==false)card.appendChild(mobileMake('div',{class:'mobile-card-title',text:mobileNodeDisplayTitle(n)}));const defs=orderedFieldDefs(n).filter(def=>!fieldHidden(n,def.key)&&!fieldIsEmpty(n.data?.[def.key])).slice(0,2);defs.forEach(def=>card.appendChild(mobileMake('div',{class:'mobile-card-sub',text:fieldDisplayLabel(n,def)+': '+String(n.data?.[def.key]||'')})));const meta=mobileMake('div',{class:'mobile-meta'});mobileAppendChip(meta,'Status',n.data?.status,n.data?.status==='Done'?'active':'');mobileAppendChip(meta,'Importance',n.data?.importance);mobileAppendChip(meta,'Owner',n.data?.owner);mobileAppendChip(meta,'Due',n.data?.due);const group=nodeGroup(n.id);if(group)mobileAppendChip(meta,'Group',group.name||'Group');const cc=mobileConnectionCount(n);if(cc)mobileAppendChip(meta,'Links',cc);card.appendChild(meta);return card}
+function renderMobileNodeList(){const main=mobileMain();mobileClear(main);renderMobileConflictNotice(main);const ws=mobileCurrentWorkspace();if(!ws){setMobileRoute('workspaces',{render:false});return renderMobileWorkspaceList()}const panel=mobileMake('section',{class:'mobile-panel'});const head=mobileMake('div',{class:'mobile-section-title'});head.appendChild(mobileMake('h2',{text:ws.name||'Workspace'}));head.appendChild(mobileButton('Change',()=>setMobileRoute('workspaces'),{class:'mobile-chip'}));panel.appendChild(head);if(ws.description)panel.appendChild(mobileMake('p',{class:'mobile-muted',text:ws.description}));main.appendChild(panel);renderMobileFilters(main);const nodes=getMobileFilteredNodes();if(!nodes.length){main.appendChild(mobileMake('div',{class:'mobile-empty',text:'No nodes match this view.'}));return}const list=mobileMake('div',{class:'mobile-grid'});nodes.forEach(n=>list.appendChild(renderMobileNodeCard(n)));main.appendChild(list)}
+function mobileEditableField(n,key){const map={task:new Set(['name','status','importance','owner','due','memo']),decision:new Set(['status','memo']),note:new Set(['body','memo']),memo:new Set(['body']),meeting:new Set(['notes']),file:new Set(['memo'])};return Boolean(map[n.type]?.has(key))}
+function mobileSelectOptions(n,key){if(key==='status')return n.type==='decision'?decisionStatuses:taskStatuses;if(key==='importance')return IMPORTANCE_LEVELS;return null}
+function updateMobileNodeField(nodeId,key,value,options={}){const n=mobileNodeById(nodeId);if(!n)return;if(options.scope==='title')n.title=value;else{n.data=n.data||{};n.data[key]=value}n.updatedAt=Date.now();save();if(options.render!==false)renderMobileApp();else renderMobileHeader()}
+function renderMobileField(parent,n,def){const label=fieldDisplayLabel(n,def);const editable=mobileEditableField(n,def.key);const wrap=mobileMake('label',{class:'mobile-field'});wrap.appendChild(mobileMake('span',{text:label}));const value=n.data?.[def.key]??'';if(editable){const opts=mobileSelectOptions(n,def.key);let input;if(opts){input=mobileMake('select',{'aria-label':label});opts.forEach(opt=>{const option=mobileMake('option',{value:opt,text:opt});if(opt===value)option.selected=true;input.appendChild(option)})}else if(def.kind==='date'){input=mobileMake('input',{type:'date',value:value,'aria-label':label})}else if(def.kind==='multiline'){input=mobileMake('textarea',{text:value,'aria-label':label})}else input=mobileMake('input',{type:'text',value:value,'aria-label':label});input.addEventListener('input',()=>updateMobileNodeField(n.id,def.key,input.value,{render:false}));input.addEventListener('change',()=>updateMobileNodeField(n.id,def.key,input.value));wrap.appendChild(input)}else{if(def.kind==='url'){const safe=safeAppUrl(value);if(safe){const link=mobileMake('a',{class:'mobile-link',href:safe,target:'_blank',rel:'noopener noreferrer',text:value});wrap.appendChild(link)}else wrap.appendChild(mobileMake('div',{class:'mobile-readonly',text:value}))}else wrap.appendChild(mobileMake('div',{class:'mobile-readonly',text:value}))}parent.appendChild(wrap)}
+function renderMobileNodeConnections(parent,n){const rows=[];(n.links||[]).forEach(id=>{const target=mobileNodeById(id);if(target)rows.push({target,type:'legacy'})});(n.connections||[]).forEach(c=>{const target=mobileNodeById(c.targetId);if(target)rows.push({target,type:c.type||'related',label:c.label||''})});if(!rows.length)return;const panel=mobileMake('section',{class:'mobile-panel'});panel.appendChild(mobileMake('div',{class:'mobile-card-title',text:'Connections'}));rows.forEach(row=>{const item=mobileMake('button',{type:'button',class:'mobile-card','aria-label':'Open connected node '+mobileNodeDisplayTitle(row.target)});item.addEventListener('click',()=>openMobileNodeDetail(row.target.id));item.appendChild(mobileMake('div',{class:'mobile-card-title',text:mobileNodeDisplayTitle(row.target)}));item.appendChild(mobileMake('div',{class:'mobile-card-sub',text:[row.type,row.label].filter(Boolean).join(' / ')}));panel.appendChild(item)});parent.appendChild(panel)}
+function renderMobileNodeDetail(){const main=mobileMain();mobileClear(main);const n=mobileNodeById(mobileNodeId);if(!n){setMobileRoute('nodes',{render:false});return renderMobileNodeList()}const head=mobileMake('div',{class:'mobile-detail-head'});head.appendChild(mobileButton('Back',()=>setMobileRoute('nodes'),{class:'mobile-chip'}));head.appendChild(mobileMake('div',{class:'mobile-muted',text:labels[n.type]||n.type}));head.appendChild(mobileMake('div',{class:'mobile-detail-title',text:mobileNodeDisplayTitle(n)}));main.appendChild(head);renderMobileConflictNotice(main);const edit=mobileMake('section',{class:'mobile-panel'});const titleField=mobileMake('label',{class:'mobile-field'});titleField.appendChild(mobileMake('span',{text:'Node Title'}));const titleInput=mobileMake('input',{type:'text',value:n.title||'','aria-label':'Node Title'});titleInput.addEventListener('input',()=>updateMobileNodeField(n.id,'title',titleInput.value,{scope:'title',render:false}));titleInput.addEventListener('change',()=>updateMobileNodeField(n.id,'title',titleInput.value,{scope:'title'}));titleField.appendChild(titleInput);edit.appendChild(titleField);orderedFieldDefs(n).filter(def=>!fieldHidden(n,def.key)).forEach(def=>renderMobileField(edit,n,def));main.appendChild(edit);const meta=mobileMake('section',{class:'mobile-panel'});meta.appendChild(mobileMake('div',{class:'mobile-card-title',text:'Metadata'}));const metaRow=mobileMake('div',{class:'mobile-meta'});mobileAppendChip(metaRow,'Type',labels[n.type]||n.type);mobileAppendChip(metaRow,'Updated',mobileShortDate(n.updatedAt));mobileAppendChip(metaRow,'Position',Math.round(n.x||0)+','+Math.round(n.y||0));const group=nodeGroup(n.id);if(group)mobileAppendChip(metaRow,'Group',group.name||'Group');meta.appendChild(metaRow);main.appendChild(meta);renderMobileNodeConnections(main,n)}
+function calculateMobileOverviewLayout(nodes,width,height){if(!nodes.length)return new Map();let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;nodes.forEach(n=>{minX=Math.min(minX,n.x||0);minY=Math.min(minY,n.y||0);maxX=Math.max(maxX,(n.x||0)+nodeW(n));maxY=Math.max(maxY,(n.y||0)+nodeH(n))});if(nodes.length===1){const only=nodes[0];return new Map([[only.id,{x:width/2,y:height/2,w:42,h:34}]])}const pad=34;const spanX=Math.max(1,maxX-minX),spanY=Math.max(1,maxY-minY);const scale=Math.min((width-pad*2)/spanX,(height-pad*2)/spanY);const map=new Map();nodes.forEach(n=>{map.set(n.id,{x:pad+((n.x||0)+nodeW(n)/2-minX)*scale,y:pad+((n.y||0)+nodeH(n)/2-minY)*scale,w:Math.max(32,Math.min(58,nodeW(n)*scale)),h:Math.max(28,Math.min(44,nodeH(n)*scale))})});return map}
+function drawMobileOverview(box,nodes){mobileClear(box);if(!nodes.length){box.appendChild(mobileMake('div',{class:'mobile-empty',text:'This workspace has no nodes yet.'}));return}const rect=box.getBoundingClientRect();const width=Math.max(280,rect.width),height=Math.max(260,rect.height);const layout=calculateMobileOverviewLayout(nodes,width,height);const ns='http://www.w3.org/2000/svg';const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 '+width+' '+height);box.appendChild(svg);nodes.forEach(a=>{const from=layout.get(a.id);if(!from)return;const targets=[];(a.links||[]).forEach(id=>targets.push(id));(a.connections||[]).forEach(c=>targets.push(c.targetId));Array.from(new Set(targets)).forEach(id=>{const b=nodes.find(n=>n.id===id),to=b&&layout.get(b.id);if(!to)return;const line=document.createElementNS(ns,'line');line.setAttribute('x1',from.x);line.setAttribute('y1',from.y);line.setAttribute('x2',to.x);line.setAttribute('y2',to.y);line.setAttribute('stroke','rgba(126,217,238,.34)');line.setAttribute('stroke-width','1.2');line.setAttribute('stroke-linecap','round');svg.appendChild(line)})});nodes.forEach(n=>{const p=layout.get(n.id);if(!p)return;const marker=mobileButton((labels[n.type]||n.type||'N').slice(0,2).toUpperCase(),()=>openMobileNodeDetail(n.id),{class:'mobile-marker '+(normalizeShape(n.shape)==='circle'?'circle':'')+(n.id===state.activeNodeId?' active':''),'aria-label':'Open node '+mobileNodeDisplayTitle(n)});marker.style.left=p.x+'px';marker.style.top=p.y+'px';marker.style.width=p.w+'px';marker.style.height=p.h+'px';box.appendChild(marker)})}
+function renderMobileOverview(){const main=mobileMain();mobileClear(main);renderMobileConflictNotice(main);const ws=mobileCurrentWorkspace();if(!ws){setMobileRoute('workspaces',{render:false});return renderMobileWorkspaceList()}const panel=mobileMake('section',{class:'mobile-panel'});const head=mobileMake('div',{class:'mobile-section-title'});head.appendChild(mobileMake('h2',{text:'Overview'}));head.appendChild(mobileMake('span',{class:'mobile-muted',text:ws.name||'Workspace'}));panel.appendChild(head);panel.appendChild(mobileMake('p',{class:'mobile-muted',text:'Node positions and connections are read-only in Mobile View.'}));main.appendChild(panel);const box=mobileMake('div',{class:'mobile-overview','aria-label':'Workspace node overview'});main.appendChild(box);const nodes=mobileNodesForWorkspace(ws.id);requestAnimationFrame(()=>drawMobileOverview(box,nodes))}
+function renderMobileApp(){const app=mobileRoot();if(!app||app.hidden)return;ensureMobileRoute();renderMobileHeader();renderMobileMoreMenu();if(mobileRoute==='workspaces')renderMobileWorkspaceList();else if(mobileRoute==='overview')renderMobileOverview();else if(mobileRoute==='detail')renderMobileNodeDetail();else renderMobileNodeList();renderMobileBottomNav()}
 function closeDesktopTransients(){
   ['palette','splayMenu','workspaceMenu','createMenu','moveToMenu','shapeInspector','detailPanel','logDrawer','vaultPanel','wsSettingsPanel','confirmModal'].forEach(id=>{const el=cloudEl(id);if(el)el.classList.remove('show')});
   if(typeof hideMenus==='function')hideMenus();
@@ -1046,6 +1123,9 @@ function lockDesktopApp(){
   const bar=cloudEl('cloudSessionBar');
   if(app){app.hidden=true;app.inert=true;app.setAttribute('aria-hidden','true')}
   if(bar)bar.hidden=true;
+  const mobile=mobileRoot();
+  if(mobile){mobile.hidden=true;mobile.inert=true;mobile.setAttribute('aria-hidden','true')}
+  mobileMoreOpen=false;renderMobileMoreMenu();
   closeDesktopTransients();
 }
 function showCloudPortal(){
@@ -1053,18 +1133,13 @@ function showCloudPortal(){
   if(shell)shell.hidden=false;
   lockDesktopApp();
 }
-async function openSplayDesktop(){
+async function openSplayDesktop(options={}){
   if(!isSplayAuthenticated()){showCloudPortal();setAuthStatus('Login required.','error');return false}
   const ready=await ensureCloudStateLoaded({renderNow:false});
   if(!ready){showCloudPortal();return false}
-  const shell=cloudEl('cloudShell');
-  const app=cloudEl('splayDesktopApp');
-  const bar=cloudEl('cloudSessionBar');
-  if(shell)shell.hidden=true;
-  if(app){app.hidden=false;app.inert=false;app.setAttribute('aria-hidden','false')}
-  if(bar)bar.hidden=false;
-  if(typeof bootSplayDesktop==='function')bootSplayDesktop();
-  return true;
+  const mode=options.mode||resolveAppViewMode();
+  appViewMode=validAppViewMode(mode)?mode:'desktop';
+  return appViewMode==='mobile'?showMobileView(options):showDesktopView(options);
 }
 function renderCloudAuth(){
   const signedIn=isSplayAuthenticated();
@@ -1158,6 +1233,7 @@ async function initCloudAuth(){
   if(form&&!form.dataset.bound){form.dataset.bound='1';form.addEventListener('submit',signInWithPassword)}
   cloudEl('authSignupButton')?.addEventListener('click',createAccountWithPassword);
   cloudEl('portalOpenApp')?.addEventListener('click',openSplayDesktop);
+  cloudEl('portalOpenMobile')?.addEventListener('click',openSplayMobile);
   cloudEl('portalCloudSave')?.addEventListener('click',manualCloudSave);
   cloudEl('portalCloudReload')?.addEventListener('click',manualCloudReload);
   cloudEl('portalReloadRemote')?.addEventListener('click',reloadPendingRemoteState);
@@ -1170,6 +1246,7 @@ async function initCloudAuth(){
   cloudEl('cloudInlineReload')?.addEventListener('click',manualCloudReload);
   cloudEl('cloudInlineRemote')?.addEventListener('click',reloadPendingRemoteState);
   cloudEl('cloudInlineKeepLocal')?.addEventListener('click',keepLocalPendingRemoteState);
+  cloudEl('cloudInlineMobile')?.addEventListener('click',openSplayMobile);
   cloudEl('cloudInlineLogout')?.addEventListener('click',logoutSplay);
   cloudEl('cloudUploadLocal')?.addEventListener('click',uploadLocalDataToCloud);
   cloudEl('cloudStartNew')?.addEventListener('click',startNewCloudState);
@@ -1210,7 +1287,47 @@ const SOURCE_STORAGE_KEY='splay_os_state_v5_preview_spatial';
 const LEGACY_KEYS=['splay_os_state_v4','splay_os_state_v3','splay_os_state_v2','splay_os_state_v1'];
 function uid(p){return p+'_'+Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4)}
 function nowStr(){return new Date().toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
-function esc(s){const d=document.createElement('div');d.textContent=s??'';return d.innerHTML}
+function esc(s){return String(s??'').replace(/[&<>"']/g,ch=>ch==='&'?'&amp;':ch==='<'?'&lt;':ch==='>'?'&gt;':ch==='"'?'&quot;':'&#39;')}
+const SAFE_ID_PATTERN=/^[A-Za-z0-9_-]{1,96}$/;
+const MAX_IMPORT_BYTES=10*1024*1024;
+const MAX_IMPORT_DEPTH=48;
+const MAX_IMPORT_WORKSPACES=500;
+const MAX_IMPORT_NODES=10000;
+const MAX_IMPORT_GROUPS=5000;
+const MAX_IMPORT_CONNECTIONS=50000;
+const RESERVED_JSON_KEYS=new Set(['__proto__','prototype','constructor']);
+function isSafeId(value){return typeof value==='string'&&SAFE_ID_PATTERN.test(value)}
+function assertSafeJsonShape(value,depth=0,seen=new WeakSet()){
+  if(value==null||typeof value!=='object')return;
+  if(depth>MAX_IMPORT_DEPTH)throw new TypeError('Unsupported Structure: JSON is too deeply nested');
+  if(seen.has(value))return;
+  seen.add(value);
+  if(Array.isArray(value)){value.forEach(item=>assertSafeJsonShape(item,depth+1,seen));return}
+  Object.keys(value).forEach(key=>{
+    if(RESERVED_JSON_KEYS.has(key))throw new TypeError('Unsupported Structure: reserved object key is not allowed');
+    assertSafeJsonShape(value[key],depth+1,seen);
+  });
+}
+function ensureUniqueSafeIds(items,label){
+  const seen=new Set();
+  items.forEach(item=>{
+    if(!isSafeId(item.id))throw new TypeError('Unsupported Structure: invalid '+label+' id');
+    if(seen.has(item.id))throw new TypeError('Unsupported Structure: duplicate '+label+' id');
+    seen.add(item.id);
+  });
+}
+function safeAppUrl(url){
+  const raw=String(url||'').trim();
+  let compact='';
+  for(const ch of raw){if(ch.charCodeAt(0)>32)compact+=ch}
+  compact=compact.toLowerCase();
+  if(!raw||compact.startsWith('javascript:')||compact.startsWith('vbscript:')||compact.startsWith('data:')||compact.startsWith('blob:')||compact.startsWith('file:'))return '';
+  return raw;
+}
+function renderAppLink(url,label=url){
+  const safe=safeAppUrl(url),text=String(label??url??'');
+  return safe?`<a href="${esc(safe)}" target="_blank" rel="noopener noreferrer">${esc(text)}</a>`:esc(text);
+}
 const labels={note:'Note',memo:'Memo',decision:'Decision',task:'Task',meeting:'Meeting',file:'File / Link'};
 const tagCls={note:'tag-note',memo:'tag-memo',decision:'tag-decision',task:'tag-task',meeting:'tag-meeting',file:'tag-file'};
 const SHAPE_PALETTE={decision:'rounded',task:'rounded',note:'rounded',memo:'circle',meeting:'rounded',file:'rounded'};
@@ -1266,7 +1383,7 @@ function orderedFieldDefs(n){const defs=fieldDefsFor(n),keys=defs.map(d=>d.key),
 function fieldHidden(n,key){return ensureNodePresentation(n).hiddenFields.includes(key)}
 function fieldDisplayLabel(n,def){const custom=ensureNodePresentation(n).fieldLabels[def.key];return custom&&custom.trim()?custom.trim():def.label}
 function fieldIsEmpty(v){return v==null||String(v).trim()===''}
-function renderSurfaceValue(def,value){const text=String(value??'');if(def.kind==='url'&&text.trim()){const safe=esc(text.trim());return `<a href="${safe}" target="_blank">${safe}</a>`}if(def.kind==='multiline')return `<div class="surface-pre">${esc(text)}</div>`;return esc(text)}
+function renderSurfaceValue(def,value){const text=String(value??'');if(def.kind==='url'&&text.trim())return renderAppLink(text,text);if(def.kind==='multiline')return `<div class="surface-pre">${esc(text)}</div>`;return esc(text)}
 let zTop=200;
 function defaultState(){
   const wsNames=['Command','Strategy','Meeting','Finance','Research','Vault']; const ws={}; wsNames.forEach(n=>ws[n]=uid('ws'));
@@ -1278,6 +1395,7 @@ function defaultState(){
 }
 function migrate(st){
   if(!st||!st.workspaces||!st.nodes)return defaultState();
+  validateImportRoot(st);
   st.version='0.6.4'; st.view=st.view||{x:-360,y:-290,scale:1}; st.mode=st.mode||'home'; st.ui=st.ui||{};
   st.ui.splayOrb=st.ui.splayOrb||{x:28,bottom:28}; st.ui.workspaceOrb=st.ui.workspaceOrb||{right:28,bottom:28};
   ['minimap','detailPanel'].forEach(k=>{st.ui[k]=st.ui[k]||{}});
@@ -1631,7 +1749,7 @@ function commitResizeFromInspector(id,key,value){
   save();
 }
 
-function render(){document.getElementById('homeView').classList.toggle('show',state.mode==='home');document.getElementById('canvasWrap').classList.toggle('show',state.mode==='workspace');document.getElementById('minimap').classList.toggle('show',state.mode==='workspace');document.getElementById('hudSub').textContent=state.mode==='workspace'?(activeWs()?.name||'Workspace')+' · Canvas':'Decision Canvas · v0.6.4';applyAccent();renderHome();renderCanvas();renderMenus();renderLog();renderVault();positionOrbs();if(state.mode!=='workspace')clearSelection();}
+function render(){document.getElementById('homeView').classList.toggle('show',state.mode==='home');document.getElementById('canvasWrap').classList.toggle('show',state.mode==='workspace');document.getElementById('minimap').classList.toggle('show',state.mode==='workspace');document.getElementById('hudSub').textContent=state.mode==='workspace'?(activeWs()?.name||'Workspace')+' · Canvas':'Decision Canvas · v0.6.4';applyAccent();renderHome();renderCanvas();renderMenus();renderLog();renderVault();positionOrbs();if(state.mode!=='workspace')clearSelection();if(appViewMode==='mobile')renderMobileApp();}
 function renderHome(){
   const recent=state.logs.slice(0,5);
   const lastWs=state.workspaces.find(w=>w.id===state.activeWorkspaceId);
@@ -1759,7 +1877,7 @@ function renderLinks(){const svg=document.getElementById('linkSvg');svg.innerHTM
   if(connDrag&&connDrag.previewPath)svg.appendChild(connDrag.previewPath);
 }
 function renderMenus(){renderSplayMenu();renderWorkspaceMenu();}
-function renderSplayMenu(){const items=[['🏠 Home',()=>closeWorkspace()],['＋ Decision',()=>createNode('decision')],['＋ Task',()=>createNode('task')],['＋ Note',()=>createNode('note')],['＋ Memo',()=>createNode('memo')],['🔒 Vault',()=>toggleVault()],['📜 Log',()=>toggleLog()],['⇩ Export',()=>exportJSON()],['⇧ Import',()=>document.getElementById('importFile').click()],['⚙ Reset',()=>resetAll()]];makeOrbMenu('splayMenu','splayOrb',items)}
+function renderSplayMenu(){const items=[['🏠 Home',()=>closeWorkspace()],['＋ Decision',()=>createNode('decision')],['＋ Task',()=>createNode('task')],['＋ Note',()=>createNode('note')],['＋ Memo',()=>createNode('memo')],['🔒 Vault',()=>toggleVault()],['📜 Log',()=>toggleLog()],['📱 Mobile',()=>openSplayMobile()],['⇩ Export',()=>exportJSON()],['⇧ Import',()=>document.getElementById('importFile').click()],['⚙ Reset',()=>resetAll()]];makeOrbMenu('splayMenu','splayOrb',items)}
 function renderWorkspaceMenu(){
   const items=state.workspaces.map(ws=>[(ws.icon||'🪐')+' '+ws.name,()=>openWorkspace(ws.id)]);
   items.push(['＋ New Workspace',()=>addWorkspace()]);
@@ -1852,7 +1970,7 @@ function renderNodeSurfaceEdit(n){
   if(n.type==='decision')html+=field(n,'theme','Theme')+selectStatus(n,decisionStatuses)+selectField(n,'importance','Importance',IMPORTANCE_LEVELS)+field(n,'hypothesis','Hypothesis','textarea')+field(n,'evidence','Evidence','textarea')+`<div class="two">${field(n,'pros','Pros','textarea')}${field(n,'cons','Cons','textarea')}</div>`+field(n,'risk','Risk','textarea')+field(n,'decision','Decision','textarea')+field(n,'nextCheck','Next Check','textarea')+field(n,'memo','Memo','textarea');
   if(n.type==='task')html+=field(n,'name','Task Name')+selectStatus(n,taskStatuses)+selectImportance(n)+`<div class="two">${field(n,'owner','Owner')}${field(n,'due','Due','date')}</div>`+field(n,'memo','Memo','textarea');
   if(n.type==='meeting')html+=field(n,'meetingName','Meeting Name')+field(n,'date','Date','date')+field(n,'agenda','Agenda','textarea')+field(n,'notes','Notes','textarea')+field(n,'decisions','Decisions','textarea')+field(n,'pending','Pending','textarea')+field(n,'nextActions','Next Actions','textarea')+field(n,'memo','Memo','textarea');
-  if(n.type==='file')html+=field(n,'name','Name')+field(n,'url','URL / Path')+field(n,'memo','Memo','textarea')+(n.data.url?`<p><a href="${esc(n.data.url)}" target="_blank">${esc(n.data.url)}</a></p>`:'');
+  if(n.type==='file')html+=field(n,'name','Name')+field(n,'url','URL / Path')+field(n,'memo','Memo','textarea')+(n.data.url?`<p>${renderAppLink(n.data.url,n.data.url)}</p>`:'');
   const systemHtml=renderNodeSystemSummary(n)+renderPresentationSettings(n)+connectionEditor(n);
   return `<div class="surface-mode-body surface-edit"><div class="surface-main-pane">${html}</div><aside class="surface-system-pane">${systemHtml}</aside></div>`;
 }
@@ -1975,7 +2093,11 @@ function connectionListEditor(n,others){
   return html;
 }
 function renderLog(){document.getElementById('logList').innerHTML=state.logs.slice(0,80).map(l=>`<div class="log-entry"><span class="log-time">${esc(l.time)}</span><span>${esc(l.text)}</span></div>`).join('')}
-function renderVault(){const body=document.getElementById('vaultBody');const files=state.nodes.filter(n=>n.type==='file');body.innerHTML=`<div class="vault-list">${files.map(n=>`<div class="vault-item"><div><b>${esc(n.data.name||n.title)}</b><br><a href="${esc(n.data.url||'#')}" target="_blank">${esc(n.data.url||'未設定')}</a><div class="hint">${esc(n.data.memo||'')}</div></div><button onclick="openWorkspace('${n.workspaceId}');openDetail('${n.id}')">編集</button></div>`).join('')}</div>`}
+function renderVault(){
+  const body=document.getElementById('vaultBody');
+  const files=state.nodes.filter(n=>n.type==='file');
+  body.innerHTML=`<div class="vault-list">${files.map(n=>`<div class="vault-item"><div><b>${esc(n.data.name||n.title)}</b><br>${renderAppLink(n.data.url||'#',n.data.url||'未設定')}<div class="hint">${esc(n.data.memo||'')}</div></div><button onclick="openWorkspace('${n.workspaceId}');openDetail('${n.id}')">編集</button></div>`).join('')}</div>`;
+}
 function addVaultLink(){const name=prompt('資料名');if(!name)return;const url=prompt('URL / 相対パス')||'';const vault=state.workspaces.find(w=>w.name==='Vault')||activeWs();state.nodes.push({id:uid('node'),type:'file',workspaceId:vault.id,title:name,x:600+Math.random()*360,y:540+Math.random()*240,z:++zTop,links:[],createdAt:Date.now(),updatedAt:Date.now(),w:260,h:126,shape:SHAPE_PALETTE.file,radius:DEFAULT_RADIUS,connections:[],data:{name,url,memo:''},presentation:defaultPresentation()});log('Vault資料追加: '+name);save();render()}
 function applyView(){const c=document.getElementById('canvas');c.style.transform=`translate(${state.view.x}px,${state.view.y}px) scale(${state.view.scale})`;applySpatialParallax();updateNodeProjection()}
 function screenToCanvas(x,y){return{x:(x-state.view.x)/state.view.scale,y:(y-state.view.y)/state.view.scale}}
@@ -2222,7 +2344,7 @@ function renderMinimap(){
   m.appendChild(reticle);
 }
 function togglePalette(){const p=document.getElementById('palette');p.classList.toggle('show');touchFloat(p);renderCommands();setTimeout(()=>document.getElementById('paletteInput').focus(),30)}
-function renderCommands(){const q=(document.getElementById('paletteInput').value||'').toLowerCase();const cmds=[['Home',()=>closeWorkspace()],['Open Vault',()=>toggleVault()],['Activity Log',()=>toggleLog()],['New Workspace',()=>addWorkspace()],['Workspace Settings',()=>openWorkspaceSettings(state.activeWorkspaceId||state.workspaces[0]?.id)],['Add Decision',()=>createNode('decision')],['Add Task',()=>createNode('task')],['Add Note',()=>createNode('note')],['Add Memo',()=>createNode('memo')],['Export JSON',()=>exportJSON()],['Import JSON',()=>document.getElementById('importFile').click()],...state.workspaces.map(w=>['Workspace: '+w.name,()=>openWorkspace(w.id)]),...state.nodes.map(n=>['Node: '+nodeTitle(n),()=>{openWorkspace(n.workspaceId);openDetail(n.id)}])].filter(c=>c[0].toLowerCase().includes(q));document.getElementById('commandList').innerHTML=cmds.slice(0,40).map((c,i)=>`<div class="command-item" data-i="${i}">${esc(c[0])}</div>`).join('');document.querySelectorAll('.command-item').forEach((el,i)=>el.onclick=()=>{document.getElementById('palette').classList.remove('show');cmds[i][1]()})}
+function renderCommands(){const q=(document.getElementById('paletteInput').value||'').toLowerCase();const cmds=[['Home',()=>closeWorkspace()],['Open Mobile View',()=>openSplayMobile()],['Open Vault',()=>toggleVault()],['Activity Log',()=>toggleLog()],['New Workspace',()=>addWorkspace()],['Workspace Settings',()=>openWorkspaceSettings(state.activeWorkspaceId||state.workspaces[0]?.id)],['Add Decision',()=>createNode('decision')],['Add Task',()=>createNode('task')],['Add Note',()=>createNode('note')],['Add Memo',()=>createNode('memo')],['Export JSON',()=>exportJSON()],['Import JSON',()=>document.getElementById('importFile').click()],...state.workspaces.map(w=>['Workspace: '+w.name,()=>openWorkspace(w.id)]),...state.nodes.map(n=>['Node: '+nodeTitle(n),()=>{openWorkspace(n.workspaceId);openDetail(n.id)}])].filter(c=>c[0].toLowerCase().includes(q));document.getElementById('commandList').innerHTML=cmds.slice(0,40).map((c,i)=>`<div class="command-item" data-i="${i}">${esc(c[0])}</div>`).join('');document.querySelectorAll('.command-item').forEach((el,i)=>el.onclick=()=>{document.getElementById('palette').classList.remove('show');cmds[i][1]()})}
 document.getElementById('paletteInput').addEventListener('input',renderCommands);document.getElementById('paletteInput').addEventListener('keydown',e=>{if(e.key==='Enter'){const first=document.querySelector('.command-item');if(first)first.click()}})
 function toggleLog(){const p=document.getElementById('logDrawer');p.classList.toggle('show');touchFloat(p)}
 function toggleVault(){const p=document.getElementById('vaultPanel');p.classList.toggle('show');renderVault();touchFloat(p)}
@@ -2230,11 +2352,43 @@ function serializableState(source=state){
   return createPersistableStateSnapshot(source);
 }
 function validateImportRoot(candidate){
+  assertSafeJsonShape(candidate);
   if(!candidate||typeof candidate!=='object'||Array.isArray(candidate))throw new TypeError('Unsupported Structure: root must be an object');
   if(!Array.isArray(candidate.workspaces))throw new TypeError('Unsupported Structure: workspaces must be an array');
   if(!Array.isArray(candidate.nodes))throw new TypeError('Unsupported Structure: nodes must be an array');
-  if(candidate.workspaces.some(ws=>!ws||typeof ws!=='object'||typeof ws.id!=='string'||!ws.id.trim()))throw new TypeError('Unsupported Structure: every workspace requires an id');
-  if(candidate.nodes.some(n=>!n||typeof n!=='object'||typeof n.id!=='string'||!n.id.trim()||typeof n.workspaceId!=='string'||!n.workspaceId.trim()))throw new TypeError('Unsupported Structure: every node requires id and workspaceId');
+  if(candidate.workspaces.length>MAX_IMPORT_WORKSPACES)throw new TypeError('Unsupported Structure: too many workspaces');
+  if(candidate.nodes.length>MAX_IMPORT_NODES)throw new TypeError('Unsupported Structure: too many nodes');
+  ensureUniqueSafeIds(candidate.workspaces,'workspace');
+  ensureUniqueSafeIds(candidate.nodes,'node');
+  candidate.workspaces.forEach(ws=>{if(!ws||typeof ws!=='object')throw new TypeError('Unsupported Structure: invalid workspace')});
+  candidate.nodes.forEach(n=>{
+    if(!n||typeof n!=='object')throw new TypeError('Unsupported Structure: invalid node');
+    if(!isSafeId(n.workspaceId))throw new TypeError('Unsupported Structure: invalid node workspaceId');
+    if(!Object.prototype.hasOwnProperty.call(labels,n.type))throw new TypeError('Unsupported Structure: unsupported node type');
+    if(n.links!=null&&(!Array.isArray(n.links)||n.links.some(id=>!isSafeId(id))))throw new TypeError('Unsupported Structure: invalid node link');
+    if(n.connections!=null){
+      if(!Array.isArray(n.connections))throw new TypeError('Unsupported Structure: connections must be an array');
+      n.connections.forEach(c=>{
+        if(!c||typeof c!=='object'||Array.isArray(c))throw new TypeError('Unsupported Structure: invalid connection');
+        if(c.id!=null&&!isSafeId(c.id))throw new TypeError('Unsupported Structure: invalid connection id');
+        if(c.targetId!=null&&!isSafeId(c.targetId))throw new TypeError('Unsupported Structure: invalid connection target');
+      });
+    }
+  });
+  const totalConnections=candidate.nodes.reduce((sum,n)=>sum+(Array.isArray(n.connections)?n.connections.length:0),0);
+  if(totalConnections>MAX_IMPORT_CONNECTIONS)throw new TypeError('Unsupported Structure: too many connections');
+  if(candidate.groups!=null){
+    if(!Array.isArray(candidate.groups))throw new TypeError('Unsupported Structure: groups must be an array');
+    if(candidate.groups.length>MAX_IMPORT_GROUPS)throw new TypeError('Unsupported Structure: too many groups');
+    candidate.groups.forEach(g=>{
+      if(!g||typeof g!=='object'||Array.isArray(g))throw new TypeError('Unsupported Structure: invalid group');
+      if(g.id!=null&&!isSafeId(g.id))throw new TypeError('Unsupported Structure: invalid group id');
+      if(g.workspaceId!=null&&g.workspaceId!==''&&!isSafeId(g.workspaceId))throw new TypeError('Unsupported Structure: invalid group workspaceId');
+      if(g.nodeIds!=null&&(!Array.isArray(g.nodeIds)||g.nodeIds.some(id=>!isSafeId(id))))throw new TypeError('Unsupported Structure: invalid group node id');
+    });
+  }
+  if(candidate.activeWorkspaceId!=null&&candidate.activeWorkspaceId!==''&&!isSafeId(candidate.activeWorkspaceId))throw new TypeError('Unsupported Structure: invalid activeWorkspaceId');
+  if(candidate.activeNodeId!=null&&candidate.activeNodeId!==''&&!isSafeId(candidate.activeNodeId))throw new TypeError('Unsupported Structure: invalid activeNodeId');
 }
 function prepareImportedState(parsed){
   validateImportRoot(parsed);
@@ -2355,6 +2509,7 @@ function buildWorkspaceMobileDocument(viewModel){
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; font-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none';">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${title}</title>
 <style>
@@ -2384,7 +2539,7 @@ function buildWorkspaceMobileDocument(viewModel){
       compact+=ch;
     }
     compact=compact.toLowerCase();
-    if(!raw||compact.startsWith('javascript:')||compact.startsWith('vbscript:')||compact.startsWith('data:text/html'))return '';
+    if(!raw||compact.startsWith('javascript:')||compact.startsWith('vbscript:')||compact.startsWith('data:')||compact.startsWith('blob:')||compact.startsWith('file:'))return '';
     return raw;
   }
   function addChip(parent,label,value,cls){if(!value&&value!==0)return;const c=el('span',{class:'mini '+(cls||''),text:label?label+': '+value:String(value)});parent.appendChild(c)}
@@ -2433,6 +2588,7 @@ function importJSON(e){
   const input=e.target;
   const f=input.files?.[0];
   if(!f){input.value='';return}
+  if(f.size>MAX_IMPORT_BYTES){alert('Import failed. The file is too large.');input.value='';return}
   const r=new FileReader();
   r.onload=ev=>{
     importInProgress=true;
@@ -2441,7 +2597,9 @@ function importJSON(e){
     const previousStored=localStorage.getItem(previousCacheKey);
     try{
       let parsed;
-      try{parsed=JSON.parse(String(ev.target?.result??''))}catch(parseError){parseError.importStage='parse';throw parseError}
+      const importText=String(ev.target?.result??'');
+      if(importText.length>MAX_IMPORT_BYTES)throw Object.assign(new Error('Import file is too large'),{importStage:'parse'});
+      try{parsed=JSON.parse(importText)}catch(parseError){parseError.importStage='parse';throw parseError}
       const candidate=prepareImportedState(parsed);
       state=candidate;
       try{render()}catch(renderError){renderError.importStage='render';throw renderError}
@@ -2682,7 +2840,7 @@ function bootSplayDesktop(){
   render();
   save(false,{markDirty:false});
 }
-window.addEventListener('resize',()=>{if(!splayDesktopBooted||!isSplayAuthenticated())return;initSpatialEnvironment();renderMenus();renderMinimap();positionOrbs();ensureDetailPanelInViewport();updateNodeProjection();if(shapeInspectorNodeId)positionShapeInspector(shapeInspectorNodeId)});
+window.addEventListener('resize',()=>{if(!splayDesktopBooted||!isSplayAuthenticated())return;if(appViewMode==='mobile'){renderMobileApp();return}initSpatialEnvironment();renderMenus();renderMinimap();positionOrbs();ensureDetailPanelInViewport();updateNodeProjection();if(shapeInspectorNodeId)positionShapeInspector(shapeInspectorNodeId)});
 initCloudAuth();
 </script>
 </body>
